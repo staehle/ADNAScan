@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-Wall -Wextra
 TARGET=runscan
-SOURCES=adnascan.cpp split.cpp scanner.cpp
+SOURCES=adnascan.cpp splitter.cpp scanner.cpp
 
 all:
 	$(MAKE) clean
