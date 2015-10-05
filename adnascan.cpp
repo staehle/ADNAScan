@@ -6,6 +6,11 @@
 
 int main(int argc, char **argv) {
 	cout << "ADNAScan" << endl;
+	if (argc < 2) {
+		cout << "Error: Not enough arguments" << endl;
+		cout << "Usage: " << argv[0] << " <input_fastq_file> <options>" << endl;
+		return -1;
+	}
 	
 	// Grab FASTQ File
 	
