@@ -1,3 +1,7 @@
+/* ADNAScan
+ * Main Header
+ */
+
 #ifndef ADNASCAN_H
 #define ADNASCAN_H
 
