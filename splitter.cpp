@@ -14,7 +14,9 @@ int workload;
 int workload_last;
 
 int splicer(int threadnum) {
+	int filenum = 0;
 	ifstream fin;
+	ofstream currentof;
 	fin.open(filename, ios::in);
 	if (!fin.is_open()) {
 		cerr << "Error: Cannot open file" << endl;
@@ -29,6 +31,7 @@ int splicer(int threadnum) {
 	}
 	
 	// each thread will access fastq_orig on an offset of (threadnum + numthreads) * 4
+	// output file names will be named "fastq_orig" - ".fastq" + ".fq####", where #### = (filenum * numthreads) + threadnum 
 	
 	
 	// while(!fin.eof()) {}
