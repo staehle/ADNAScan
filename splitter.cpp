@@ -2,8 +2,8 @@
  * FASTQ File Splitter
  */
 
- #include "splitter.hpp"
- 
- int split(const char *file) {
+#include "splitter.hpp"
+
+int split(const char *file) {
 	return 0;
- }
+}

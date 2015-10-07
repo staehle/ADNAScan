@@ -2,7 +2,8 @@
  * Main
  */
 
-#include "adnascan.hpp"
+#include <iostream>
+using namespace std;
 
 int main(int argc, char **argv) {
 	cout << "ADNAScan" << endl;
@@ -17,9 +18,8 @@ int main(int argc, char **argv) {
 	// Split FASTQ File into equal segments (splitter)
 	
 	// Do multithreading thing
-	
-	// For each thread (set as cmd argument) 
-		// run scan(splitfile)
+		// For each thread (set as cmd argument) 
+			// run scan(splitfile)
 		
 	// ...
 	// Profit

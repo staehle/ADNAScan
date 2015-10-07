@@ -5,8 +5,6 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
-#include "adnascan.hpp"
-
-int scan(const char *);
+int scan(const char **);
 
 #endif
