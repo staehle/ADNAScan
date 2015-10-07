@@ -1,5 +1,5 @@
-/* ADNAScan
- * Split FASTQ File Scanner
+/* ADNA
+ * FASTQ File Scanner
  */
 
 #include <cstdio>
@@ -8,9 +8,9 @@
 #define MAX_STRING 100
 
 int main(void) {
-    char    greeting[MAX_STRING];
-    int     comm_sz;    /* number of processes  */
-    int     my_rank;    /* process rank         */
+    char greeting[MAX_STRING];
+    int comm_sz; // number of processes
+    int my_rank; // process rank
 
     MPI_Init(NULL, NULL);
     MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);

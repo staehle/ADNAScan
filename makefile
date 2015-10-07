@@ -2,10 +2,10 @@ CC=g++
 MPICC=mpic++
 STD=-std=gnu++11
 CFLAGS=-O3 -Wall -Wextra
-SOURCES=adnascan.cpp splitter.cpp
+SOURCES=splitter.cpp
 MPISRCS=scanner.cpp
-TARGET=bin/adnascan
-MPITARGET=bin/mpiscanner
+TARGET=bin/adna-split
+MPITARGET=bin/adna-scan
 MPINPTEST=32
 
 all:
