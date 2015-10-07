@@ -2,25 +2,24 @@ CC=g++
 MPICC=mpic++
 STD=-std=gnu++11
 CFLAGS=-O3 -Wall -Wextra
-SOURCES=splitter.cpp
-MPISRCS=scanner.cpp
-TARGET=bin/adna-split
-MPITARGET=bin/adna-scan
-MPINPTEST=32
+SPLITSRC=splitter.cpp
+SCANSRC=scanner.cpp
+SPLITTARGET=bin/adna-split
+SCANTARGET=bin/adna-scan
+MPINPTEST=8
 
 all:
 	$(MAKE) clean
-	$(CC) $(STD) $(CFLAGS) $(SOURCES) -o $(TARGET)
-	$(MAKE) mpimake
+	$(MPICC) $(STD) $(CFLAGS) $(SPLITSRC) -o $(SPLITTARGET)
+	$(MPICC) $(STD) $(CFLAGS) $(SCANSRC) -o $(SCANTARGET)
 	
 clean:
 	rm -f *.o
 	rm -f $(TARGET)
 	rm -f $(MPITARGET)
-	
-mpimake:
-	$(MPICC) $(STD) $(CFLAGS) $(MPISRCS) -o $(MPITARGET)
-	
-mpitest:
-	$(MAKE) mpimake
-	mpirun -np $(MPINPTEST) $(MPITARGET)
+
+testsplit:
+	mpirun -np $(MPINPTEST) $(SPLITTARGET)
+
+testscan:
+	mpirun -np $(MPINPTEST) $(SCANTARGET)
