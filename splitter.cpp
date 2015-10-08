@@ -4,8 +4,10 @@
 
 #include <cstdio>
 #include <iostream>
+#include <fstream>
 #include <thread>
 #include <string>
+#include <sstream>
 using namespace std;
 #define BP_SPLIT_SIZE 128; // max size of each split file
 string fastq_orig;
@@ -13,14 +15,14 @@ int numthreads;
 int workload;
 int workload_last;
 
-int splicer(int threadnum) {
-	int filenum = 0;
+void splicer(int threadnum) {
+	//int filenum = 0;
 	ifstream fin;
 	ofstream currentof;
-	fin.open(filename, ios::in);
+	fin.open(fastq_orig, ios::in);
 	if (!fin.is_open()) {
 		cerr << "Error: Cannot open file" << endl;
-		return -1;
+		exit(1);
 	}
 	// need to split my workload by BP_SPLIT_SIZE.
 	int my_workload;
@@ -35,7 +37,9 @@ int splicer(int threadnum) {
 	
 	
 	// while(!fin.eof()) {}
-	string eofreport = "Thread #"+threadnum+" has completed "+my_workload+" BPs\n";
+	/*std::streamstring eofreport;
+	eofreport << "Thread #" << threadnum << " has completed " << my_workload << " BPs\n";
+	cout << eofreport;*/
 }
 
 int main(int argc, char **argv) {
@@ -46,9 +50,13 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 	fastq_orig = argv[1];
-	fastq_size = 4293; // number of base pairs in fastq file.   !!! TO-DO: calculate each bp set: number of lines in the fastq file / 4 (each set)
+	int fastq_size = 4293; // number of base pairs in fastq file.   !!! TO-DO: calculate each bp set: number of lines in the fastq file / 4 (each set)
 	
-	numthreads = argv[4];
+	istringstream ss(argv[4]);
+	if (!(ss >> numthreads)) { 
+		cerr << "Error: Invalid number of threads" << argv[4] << '\n';
+	}
+
 	thread threadpool[numthreads]; // is this actually a thing? i dunno i haven't tested it. 
 	
 	/* example file distribution:
@@ -58,12 +66,11 @@ int main(int argc, char **argv) {
 		workload = 536 (.625)
 		workload_last = 541 = 536+5
 	*/
-	
 	workload = (int)fastq_size / numthreads; // number of base pairs each thread will work on.
 	workload_last = (int)workload+(fastq_size % numthreads); // last thread might have a few more bps at the end.
 	
 	for (int t=0; t < numthreads; t++) {
-		threadpool[t](splicer, n);
+		threadpool[t] = thread(splicer, t);
 	}
 	
 	for (int t=0; t < numthreads; t++) {

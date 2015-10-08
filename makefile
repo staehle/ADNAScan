@@ -1,6 +1,6 @@
 CC=g++
 MPICC=mpic++
-STD=-std=gnu++11
+STD=-std=gnu++0x
 CFLAGS=-Wall -Wextra
 SPLITSRC=splitter.cpp
 SCANSRC=scanner.cpp
