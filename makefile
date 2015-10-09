@@ -17,8 +17,8 @@ all:
 	
 clean:
 	rm -f *.o
-	rm -f $(TARGET)
-	rm -f $(MPITARGET)
+	rm -f $(SPLITTARGET)
+	rm -f $(SCANTARGET)
 
 testsplit:
 	$(SPLITTARGET) $(FASTQ)
