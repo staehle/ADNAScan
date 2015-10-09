@@ -12,14 +12,14 @@
 using namespace std;
 string fastq_orig;
 int numthreads;
-int alive;
+int dead;
 
 void splicer(int threadnum) {
-	cerr << "Starting thread " << threadnum <<endl;
+	string report = "Starting thread " + to_string(threadnum);
+	cerr << report << endl;
 	ifstream fin;
 	ofstream curof;
 	string line;
-	int lineno;
 	fin.open(fastq_orig, ios::in);
 	if (!fin.is_open()) {
 		cerr << "Error: Cannot open file" << endl;
@@ -27,12 +27,10 @@ void splicer(int threadnum) {
 	}
 	int roundnum = 0;
 	// where should i start? 
-	//int start = (threadnum*4)+(numthreads*4*roundnum);
+	// start of each is (threadnum*4)+(numthreads*4*roundnum);
 	for(int i=0; i<(threadnum*4); ++i) {
 		fin.ignore(numeric_limits<streamsize>::max(),'\n');
-	}
-	lineno = (threadnum*4);
-	
+	}	
 	while(!fin.eof()) {
 		getline(fin, line);
 		if (line.length() < 4) break;
@@ -51,38 +49,55 @@ void splicer(int threadnum) {
 			fin.ignore(numeric_limits<streamsize>::max(),'\n');
 		}
 	}
-	
-	alive--;
+	report = "Thread " + to_string(threadnum) + " has completed";
+	cerr << report << endl;
+	dead++;
 	fin.close();
-	exit(0);
 }
 
 int main(int argc, char **argv) {
-	cout << "ADNA Split" << endl;
+	cout << "ADNAify -- Split and combine FASTQ into ADNA format" << endl;
 	if (argc < 2) {
-		cout << "Error: Not enough arguments" << endl;
-		cout << "Usage: " << argv[0] << " <input_fastq_file> -t <threads> -o <output> <OPTIONS>" << endl;
-		return -1;
+		cerr << "Error: Not enough arguments" << endl;
+		cerr << "Usage: " << argv[0] << " <input_fastq_file_1> <input_fastq_file_2> -t <threads>" << endl;
+		exit(1);
 	}
 	fastq_orig = argv[1];
-
+	
 	istringstream ss(argv[3]);
 	if (!(ss >> numthreads)) { 
-		cerr << "Error: Invalid number of threads" << argv[3] << '\n';
+		cerr << "Error: Invalid number of threads\n";
+		exit(1);
 	}
 	
-	cerr << "Starting pool with " << numthreads << " threads"<<endl;
+	dead = 0;
+	cerr << "Starting read 1 splitter pool with " << numthreads << " threads"<<endl;
 	thread threadpool[numthreads];
-	alive = numthreads;
-	
 	for (int t=0; t < numthreads; t++) {
 		threadpool[t] = thread(splicer, t);
 	}
 	for (int t=0; t < numthreads; t++) {
 		threadpool[t].join();
 	}
-	while (alive>0);
-	cout << "The thread pool has terminated." << endl;
+	while (dead<numthreads);
+	cout << "The splitter pool for read 1 has terminated." << endl;
+	
+	dead = 0;
+	cerr << "Starting read 2 splitter pool with " << numthreads << " threads"<<endl;
+	fastq_orig = argv[2];
+	for (int t=0; t < numthreads; t++) {
+		threadpool[t] = thread(splicer, t);
+	}
+	for (int t=0; t < numthreads; t++) {
+		threadpool[t].join();
+	}
+	while (dead<numthreads);
+	cout << "The splitter pool for read 2 has terminated." << endl;
+	
+	
+	// now, we need to combine the first and second read files into a new file. more threads!
+	
+	
 	return 0;
 }
 

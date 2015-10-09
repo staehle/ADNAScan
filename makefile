@@ -12,8 +12,8 @@ SPLITTARGET=adna-split
 SCANTARGET=adna-scan
 
 MPINPTEST=8
-SPLITTHREADS=1
-FASTQ=test2.fastq
+SPLITTHREADS=4
+FASTQ=test.fastq
 
 all:
 	$(MAKE) clean
@@ -23,6 +23,7 @@ all:
 	$(MPICC) $(STD) $(MPIFLAGS) $(SCANSRC) -o./bin/$(SCANTARGET)
 	
 clean:
+	rm -f ./raw/*
 	rm -f *.o
 	rm -f $(SPLITTARGET)
 	rm -f $(SCANTARGET)
