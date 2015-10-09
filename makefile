@@ -12,7 +12,7 @@ SPLITTARGET=adna-split
 SCANTARGET=adna-scan
 
 MPINPTEST=8
-SPLITTHREADS=2
+SPLITTHREADS=1
 FASTQ=test2.fastq
 
 all:
@@ -28,6 +28,7 @@ clean:
 	rm -f $(SCANTARGET)
 
 testsplit:
+	rm -f ./raw/*
 	./bin/$(SPLITTARGET) $(FASTQ) -t $(SPLITTHREADS) 
 
 testscan:
