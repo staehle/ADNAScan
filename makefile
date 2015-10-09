@@ -1,19 +1,26 @@
 CC=g++
 MPICC=mpic++
 STD=-std=gnu++0x
-CFLAGS=-Wall -Wextra
+
+CFLAGS=-pthread -Wall -Wextra
+MPIFLAGS=-Wall -Wextra
+
 SPLITSRC=splitter.cpp
 SCANSRC=scanner.cpp
-SPLITTARGET=bin/adna-split
-SCANTARGET=bin/adna-scan
-MPINPTEST=8
 
-FASTQ=test.fastq
+SPLITTARGET=adna-split
+SCANTARGET=adna-scan
+
+MPINPTEST=8
+SPLITTHREADS=2
+FASTQ=test2.fastq
 
 all:
 	$(MAKE) clean
-	$(CC) $(STD) $(CFLAGS) $(SPLITSRC) -o $(SPLITTARGET)
-	$(MPICC) $(STD) $(CFLAGS) $(SCANSRC) -o $(SCANTARGET)
+	mkdir -p ./bin
+	mkdir -p ./raw
+	$(CC) $(STD) $(CFLAGS) $(SPLITSRC) -o ./bin/$(SPLITTARGET)
+	$(MPICC) $(STD) $(MPIFLAGS) $(SCANSRC) -o./bin/$(SCANTARGET)
 	
 clean:
 	rm -f *.o
@@ -21,7 +28,7 @@ clean:
 	rm -f $(SCANTARGET)
 
 testsplit:
-	$(SPLITTARGET) $(FASTQ)
+	./bin/$(SPLITTARGET) $(FASTQ) -t $(SPLITTHREADS) 
 
 testscan:
-	mpirun -np $(MPINPTEST) $(SCANTARGET)
+	mpirun -np ./bin/$(MPINPTEST) $(SCANTARGET)
