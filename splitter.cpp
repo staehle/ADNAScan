@@ -14,8 +14,8 @@ string fastq_orig;
 int numthreads;
 int dead;
 
-void splicer(int threadnum) {
-	string report = "Starting thread " + to_string(threadnum);
+void splitter(int threadnum) { // Read 1: Split entire FASTQ into a separate file per read
+	string report = "Starting splitter thread " + to_string(threadnum);
 	cerr << report << endl;
 	ifstream fin;
 	ofstream curof;
@@ -55,6 +55,11 @@ void splicer(int threadnum) {
 	fin.close();
 }
 
+void splicer(int threadnum) { // Read 2: Splice read 2 into existing split files from read 1
+	string report = "Starting splicer thread " + to_string(threadnum);
+	cerr << report << endl;
+}
+
 int main(int argc, char **argv) {
 	cout << "ADNAify -- Split and combine FASTQ into ADNA format" << endl;
 	if (argc < 2) {
@@ -71,10 +76,10 @@ int main(int argc, char **argv) {
 	}
 	
 	dead = 0;
-	cerr << "Starting read 1 splitter pool with " << numthreads << " threads"<<endl;
+	cerr << "Splitting read 1 with thread pool of " << numthreads << " threads"<<endl;
 	thread threadpool[numthreads];
 	for (int t=0; t < numthreads; t++) {
-		threadpool[t] = thread(splicer, t);
+		threadpool[t] = thread(splitter, t);
 	}
 	for (int t=0; t < numthreads; t++) {
 		threadpool[t].join();
@@ -83,7 +88,7 @@ int main(int argc, char **argv) {
 	cout << "The splitter pool for read 1 has terminated." << endl;
 	
 	dead = 0;
-	cerr << "Starting read 2 splitter pool with " << numthreads << " threads"<<endl;
+	cerr << "Opening read 2 and adding to split files with thread pool of " << numthreads << " threads"<<endl;
 	fastq_orig = argv[2];
 	for (int t=0; t < numthreads; t++) {
 		threadpool[t] = thread(splicer, t);
@@ -93,7 +98,6 @@ int main(int argc, char **argv) {
 	}
 	while (dead<numthreads);
 	cout << "The splitter pool for read 2 has terminated." << endl;
-	
 	
 	// now, we need to combine the first and second read files into a new file. more threads!
 	
