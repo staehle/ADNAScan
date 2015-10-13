@@ -13,7 +13,8 @@ SCANTARGET=adna-scan
 
 MPINPTEST=8
 SPLITTHREADS=4
-FASTQ=test.fastq
+FASTQ1=test1.fastq
+FASTQ2=test2.fastq
 
 all:
 	$(MAKE) clean
@@ -30,7 +31,7 @@ clean:
 
 testsplit:
 	rm -f ./raw/*
-	./bin/$(SPLITTARGET) $(FASTQ) -t $(SPLITTHREADS) 
+	./bin/$(SPLITTARGET) $(FASTQ1) $(FASTQ2) -t $(SPLITTHREADS) 
 
 testscan:
 	mpirun -np ./bin/$(MPINPTEST) $(SCANTARGET)

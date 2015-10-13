@@ -11,6 +11,7 @@
 #include <algorithm>
 using namespace std;
 string fastq_read1;
+string fastq_read2;
 int numthreads;
 int dead;
 
@@ -34,9 +35,8 @@ void splitter(int threadnum) { // Read 1: Split entire FASTQ into a separate fil
 	while(!fin.eof()) {
 		getline(fin, line);
 		if (line.length() < 4) break;
-		string head = "./raw/"+line.substr(5)+"--t"+to_string(threadnum);
+		string head = "./raw/"+line.substr(5,37)+"_X_"+line.substr(45);
 		replace(head.begin(), head.end(), ':', '_');
-		replace(head.begin(), head.end(), ' ', '_');
 		curof.open(head, ios::out);
 		curof<<line<<endl;
 		for (int i=0; i<3; i++) {
@@ -75,10 +75,9 @@ void splicer(int threadnum) { // Read 2: Splice read 2 into existing split files
 	while(!fin.eof()) {
 		getline(fin, line);
 		if (line.length() < 4) break;
-		/*string head = "./raw/"+line.substr(5)+"--t"+to_string(threadnum);
+		string head = "./raw/"+line.substr(5,37)+"_X_"+line.substr(45);
 		replace(head.begin(), head.end(), ':', '_');
-		replace(head.begin(), head.end(), ' ', '_');
-		curof.open(head, ios::out);
+		curof.open(head, ios::app);
 		curof<<line<<endl;
 		for (int i=0; i<3; i++) {
 			getline(fin, line);
@@ -88,7 +87,7 @@ void splicer(int threadnum) { // Read 2: Splice read 2 into existing split files
 		roundnum++;
 		for(int i=0; i<(numthreads*4)-4; ++i) {
 			fin.ignore(numeric_limits<streamsize>::max(),'\n');
-		}*/
+		}
 	}
 	report = "Thread " + to_string(threadnum) + " has completed";
 	cerr << report << endl;
@@ -98,7 +97,7 @@ void splicer(int threadnum) { // Read 2: Splice read 2 into existing split files
 
 int main(int argc, char **argv) {
 	cout << "ADNAify -- Split and combine FASTQ into ADNA format" << endl;
-	if (argc < 2) {
+	if (argc < 5) {
 		cerr << "Error: Not enough arguments" << endl;
 		cerr << "Usage: " << argv[0] << " <input_fastq_file_1> <input_fastq_file_2> -t <threads>" << endl;
 		exit(1);
@@ -106,7 +105,7 @@ int main(int argc, char **argv) {
 	fastq_read1 = argv[1];
 	fastq_read2 = argv[2];
 	
-	istringstream ss(argv[3]);
+	istringstream ss(argv[4]);
 	if (!(ss >> numthreads)) { 
 		cerr << "Error: Invalid number of threads\n";
 		exit(1);
@@ -125,7 +124,7 @@ int main(int argc, char **argv) {
 	while (dead<numthreads); // poor man's thread block
 	cerr << "The splitter pool for read 1 has terminated." << endl;
 	
-	/* Splicer for read 2 */ 
+	/* Splicer for read 2 */
 	dead = 0;
 	cerr << "Opening read 2 and adding to split files with thread pool of "<<numthreads<<" threads"<<endl;
 	
@@ -137,6 +136,7 @@ int main(int argc, char **argv) {
 	}
 	while (dead<numthreads); // poor man's thread block
 	cerr << "The splicer pool for read 2 has terminated." << endl;
+	
 	
 	cerr << "ADNA-Split has completed!"<<endl;
 	
