@@ -3,7 +3,7 @@
 // Author      : Steinar Bakke
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : C++ Using FastQFile (LibStatGen) Library
 //============================================================================
 
 #include <iostream>
@@ -93,7 +93,9 @@ string line;
 
 
 
+// to use the Quality checks from 0 as the lowest to 96 as the highest, if scanning token by token
 
+// will already be implemented if I can get my libStatGen library to work
 
 	cout << (int(mychar)-33) << endl; // prints !!!Hello World!!!  //33 if first ASCII number should be 0 and not 1 for quality check
 	return 0;
