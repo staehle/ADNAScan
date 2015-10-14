@@ -31,11 +31,34 @@ int qualPass(string tString)
 	}
 }
 
+//check for a leading T or 2 trailing T's and replace the corresponding quality scores to 2 (#)
+//tStrip takes the nd and 4th lines of a read and returns an updated qual string
+string tStrip(string seq, string qual)
+{
+    if(seq.at(0) == 'T')
+    {
+        printf("found a T\n");
+        qual[0] = '#';
+    }
+    if((seq.at(seq.length() - 1) == 'T') && (seq.at(seq.length() - 2) == 'T'))
+    {
+        printf("found ending T's\n");
+        qual[qual.length() - 1] = '#';
+        qual[qual.length() - 2] = '#';
+    }
+    
+    return qual;
+}
+
+//All the print statements in this file are currently for debuggung only, will not be in final software
 int main()
 {
+	//sequence to test the T search and qual replacements
+	string x = "TGCCGGAGTTTCGCGCCGCGGGCGCTTCGCAGGCGATAACCTGAAACTTGANGGAAGAGCNNCCGCAGTTGACCACCAGTACATTCAGATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGTT";
 	string s = "BC@BCGGGGGGGGGGGGGGGGGGGGGGGGGFGGGGGGGGGGC@FFGFGGGG#==E<FFGG##=<:EGGEGACEC</0<000800000008000<0;0000;000/8///69.6//9/...9////";
+	s = tStrip(x,s);
 	qualPass(s);
-    string t = "BBCCCGGGGGGGGGGGGGGGGGGEGGGGGGGGGGCFGGG@DGBCGGGGGGG#;;CFFCEG##=::EGG@EGGGGGGGGGCGGGG..@GGGGCGGGGGGCG.8.:DEDG.9.CEGG<DDGD<CDG/";
+	string t = "BBCCCGGGGGGGGGGGGGGGGGGEGGGGGGGGGGCFGGG@DGBCGGGGGGG#;;CFFCEG##=::EGG@EGGGGGGGGGCGGGG..@GGGGCGGGGGGCG.8.:DEDG.9.CEGG<DDGD<CDG/";
 	qualPass(t);
 	string v = "CCCCCGGGGGGGDGGGGGGGGGGGGGGGGGGGGGEGGGGGGGGGGGGFGGG##=##==EF###===FGGGGFFGGGGGGGG0FDGGGGG.CG@GGBGGGGGGGGGGGGGGGGGGGGG/EB@G/8/";
 	qualPass(v);
