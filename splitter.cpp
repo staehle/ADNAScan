@@ -17,12 +17,14 @@ int dead;
 int readnum;
 
 void dosplit(int threadnum) {
-	string report = "Read #" + to_string(readnum) + ": Starting splitter thread " + to_string(threadnum) + "\n";
-	cerr << report;
+	/*stringstream report;
+	report << "Read #" << readnum <<": Starting splitter thread " << threadnum << "\n";
+	cerr << report;*/
 	ifstream fin;
 	ofstream curof;
 	string line;
-	fin.open(fastq_read1, ios::in);
+	if (readnum==1) fin.open(fastq_read1, ios::in);
+	else if (readnum==2) fin.open(fastq_read2, ios::in);
 	if (!fin.is_open()) {
 		cerr << "Error: Cannot open file" << endl;
 		exit(1);
@@ -51,8 +53,9 @@ void dosplit(int threadnum) {
 			fin.ignore(numeric_limits<streamsize>::max(),'\n');
 		}
 	}
-	report = "Read #" + to_string(readnum) + ": Thread " + to_string(threadnum) + " has completed\n";
-	cerr << report;
+	/*stringstream report2;
+	report2 << "Read #" << readnum <<": Thread " << threadnum << " has completed\n";
+	cerr << report2;*/
 	dead++;
 	fin.close();
 }

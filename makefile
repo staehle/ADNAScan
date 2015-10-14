@@ -21,7 +21,7 @@ all:
 	mkdir -p ./bin
 	mkdir -p ./raw
 	$(CC) $(STD) $(CFLAGS) $(SPLITSRC) -o ./bin/$(SPLITTARGET)
-	$(MPICC) $(STD) $(MPIFLAGS) $(SCANSRC) -o./bin/$(SCANTARGET)
+	#$(MPICC) $(STD) $(MPIFLAGS) $(SCANSRC) -o./bin/$(SCANTARGET)
 	
 clean:
 	rm -f ./raw/*
