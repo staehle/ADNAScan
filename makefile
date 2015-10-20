@@ -26,8 +26,8 @@ all:
 clean:
 	rm -f ./raw/*
 	rm -f *.o
-	rm -f $(SPLITTARGET)
-	rm -f $(SCANTARGET)
+	rm -f ./bin/$(SPLITTARGET)
+	rm -f ./bin/$(SCANTARGET)
 
 testsplit:
 	rm -f ./raw/*
