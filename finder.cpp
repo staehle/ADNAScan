@@ -8,7 +8,6 @@
 #include <thread>
 #include <string>
 #include <sstream>
-//#include <algorithm>
 #include <unordered_map>
 using namespace std;
 string fastq_read1;
@@ -16,8 +15,8 @@ string fastq_read2;
 int numthreads;
 int dead;
 int readnum;
-unordered_map<string, int>* threadtable1;
-unordered_map<string, int>* threadtable2;
+unordered_map<string, int>* read1table;
+unordered_map<string, int>* read2table;
 
 void dofind(int threadnum) {
 	ifstream fin;
@@ -30,12 +29,11 @@ void dofind(int threadnum) {
 	}
 	//something something hash function idk
 	/*
-	threadtable1[threadnum]["test"] = 256; 
-	threadtable1[threadnum]["123456789"] = 14;
-	cout << readnum << " using test --> " << threadtable1[threadnum]["test"] <<endl;
-	cout << readnum << " using nums --> " << threadtable1[threadnum]["123456789"] <<endl;
+	read1table[threadnum]["test"] = 256; 
+	read1table[threadnum]["123456789"] = 14;
+	cout << readnum << " using test --> " << read1table[threadnum]["test"] <<endl;
+	cout << readnum << " using nums --> " << read1table[threadnum]["123456789"] <<endl;
 	*/
-	
 	int roundnum = 0;
 	int lineno = 0;
 	// where should i start? 
@@ -43,18 +41,16 @@ void dofind(int threadnum) {
 	for(int i=0; i<(threadnum*4); ++i) {
 		fin.ignore(numeric_limits<streamsize>::max(),'\n');
 		lineno++;
-	}	
+	}
 	//cout << "starting at line " << lineno << endl;
 	getline(fin, line);
 	while(!fin.eof()) {
 		//cout << "reading at line " << lineno;
-		//if (line.length() < 4) break;
+		if (line.length() < 4) break;
 		string head = line.substr(5,37);
-		//replace(head.begin(), head.end(), ':', '_');
 		//cout << "\thead: " << head << endl;
-		if (readnum==1) threadtable1[threadnum][head] = lineno;
-		else if (readnum==2) threadtable2[threadnum][head] = lineno;
-		else exit(2);
+		if (readnum==1) read1table[threadnum][head] = lineno;
+		else if (readnum==2) read2table[threadnum][head] = lineno;
 		roundnum++;
 		for(int i=0; i<(numthreads*4)-1; ++i) {
 			fin.ignore(numeric_limits<streamsize>::max(),'\n');
@@ -83,48 +79,51 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	
-	threadtable1 = new unordered_map<string, int>[numthreads];
-	threadtable2 = new unordered_map<string, int>[numthreads];
+	read1table = new unordered_map<string, int>[numthreads];
+	read2table = new unordered_map<string, int>[numthreads];
 	
 	/* Splitter for read 1 */
 	readnum = 1;
-	cerr << "Scan-Find read 1 in main for testing"<<endl;
-	dofind(0);
-	/*
+	/*cerr << "Scan-Find read 1 in main for testing"<<endl;
+	dofind(0);*/
 	dead = 0;
-	cerr << "Splitting read 1 with thread pool of "<<numthreads<<" threads"<<endl;
+	cerr << "Scan-Find read 1 with thread pool of "<<numthreads<<" threads"<<endl;
 	thread threadpool[numthreads];
 	for (int t=0; t < numthreads; t++) {
-		threadpool[t] = thread(dosplit, t);
+		threadpool[t] = thread(dofind, t);
 	}
 	for (int t=0; t < numthreads; t++) {
 		threadpool[t].join();
 	}
 	while (dead<numthreads); // poor man's thread block
-	cerr << "The splitter pool for read 1 has terminated." << endl;
-	*/
+	cerr << "The finder pool for read 1 has terminated." << endl;
 	
 	/* Splicer for read 2 */
 	readnum = 2;
-	cerr << "Scan-Find read 2 in main for testing"<<endl;
-	dofind(0);
-	/*
+	/*cerr << "Scan-Find read 2 in main for testing"<<endl;
+	dofind(0);*/
 	dead = 0;
-	cerr << "Opening read 2 and adding to split files with thread pool of "<<numthreads<<" threads"<<endl;
+	cerr << "Scan-Find read 2 with thread pool of "<<numthreads<<" threads"<<endl;
 	for (int t=0; t < numthreads; t++) {
-		threadpool[t] = thread(dosplit, t);
+		threadpool[t] = thread(dofind, t);
 	}
 	for (int t=0; t < numthreads; t++) {
 		threadpool[t].join();
 	}
 	while (dead<numthreads); // poor man's thread block
-	cerr << "The splicer pool for read 2 has terminated." << endl;
-	*/
+	cerr << "The finder pool for read 2 has terminated." << endl;
 	
 	cerr << "ADNA-Finder has completed!"<<endl;
 	
-	cout << threadtable1[0]["D00550:263:C6V0DANXX:8:1101:1487:2192"] <<endl;
-	cout << threadtable2[0]["D00550:263:C6V0DANXX:8:1101:1487:2192"] <<endl;
+	const char* testfind = "D00550:263:C6V0DANXX:8:1101:1270:2171";
+	cout << "Test: Find read id " << testfind << " in read one: " << endl;
+	for (int i=0; i<numthreads; i++) {
+		cout << "\tread1table["<<i<<"]:\t"<< read1table[i][testfind] <<endl;
+	}
+	cout << "Test: Find read id " << testfind << " in read two: " << endl;
+	for (int i=0; i<numthreads; i++) {
+		cout << "\tread2table["<<i<<"]:\t"<< read2table[i][testfind] <<endl;
+	}
 	
 	return 0;
 }
