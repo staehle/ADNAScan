@@ -1,7 +1,7 @@
 /* ADNA
- * FASTQ File Splitter (Obsolete - for reference only)
+ * FASTQ Sequence Location Finder
  */
-
+ 
 #include <cstdio>
 #include <iostream>
 #include <fstream>
@@ -12,16 +12,9 @@
 using namespace std;
 string fastq_read1;
 string fastq_read2;
-int numthreads;
-int dead;
-int readnum;
 
-void dosplit(int threadnum) {
-	/*stringstream report;
-	report << "Read #" << readnum <<": Starting splitter thread " << threadnum << "\n";
-	cerr << report;*/
+void dofind(int threadnum) {
 	ifstream fin;
-	ofstream curof;
 	string line;
 	if (readnum==1) fin.open(fastq_read1, ios::in);
 	else if (readnum==2) fin.open(fastq_read2, ios::in);
@@ -29,39 +22,12 @@ void dosplit(int threadnum) {
 		cerr << "Error: Cannot open file" << endl;
 		exit(1);
 	}
-	int roundnum = 0;
-	// where should i start? 
-	// start of each is (threadnum*4)+(numthreads*4*roundnum);
-	for(int i=0; i<(threadnum*4); ++i) {
-		fin.ignore(numeric_limits<streamsize>::max(),'\n');
-	}	
-	while(!fin.eof()) {
-		getline(fin, line);
-		if (line.length() < 4) break;
-		string head = "./raw/"+line.substr(5,37)+"_X_"+line.substr(45);
-		replace(head.begin(), head.end(), ':', '_');
-		if (readnum==1) curof.open(head, ios::out);
-		else if (readnum==2) curof.open(head, ios::app);
-		curof<<line<<endl;
-		for (int i=0; i<3; i++) {
-			getline(fin, line);
-			curof<<line<<endl;
-		}
-		curof.close();
-		roundnum++;
-		for(int i=0; i<(numthreads*4)-4; ++i) {
-			fin.ignore(numeric_limits<streamsize>::max(),'\n');
-		}
-	}
-	/*stringstream report2;
-	report2 << "Read #" << readnum <<": Thread " << threadnum << " has completed\n";
-	cerr << report2;*/
-	dead++;
-	fin.close();
+	
+	
 }
 
 int main(int argc, char **argv) {
-	cout << "ADNAify -- Split and combine FASTQ into ADNA format" << endl;
+	cout << "ADNA-Finder -- Scan FASTQ reads and return sequence locations" << endl;
 	if (argc < 5) {
 		cerr << "Error: Not enough arguments" << endl;
 		cerr << "Usage: " << argv[0] << " <input_fastq_file_1> <input_fastq_file_2> -t <threads>" << endl;
@@ -78,6 +44,9 @@ int main(int argc, char **argv) {
 	
 	/* Splitter for read 1 */
 	readnum = 1;
+	cerr << "Scan-Find read 1 in main for testing"<<endl;
+	dofind(1);
+	/*
 	dead = 0;
 	cerr << "Splitting read 1 with thread pool of "<<numthreads<<" threads"<<endl;
 	thread threadpool[numthreads];
@@ -89,9 +58,13 @@ int main(int argc, char **argv) {
 	}
 	while (dead<numthreads); // poor man's thread block
 	cerr << "The splitter pool for read 1 has terminated." << endl;
+	*/
 	
 	/* Splicer for read 2 */
 	readnum = 2;
+	cerr << "Scan-Find read 2 in main for testing"<<endl;
+	dofind(1);
+	/*
 	dead = 0;
 	cerr << "Opening read 2 and adding to split files with thread pool of "<<numthreads<<" threads"<<endl;
 	for (int t=0; t < numthreads; t++) {
@@ -102,11 +75,9 @@ int main(int argc, char **argv) {
 	}
 	while (dead<numthreads); // poor man's thread block
 	cerr << "The splicer pool for read 2 has terminated." << endl;
+	*/
 	
-	cerr << "ADNA-Split has completed!"<<endl;
+	cerr << "ADNA-Finder has completed!"<<endl;
 	
 	return 0;
 }
-
-
-

@@ -8,11 +8,11 @@ MPIFLAGS=-Wall -Wextra
 SPLITSRC=splitter.cpp
 SCANSRC=scanner.cpp
 
-SPLITTARGET=adna-split
+FINDERTARGET=adna-finder
 SCANTARGET=adna-scan
 
 MPINPTEST=8
-SPLITTHREADS=4
+FINDTHREADS=4
 FASTQ1=test1.fastq
 FASTQ2=test2.fastq
 
@@ -20,18 +20,18 @@ all:
 	$(MAKE) clean
 	mkdir -p ./bin
 	mkdir -p ./raw
-	$(CC) $(STD) $(CFLAGS) $(SPLITSRC) -o ./bin/$(SPLITTARGET)
+	$(CC) $(STD) $(CFLAGS) $(SPLITSRC) -o ./bin/$(FINDERTARGET)
 	#$(MPICC) $(STD) $(MPIFLAGS) $(SCANSRC) -o./bin/$(SCANTARGET)
 	
 clean:
 	rm -f ./raw/*
 	rm -f *.o
-	rm -f ./bin/$(SPLITTARGET)
+	rm -f ./bin/$(FINDERTARGET)
 	rm -f ./bin/$(SCANTARGET)
 
-testsplit:
+test:
 	rm -f ./raw/*
-	./bin/$(SPLITTARGET) $(FASTQ1) $(FASTQ2) -t $(SPLITTHREADS) 
+	./bin/$(FINDERTARGET) $(FASTQ1) $(FASTQ2) -t $(FINDTHREADS) 
 
-testscan:
-	mpirun -np ./bin/$(MPINPTEST) $(SCANTARGET)
+#testscan:
+	#mpirun -np ./bin/$(MPINPTEST) $(SCANTARGET)
