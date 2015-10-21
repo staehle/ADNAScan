@@ -19,7 +19,7 @@ int main()
 	ReadPair myRead(xR,xQ,yR,yQ);
 	myRead.tStrip();
 	myRead.qualPass();
-	printf("\nfound %i as largest section of overlap over 11 bases\n",myRead.oCheck());
+	printf("\nfound %i as largest section of overlap over 10 bases\n",myRead.oCheck());
 
 	//qualPass(s);
 	//qualPass(t);
