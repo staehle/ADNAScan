@@ -2,8 +2,8 @@
 // Example program
 #include <iostream>
 #include <string>
-#include <stdio.h>
-#include "ReadPair.h"
+#include <cstdio>
+#include "ReadPair.hpp"
 using namespace std;
 
 class ReadPair;

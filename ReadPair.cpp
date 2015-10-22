@@ -9,8 +9,8 @@
  */
 #include <iostream>
 #include <string>
-#include <stdio.h>
-#include "ReadPair.h"
+#include <cstdio>
+#include "ReadPair.hpp"
 using namespace std;
 
 // Constructor for the ReadPair class. Takes the bases and quality of both sides of a read

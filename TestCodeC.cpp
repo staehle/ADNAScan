@@ -7,8 +7,6 @@
 //============================================================================
 
 #include <iostream>
-using namespace std;
-#include <fstream>
 #include <fstream>
 #include <string>
 //#include <libStatGen.a/FastQFile.h>
@@ -16,7 +14,7 @@ using namespace std;
 #include "FastQFile.cpp"
 #include <cstdio>
 #include <string>
-#include <stdio.h>
+using namespace std;
 
 //Working with an existing FastQ Processor. Not working right now
 
