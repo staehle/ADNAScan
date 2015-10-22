@@ -1,5 +1,5 @@
 /* ADNA
- * FASTQ Sequence Location Finder
+ * FASTQ Sequence Location Finder (C++11 pthread method -- depreciated)
  */
  
 #include <cstdio>

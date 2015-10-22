@@ -1,34 +1,23 @@
-CC=g++
-MPICC=mpic++
+CC=mpic++
 STD=-std=gnu++0x
+CFLAGS=-Wall -Wextra
 
-CFLAGS=-pthread -Wall -Wextra
-MPIFLAGS=-Wall -Wextra
+SRC=adna.cpp
+TARGET=adna
 
-FINDERSRC=finder.cpp
-SCANSRC=scanner.cpp
+PROCS=4
 
-FINDERTARGET=adna-finder
-SCANTARGET=adna-scan
-
-MPINPTEST=8
-FINDTHREADS=4
 FASTQ1=test1.fastq
 FASTQ2=test2.fastq
 
 all:
 	$(MAKE) clean
 	mkdir -p ./bin
-	$(CC) $(STD) $(CFLAGS) $(FINDERSRC) -o ./bin/$(FINDERTARGET)
-	#$(MPICC) $(STD) $(MPIFLAGS) $(SCANSRC) -o./bin/$(SCANTARGET)
+	$(CC) $(STD) $(CFLAGS) $(SRC) -o ./bin/$(TARGET)
 	
 clean:
 	rm -f *.o
-	rm -f ./bin/$(FINDERTARGET)
-	rm -f ./bin/$(SCANTARGET)
+	rm -f ./bin/*
 
 test:
-	./bin/$(FINDERTARGET) $(FASTQ1) $(FASTQ2) -t $(FINDTHREADS) 
-
-mpitest:
-	mpirun -np $(MPINPTEST) ./bin/$(SCANTARGET)
+	mpirun -np $(PROCS) ./bin/$(TARGET) $(FASTQ1) $(FASTQ2) 
