@@ -7,68 +7,135 @@
 
 //Curr Working Adapter Trimmer
 
-// string::substr
+
+// Current code
+
+
+
 #include <iostream>
 #include <string>
+#include <vector>
+
+// So far just recognizing the adapters found in the Sequence
+// Many Print statements and Extra Information for Testing Purpose
 
 int main()
 {
+    
+    const int MinLengthAdapters = 6; // Min Length for accepted Adapters
+    const int NumberOfAdapters = 7; // Amount of Adapters we are using
+    
+    
 	std::string str = "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGATCATCTCGTATGCNGTCTTCTGNNTGAAAAAAAAAAACAAATACATAGTATACTTTCTTTATGAAATAAAAAATAAAAACAATAACA";
-	// (this is the Strings from Sequence)
+	// (this is the String from Sequence) - this string should be given from other code (After Overlap)
+	
+	
+	// Array of the adapters - This is not the real Adapters, made them for testing purpose
+	std::string Adapters[] = 
+	{
+	    "AGATCGAGTTTCGCGCCGCGGGCAGATCGG",
+	    "TTTCCCCATCTTCGCCGTCCTCCTGCTTGC",
+	    "CTTGATCACCGGGTCGCCGTTCTTCGGCGG",
+	    "AGATCGGAASDAGAGCAGATCGGAAGAGCA",
+	    "CTGGAATCGCGGACACGACCCGATCTCATT",
+	    "TGCCGGAGTTTCGCGCCGCGGSSSAGATCG",
+	    "CCCGCGGCAAACTCGGCTGTTTSDAAAGCA"
+	    
+	};
 
-	std::string strTest = "GAT";
-	std::string strAdap1 = "AGATCGAGTTTCGCGCCGCGGGCAGATCGG";
-	std::string strAdap2 = "TTTCCCCATCTTCGCCGTCCTCCTGCTTGC";
-	std::string strAdap3 = "CTTGATCACCGGGTCGCCGTTCTTCGGCGG";
-	std::string strAdap4 = "AGATCGGAAGAGCACACGTCTGAACTCCGT";
-	std::string strAdap5 = "CTGGAATCGCGGACACGACCCGATCTCATT";
-	std::string strAdap6 = "TGCCGGAGTTTCGCGCCGCGGGCGCTTCGC";
-	std::string strAdap7 = "CCCGCGGCAAACTCGGCTGTTTTGCAAGCA";
-	std::string strAdap8 = "AGATCGGAAGAGCACACGTCTGAACTCCAG";
-	std::string strAdap9 = "AAACTTCATCCATCCTCCTTCGGTACTGAT";
-	std::string strAdap10 = "CTTTTACCGCAACATCATTTCCCCTTCCGA";
-	std::string strAdap11 = "AGATCGAAATCAAGGAAGAGGAAGAGGACA";
+  
+
+    std::string LongestAdapter = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 
 
-	int endIndex = strAdap1.length();
-	int startIndex = 0;
+    
+    int counter = 0; // Counter for Adapters
+    int RemoveAdapter; // Longest Adapter that is found in sequence (The number in my array)
+    std::vector< int > NumbOfArrays; //Array for all the adapters found - For testing
+    
+    bool AdapterFound = false; // If Adapter Found
+    
+    while (counter < NumberOfAdapters){ //
+        
+        
+    std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n';
 
-	int found = 0;
+
+    std::string AdapterSearch = "";
+
+    AdapterSearch.assign(Adapters[counter]);
+
+	int endIndex = AdapterSearch.length();
+
+	
 	std::string FoundString = "";
 
-	for (int startIndex = 0; startIndex <= (endIndex - 6); startIndex = startIndex + 1)
+	for (int startIndex = 0; startIndex <= (endIndex - MinLengthAdapters); startIndex = startIndex + 1)
 	{
 
 
 		std::string CurrSeq = str.substr(0, (endIndex - startIndex));
 
-		std::string CurrAdap = strAdap1.substr(startIndex, (endIndex));
-		std::cout << "CurrAdap for Check: " << CurrAdap << ' ' << CurrSeq << '\n';
+		std::string CurrAdap = AdapterSearch.substr(startIndex, (endIndex));
+		std::cout << CurrAdap << ' ' << CurrSeq << '\n';
 
 
 
 		std::size_t found = CurrSeq.find(CurrAdap);
 		if (found != std::string::npos) {
-			std::cout << "Adaptor found at length: " << CurrSeq.length() << '\n';
+			std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
 			FoundString.assign(CurrSeq);
-			std::cout << "Longest Adaptor is currently " << FoundString << '\n';
-			found = 1;
-			break;
-		}
+			NumbOfArrays.push_back(counter);
+			
+			
+			if (AdapterFound == false){ // If first Adapter Found
+			    std::cout << "Longest Adapter is currently " << FoundString << '\n';
+			    LongestAdapter.assign(FoundString);
+			    AdapterFound = true;
+			    RemoveAdapter = counter; // assigning adapter to remove
+			    break;
+			}
+			else{ // If another adapter is found
+			    if(FoundString.length() >= LongestAdapter.length()){
+			        LongestAdapter.assign(FoundString);
+			        std::cout << "New Longest Adapter is currently " << FoundString << '\n';
+			        RemoveAdapter = counter;
+			        break;}
+			    else {
+			        std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
+			        break;}
+			    }
+			    
+			}
+
+		
+
 
 
 	}
 
-
-	std::string CurrAdap = str.substr(startIndex, (endIndex - 1));     // "length of adaptor(4)"
-
-
-
-	std::size_t pos = str.find(strTest);      // position of "live" in str
-
-	std::string str3 = str.substr(pos);     // get from "live" to the end
-
-											//std::cout << CurrAdap << '\n' << strAdap1 << '\n';
-
+    std::cout << "\nAdapter " << Adapters[counter] << " is searched. \n\n" << '\n';
+    
+    // Counter for Adapters
+    counter ++;
+    }
+    
+    // Print Statements
+    
+    if (AdapterFound == false)
+        std::cout << "\n\n\n No Adapters Found" << '\n';
+    else
+        std::cout << " \n\n\n Longest Adapter : " << Adapters[RemoveAdapter] << '\n';
+        std::cout << " Is found with length " << LongestAdapter.length() << " : " << LongestAdapter << "\n" << '\n';
+        std::cout << " Adapter(s) were found in sequence " << '\n';
+        for(int i = 0; i < NumbOfArrays.size(); i++) {
+            std::cout << i+1 << ". " << NumbOfArrays[i] << " : " << Adapters[NumbOfArrays[i]] << '\n';
+}
 	return 0;
 }
+
+
+// Need to Add the real Adapters 
+// Get Sequence in from Other Code
+
+// Remove Adapters into our new File
