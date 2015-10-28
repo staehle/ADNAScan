@@ -144,7 +144,7 @@ int main()
         std::string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
         int RemoveAdapter2; // Longest Adapter that is found in sequence (The number in my array)
         std::vector< int > NumbOfArrays2; //Array for all the adapters found - For testing
-        AdapterFound = false; // If Adapter Found
+        bool AdapterFound2 = false; // If Adapter Found
 
 
 
@@ -197,10 +197,10 @@ int main()
     			NumbOfArrays2.push_back(counter);
 
 
-    			if (AdapterFound == false){ // If first Adapter Found
+    			if (AdapterFound2 == false){ // If first Adapter Found
     			    std::cout << "Longest Adapter is currently " << FoundString << '\n';
     			    LongestAdapter2.assign(FoundString);
-    			    AdapterFound = true;
+    			    AdapterFound2 = true;
     			    RemoveAdapter2 = counter; // assigning adapter to remove
     			    break;
     			}
@@ -238,7 +238,7 @@ int main()
 
         // Print Statements
 
-        if (AdapterFound == false)
+        if (AdapterFound2 == false)
             std::cout << "\n\n\n No Adapters Found in Second Half of sequence" << '\n';
         else {
             std::cout << " \n\n\n Longest Adapter : " << Adapters[RemoveAdapter2] << '\n';
