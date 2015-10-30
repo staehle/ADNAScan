@@ -22,7 +22,7 @@ int main()
 {
 
     const int MinLengthAdapters = 6; // Min Length for accepted Adapters
-    const int NumberOfAdapters = 7; // Amount of Adapters we are using
+    const int NumberOfAdapters = 7; // Amount of Adapters we are using // I use this instead of length, for more flexibility
 
 
 	std::string str = "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGATCATCTCGTATGCNGTCTTCTGNNTGAAAAAAAAAAACAAATACATAGTATACTTTCTTTATGAAATAAAAAATAAAAACAATAACA";
@@ -49,45 +49,50 @@ int main()
 
 
     int counter = 0; // Counter for Adapters
-    int RemoveAdapter; // Longest Adapter that is found in sequence (The number in my array)
+    int RemoveAdapter; // Longest Adapter that is found in sequence (The number in my array) ETC Adapter Number 4
     std::vector< int > NumbOfArrays; //Array for all the adapters found - For testing
 
     bool AdapterFound = false; // If Adapter Found
 
-    while (counter < NumberOfAdapters){ //
+    while (counter < NumberOfAdapters){ // While loop to get every Adapter.
 
 
     std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n';
 
 
-    std::string AdapterSearch = "";
+    std::string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
 
     AdapterSearch.assign(Adapters[counter]);
 
-	int endIndex = AdapterSearch.length();
+	int endIndex = AdapterSearch.length(); // Again not needed, could use AdapterSearch.length() in the for loop
 
 
 	std::string FoundString = "";
 
+	// For loop, From the first Character, to the length of the Adapter - Minimum characters matching (6) in our case
+	// (We don't want to look for matching 1/2/3/4/5 adapter matches, since these couldve matched randomly.)
+	// (C T G A The chances of one of our etc 30 adapters to have a matching any 2 character start is 2/30, but 6 matching randomly is 0.007/30)
+	// Reducing the chance for random matches 
 	for (int startIndex = 0; startIndex <= (endIndex - MinLengthAdapters); startIndex = startIndex + 1)
 	{
 
 
-		std::string CurrSeq = str.substr(0, (endIndex - startIndex));
-
+		// Creating Temp Strings for match - Printing
+		std::string CurrSeq = str.substr(0, (endIndex - startIndex)); 
 		std::string CurrAdap = AdapterSearch.substr(startIndex, (endIndex)); // Looking at LAST part of the sequence
 		std::cout << CurrAdap << ' ' << CurrSeq << '\n';
 
 
-
+		//Adapter Found
+	
 		std::size_t found = CurrSeq.find(CurrAdap);
 		if (found != std::string::npos) {
 			std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
 			FoundString.assign(CurrSeq);
 			NumbOfArrays.push_back(counter);
 
-
-			if (AdapterFound == false){ // If first Adapter Found
+			//If First Adapter Found
+			if (AdapterFound == false){
 			    std::cout << "Longest Adapter is currently " << FoundString << '\n';
 			    LongestAdapter.assign(FoundString);
 			    AdapterFound = true;
@@ -95,12 +100,12 @@ int main()
 			    break;
 			}
 			else{ // If another adapter is found
-			    if(FoundString.length() >= LongestAdapter.length()){
+			    if(FoundString.length() >= LongestAdapter.length()){ // If longer than previous (Currently >= !!)
 			        LongestAdapter.assign(FoundString);
 			        std::cout << "New Longest Adapter is currently " << FoundString << '\n';
 			        RemoveAdapter = counter;
 			        break;}
-			    else {
+			    else { // If Not longer than previous
 			        std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
 			        break;}
 			    }
@@ -138,7 +143,9 @@ int main()
 
 
 
-
+	//Basically the same as first Half, the only thing different is the For loop
+	// Since it is now checking the last part of the sequence, going in a different direction
+	
 
         counter = 0; // Counter for Adapters
         std::string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
@@ -168,10 +175,10 @@ int main()
 
     	int CurrentIncrementer = 0; // Incrementer for the substring Current Adapter
 
-    	// Currently working on Second Half of Adapter
+    	// from last character minus the length of the adapter. to the last character minus MinLengthAdapters
 
     	for (int startIndex = (str.length()- endIndex); startIndex <= (str.length()-MinLengthAdapters); startIndex = startIndex + 1)
-    	{
+    	{ 
 
 
 
