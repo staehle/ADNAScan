@@ -250,6 +250,22 @@ int main()
     }
 
 
+	// Adapter Removal
+
+
+    int FirstLength = LongestAdapter.length();
+    int SecondLength = LongestAdapter2.length();
+
+
+    //For testing purpose, not replacing the original string, just creating a new
+    std::string FinalString = str.substr(FirstLength, (str.length() - FirstLength - SecondLength));
+    
+    std::cout <<"\n\n\n Adapter Removal Complete \n" << '\n';
+    std::cout <<" Original Sequence : [" << str << "]\n" << '\n';
+    std::cout <<" New Sequence      : [" << FinalString << "]" << '\n';    
+
+
+
 
 	return 0;
 }
