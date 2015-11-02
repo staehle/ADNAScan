@@ -140,7 +140,7 @@ int main()
         	for (int startIndex = (str.length()- endIndex); startIndex <= (str.length()-MinLengthAdapters); startIndex = startIndex + 1)
     	    { 
 
-    		    int teststrlength = str.length();
+    		  //  int teststrlength = str.length();
     		    //std::cout << "Length of string : " << teststrlength << " Length of Start Index : " << startIndex << '\n';
     	    	std::string CurrSeq = str.substr(startIndex, (startIndex - endIndex));
     		    std::string CurrAdap = AdapterSearch.substr(0, (endIndex - CurrentIncrementer)); //Looking at FIRST part of Sequence
