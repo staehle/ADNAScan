@@ -223,12 +223,7 @@ int main()
 } //Main
 
 
-// CURRENTLY HAVE A PROBLEM IF SEQUENCE IS SMALLER THAN A CERTAIN CHARACTER, BASED ON ADAPTER LENGTH
-// Not sure if this will be an issue
-
-// Fix Printstatements to get First and Second half Prints at end, instead of after each search
-
-// Get Sequence in from Other Code
+// TODO Get Sequence in from Other Code
 
 
 /* ADAPTERS
