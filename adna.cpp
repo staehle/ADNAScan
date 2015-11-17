@@ -26,9 +26,9 @@ int main(int argc, char **argv) {
 		}
 	}
 	// other mpi processes need to wait for process 0 to check arguments
+	
 	string line;
 	unordered_map<string, ReadPair> readdb; // <"header", "whole read information">
-	/* ^^^ should this be one per process or is this a global object? */
 	int roundnum;
 	
 	/* READ ONE */
@@ -52,7 +52,6 @@ int main(int argc, char **argv) {
 	}
 	readOne.close();
 	
-	// need to have a waiting call here so all of the mpi processes finish before continuing to read two
 	/* READ TWO */
     ifstream readTwo;
     readTwo.open(argv[2], ios::in);
