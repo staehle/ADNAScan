@@ -56,8 +56,8 @@ int main()
     std::vector< int > NumbOfArrays; //Array for all the adapters found - For testing
     bool AdapterFound = false; // If Adapter Found
 
-
-    while (counter < NumberOfAdapters){ // While loop to get every Adapter.
+	// str.length to avoid too small sequences
+     while ((counter < NumberOfAdapters) && (str.length() > 200)){ // While loop to get every Adapter.
 
         //std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
         std::string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
@@ -134,8 +134,8 @@ int main()
         std::vector< int > NumbOfArrays2; //Array for all the adapters found - For testing
         bool AdapterFound2 = false; // If Adapter Found
 
-
-        while (counter < NumberOfAdapters){ //
+	// str.length to avoid too small sequences
+        while ((counter < NumberOfAdapters) && (str.length() > 200)){ //
 
             //std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
             std::string AdapterSearch = "";
