@@ -1,3 +1,6 @@
+#ifndef READPAIR_H
+#define READPAIR_H
+
 #include <string>
 
 class ReadPair
@@ -7,7 +10,7 @@ public:
 	ReadPair(std::string, std::string);
 	ReadPair(std::string, std::string, std::string, std::string);
 	
-	ReadPair addR2(std::string, std::string);
+	void addR2(std::string, std::string);
 	
 	int qualPass();
 	void tStrip();
@@ -15,3 +18,5 @@ public:
 	int aRemove();
 	void Compile();
 };
+
+#endif

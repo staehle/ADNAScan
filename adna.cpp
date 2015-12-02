@@ -6,10 +6,13 @@
 #include <cstdio>
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include <sstream>
 #include <unordered_map>
 #include "ReadPair.hpp"
 using namespace std;
+
+typedef unordered_map<string, ReadPair> readmap;
 
 int main(int argc, char **argv) {
 	/* MPI Start */
@@ -28,8 +31,9 @@ int main(int argc, char **argv) {
 	// other mpi processes need to wait for process 0 to check arguments
 	
 	string line;
-	unordered_map<string, ReadPair> readdb; // <"header", "whole read information">
-	int roundnum;
+	readmap readdb; // <"header", "whole read information">
+	readmap::hasher hashfn = readdb.hash_function();
+	//int roundnum;
 	
 	/* READ ONE */
 	ifstream readOne;
@@ -38,27 +42,27 @@ int main(int argc, char **argv) {
 		cerr << "Error: Cannot open file " << argv[1] << endl;
 		exit(1); // again, proper exit?
 	}
-	roundnum = 0;
+	//roundnum = 0;
 	while(!readOne.eof()) { 
 		getline(readOne, line); //must be a header line
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
 		string header = line.substr(5,37);
-		ReadPair readData;
-		long header_hash = (long) header; //<-- TODO edit to use real hash function
-		if ((header_hash % comm_sz) == my_rank) { // this process will use this header
+		//ReadPair readData;
+		//long header_hash = (long) header;
+		size_t header_hash = hashfn(header);
+		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readOne, line);
 			string lineRead = line;
 			readOne.ignore(numeric_limits<streamsize>::max(),'\n');
 			getline(readOne, line);
 			string lineQual = line;
 			
-			readData = (lineRead, lineQual);
+			ReadPair readData = ReadPair(lineRead, lineQual);
 			readdb.emplace(header, readData);
 			
 		} else { // this process will not use this header
 			for(int i=0; i<4; ++i) {
 				readOne.ignore(numeric_limits<streamsize>::max(),'\n');
-				lineno++;
 			}
 		}
 	}
@@ -71,13 +75,14 @@ int main(int argc, char **argv) {
 		cerr << "Error: Cannot open file " << argv[2] << endl;
 		exit(1); // again, proper exit?
 	}
-    roundnum = 0;
+    //roundnum = 0;
 	while(!readTwo.eof()) { 
 		getline(readTwo, line); //must be a header line
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
 		string header = line.substr(5,37);
-		long header_hash = (long) header; //<-- TODO edit to use real hash function
-		if ((header_hash % comm_sz) == my_rank) { // this process will use this header
+		//long header_hash = (long) header;
+		size_t header_hash = hashfn(header);
+		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readTwo, line);
 			string lineRead = line;
 			readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
@@ -93,7 +98,6 @@ int main(int argc, char **argv) {
 		} else { // this process will not use this header
 			for(int i=0; i<4; ++i) {
 				readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
-				lineno++;
 			}
 		}
 	}

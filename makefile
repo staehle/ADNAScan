@@ -2,7 +2,7 @@ CC=mpic++
 STD=-std=gnu++0x
 CFLAGS=-Wall -Wextra
 
-SRC=adna.cpp
+SRC=adna.cpp ReadPair.cpp
 TARGET=adna
 
 PROCS=4
