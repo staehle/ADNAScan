@@ -46,9 +46,16 @@ int main(int argc, char **argv) {
 		ReadPair readData;
 		long header_hash = (long) header; //<-- TODO edit to use real hash function
 		if ((header_hash % comm_sz) == my_rank) {
+			getline(readOne, line);
+			string lineRead = line;
+			getline(readOne, line);
+			string lineQual = line;
 			
-			readData = next_three_lines; // TODO fix
-			readdb[my_rank][header] = readData;
+			readData = (lineRead, lineQual);
+			readdb.emplace(header, readData);
+			
+		} else {
+			//TODO skip 3 lines
 		}
 	}
 	readOne.close();
@@ -65,11 +72,21 @@ int main(int argc, char **argv) {
 		getline(readTwo, line); //must be a header line
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
 		string header = line.substr(5,37);
-		ReadPair readData;
 		long header_hash = (long) header; //<-- TODO edit to use real hash function
 		if ((header_hash % comm_sz) == my_rank) {
-			// OverlapRemoveAdapters(readdb[my_rank][header], readData);
-			// readdb[my_rank][header] = readData;
+			getline(readOne, line);
+			string lineRead = line;
+			getline(readOne, line);
+			string lineQual = line;
+			
+			ReadPair temp = readdb.at(header);
+			readdb.erase(header);
+			temp.addR2(lineRead, lineQual);
+			temp.Compile();
+			readdb.emplace(header, temp);
+
+		} else {
+			//TODO skip 3 lines
 		}
 	}
     readTwo.close();

@@ -9,7 +9,7 @@
  */
 #include <iostream>
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
 #include "ReadPair.h"
 using namespace std;
@@ -18,11 +18,8 @@ using namespace std;
 ReadPair::ReadPair(std::string r1, std::string q1)
 {
 	read1 = r1;
-	//read2 = r2;
 	qual1 = q1;
-	//qual2 = q2;
-	std::string fRead = "";
-	//Compile();
+	fRead = "";
 }
 
 // Constructor for the ReadPair class. Takes the bases and quality of both sides of a read
@@ -32,7 +29,7 @@ ReadPair::ReadPair(std::string r1, std::string q1,std::string r2, std::string q2
 	read2 = r2;
 	qual1 = q1;
 	qual2 = q2;
-	std::string fRead = "";
+	fRead = "";
 	Compile();
 }
 
@@ -41,7 +38,7 @@ ReadPair ReadPair::addR2(std::string r2, std::string q2)
 {
 	read2 = r2;
 	qual2 = q2;
-	Compile();
+	//Compile(); //call after
 }
 
 // Quality test for the two parts of this read. Since we aren't yet sure what will be done after finding the
