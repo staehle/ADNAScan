@@ -2,8 +2,10 @@
 // Example program
 #include <iostream>
 #include <string>
-#include <cstdio>
-#include "ReadPair.hpp"
+#include <stdio.h>
+#include "ReadPair.h"
+#include "FastaSequences.h"
+
 using namespace std;
 
 class ReadPair;
@@ -17,9 +19,19 @@ int main()
 	string yR = "TCCAGTCACCAGTCGATAAACGCCCTGCCAAACGGCGCAAGGATGCGCCGCACGAAAATCAAACGCGCAAGTGCTTGATTTTCGGAGCGCGCCGTGGGCGAAGCGGAGCTCTCGCGGATGCACTT";
 	string yQ = "CCCCCGGGGGGGDGGGGGGGGGGGGGGGGGGGGGEGGGGGGGGGGGGFGGG##=##==EF###===FGGGGFFGGGGGGGG0FDGGGGG.CG@GGBGGGGGGGGGGGGGGGGGGGGG/EB@G/8/";
 	ReadPair myRead(xR,xQ,yR,yQ);
-	myRead.tStrip();
-	myRead.qualPass();
-	printf("\nfound %i as largest section of overlap over 10 bases\n",myRead.oCheck());
+	//myRead.tStrip();
+	//myRead.qualPass();
+	//myRead.oCheck();
+	string aFile = "adapters.fasta";
+	if (myRead.oCheck())
+	{
+		printf("Overlap found, new single-read created\n");
+	}
+	else
+	{
+		printf("No significant overlap found, reads remain seperate\n");
+	}
+	FastaSequences adapters(aFile);
 
 	//qualPass(s);
 	//qualPass(t);
