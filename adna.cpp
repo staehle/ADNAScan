@@ -44,9 +44,10 @@ int main(int argc, char **argv) {
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
 		string header = line.substr(5,37);
 		ReadPair readData;
-		long header_hash = (long) header; //<-- edit to use real hash function
+		long header_hash = (long) header; //<-- TODO edit to use real hash function
 		if ((header_hash % comm_sz) == my_rank) {
-			readData = next_three_lines; //fix
+			
+			readData = next_three_lines; // TODO fix
 			readdb[my_rank][header] = readData;
 		}
 	}
@@ -65,7 +66,7 @@ int main(int argc, char **argv) {
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
 		string header = line.substr(5,37);
 		ReadPair readData;
-		long header_hash = (long) header; //<-- edit to use real hash function
+		long header_hash = (long) header; //<-- TODO edit to use real hash function
 		if ((header_hash % comm_sz) == my_rank) {
 			// OverlapRemoveAdapters(readdb[my_rank][header], readData);
 			// readdb[my_rank][header] = readData;

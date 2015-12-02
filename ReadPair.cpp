@@ -14,6 +14,17 @@
 #include "ReadPair.h"
 using namespace std;
 
+// Partial Constructor for the ReadPair class. Used on the first read.
+ReadPair::ReadPair(std::string r1, std::string q1)
+{
+	read1 = r1;
+	//read2 = r2;
+	qual1 = q1;
+	//qual2 = q2;
+	std::string fRead = "";
+	//Compile();
+}
+
 // Constructor for the ReadPair class. Takes the bases and quality of both sides of a read
 ReadPair::ReadPair(std::string r1, std::string q1,std::string r2, std::string q2)
 {
@@ -22,6 +33,14 @@ ReadPair::ReadPair(std::string r1, std::string q1,std::string r2, std::string q2
 	qual1 = q1;
 	qual2 = q2;
 	std::string fRead = "";
+	Compile();
+}
+
+// Adds the data for read 2 and then compiles.
+ReadPair ReadPair::addR2(std::string r2, std::string q2)
+{
+	read2 = r2;
+	qual2 = q2;
 	Compile();
 }
 

@@ -4,7 +4,11 @@ class ReadPair
 {
 	std::string read1, read2, qual1, qual2, fRead;
 public:
-	ReadPair(std::string, std::string,std::string, std::string);
+	ReadPair(std::string, std::string);
+	ReadPair(std::string, std::string, std::string, std::string);
+	
+	ReadPair addR2(std::string, std::string);
+	
 	int qualPass();
 	void tStrip();
 	int oCheck();
