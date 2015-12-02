@@ -45,17 +45,21 @@ int main(int argc, char **argv) {
 		string header = line.substr(5,37);
 		ReadPair readData;
 		long header_hash = (long) header; //<-- TODO edit to use real hash function
-		if ((header_hash % comm_sz) == my_rank) {
+		if ((header_hash % comm_sz) == my_rank) { // this process will use this header
 			getline(readOne, line);
 			string lineRead = line;
+			readOne.ignore(numeric_limits<streamsize>::max(),'\n');
 			getline(readOne, line);
 			string lineQual = line;
 			
 			readData = (lineRead, lineQual);
 			readdb.emplace(header, readData);
 			
-		} else {
-			//TODO skip 3 lines
+		} else { // this process will not use this header
+			for(int i=0; i<4; ++i) {
+				readOne.ignore(numeric_limits<streamsize>::max(),'\n');
+				lineno++;
+			}
 		}
 	}
 	readOne.close();
@@ -73,10 +77,11 @@ int main(int argc, char **argv) {
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
 		string header = line.substr(5,37);
 		long header_hash = (long) header; //<-- TODO edit to use real hash function
-		if ((header_hash % comm_sz) == my_rank) {
-			getline(readOne, line);
+		if ((header_hash % comm_sz) == my_rank) { // this process will use this header
+			getline(readTwo, line);
 			string lineRead = line;
-			getline(readOne, line);
+			readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
+			getline(readTwo, line);
 			string lineQual = line;
 			
 			ReadPair temp = readdb.at(header);
@@ -85,8 +90,11 @@ int main(int argc, char **argv) {
 			temp.Compile();
 			readdb.emplace(header, temp);
 
-		} else {
-			//TODO skip 3 lines
+		} else { // this process will not use this header
+			for(int i=0; i<4; ++i) {
+				readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
+				lineno++;
+			}
 		}
 	}
     readTwo.close();
