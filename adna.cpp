@@ -41,6 +41,7 @@ int main(int argc, char **argv) {
 		cerr << "Error: Cannot open file " << argv[1] << endl;
 		exit(1); // again, proper exit?
 	}
+	int readsassigned = 0;
 	while(!readOne.eof()) { 
 		getline(readOne, line); //must be a header line
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
@@ -56,7 +57,7 @@ int main(int argc, char **argv) {
 			
 			ReadPair readData = ReadPair(lineRead, lineQual);
 			readdb.emplace(header, readData);
-			
+			readsassigned++;
 		} else { // this process will not use this header
 			for(int i=0; i<3; i++) {
 				readOne.ignore(numeric_limits<streamsize>::max(),'\n');
@@ -67,7 +68,7 @@ int main(int argc, char **argv) {
 	readOne.close();
 	
 	stringstream report;
-	report<<my_rank<<": has completed read one"<<endl;
+	report<<my_rank<<": has completed read one with "<<readsassigned<<" assigned reads"<<endl;
 	cout<<report.str();
 	
 	/* READ TWO */
