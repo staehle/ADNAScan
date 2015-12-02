@@ -33,7 +33,6 @@ int main(int argc, char **argv) {
 	string line;
 	readmap readdb; // <"header", "whole read information">
 	readmap::hasher hashfn = readdb.hash_function();
-	//int roundnum;
 	
 	/* READ ONE */
 	ifstream readOne;
@@ -42,13 +41,11 @@ int main(int argc, char **argv) {
 		cerr << "Error: Cannot open file " << argv[1] << endl;
 		exit(1); // again, proper exit?
 	}
-	//roundnum = 0;
 	while(!readOne.eof()) { 
 		getline(readOne, line); //must be a header line
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
 		string header = line.substr(5,37);
-		//ReadPair readData;
-		//long header_hash = (long) header;
+		
 		size_t header_hash = hashfn(header);
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readOne, line);
@@ -61,12 +58,17 @@ int main(int argc, char **argv) {
 			readdb.emplace(header, readData);
 			
 		} else { // this process will not use this header
-			for(int i=0; i<4; ++i) {
+			for(int i=0; i<3; i++) {
 				readOne.ignore(numeric_limits<streamsize>::max(),'\n');
+				//getline(readOne, line);
 			}
 		}
 	}
 	readOne.close();
+	
+	stringstream report;
+	report<<my_rank<<": has completed read one"<<endl;
+	cout<<report.str();
 	
 	/* READ TWO */
     ifstream readTwo;
@@ -75,12 +77,11 @@ int main(int argc, char **argv) {
 		cerr << "Error: Cannot open file " << argv[2] << endl;
 		exit(1); // again, proper exit?
 	}
-    //roundnum = 0;
 	while(!readTwo.eof()) { 
 		getline(readTwo, line); //must be a header line
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
 		string header = line.substr(5,37);
-		//long header_hash = (long) header;
+		
 		size_t header_hash = hashfn(header);
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readTwo, line);
@@ -88,21 +89,28 @@ int main(int argc, char **argv) {
 			readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
 			getline(readTwo, line);
 			string lineQual = line;
-			
-			ReadPair temp = readdb.at(header);
-			readdb.erase(header);
-			temp.addR2(lineRead, lineQual);
-			temp.Compile();
-			readdb.emplace(header, temp);
+			try {
+				ReadPair temp = readdb.at(header);
+				readdb.erase(header);
+				temp.addR2(lineRead, lineQual);
+				temp.Compile();
+				readdb.emplace(header, temp);
+			} catch(const std::out_of_range& oor) {
+				throw std::runtime_error("Cannot find read for header in read two.");
+			}
 
 		} else { // this process will not use this header
-			for(int i=0; i<4; ++i) {
+			for(int i=0; i<3; i++) {
 				readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
 			}
 		}
 	}
     readTwo.close();
     
+    stringstream report2;
+	report2<<my_rank<<": has completed read two"<<endl;
+	cout<<report2.str();
+	   
     MPI_Finalize();
     return 0;
 }
