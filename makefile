@@ -7,8 +7,8 @@ TARGET=adna
 
 PROCS=4
 
-FASTQ1=test1.fastq
-FASTQ2=test2.fastq
+FASTQ1=./test/test1.fastq
+FASTQ2=./test/test2.fastq
 
 all:
 	$(MAKE) clean
