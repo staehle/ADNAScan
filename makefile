@@ -7,8 +7,8 @@ TARGET=adna
 
 PROCS=4
 
-FASTQ1=./test/test1.fastq
-FASTQ2=./test/test2.fastq
+#FASTQ1=test1.fastq
+#FASTQ2=test2.fastq
 
 all:
 	$(MAKE) clean
@@ -19,5 +19,5 @@ clean:
 	rm -f *.o
 	rm -f ./bin/*
 
-test:
-	mpirun -np $(PROCS) ./bin/$(TARGET) $(FASTQ1) $(FASTQ2) 
+#test:
+#	mpirun -np $(PROCS) ./bin/$(TARGET) ./test/$(FASTQ1) ./test/$(FASTQ2) 
