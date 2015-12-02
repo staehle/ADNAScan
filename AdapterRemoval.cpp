@@ -416,7 +416,7 @@ int main()
 
                     ///////// REPLACE WITH READ1 //////////
     std::string FinalStringRead1 = str1.substr(FirstLength, (str1.length() - FirstLength));
-                    ///////// REPLACE WITH READ@ /////////
+                    ///////// REPLACE WITH READ2 /////////
     std::string FinalStringRead2 = str2.substr(SecondLength, (str2.length() - SecondLength));
     //For testing purpose, not replacing the original string, just creating a new
     
