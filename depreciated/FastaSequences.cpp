@@ -1,3 +1,4 @@
+
 /*
  * FastaSequences.cpp
  *
@@ -82,5 +83,16 @@ FastaSequences::FastaSequences(std::string inF)
 	{
 		printf("No\n");
 	}
+	List();
 
+}
+
+void FastaSequences::List()
+{
+	Node *recursor = head;
+	while (recursor != NULL)
+	{
+		cout << "Adaptor name: " << recursor->desc << "\nAdaptor bases: " << recursor->seq << "\n\n";
+		recursor = recursor->next;
+	}
 }
