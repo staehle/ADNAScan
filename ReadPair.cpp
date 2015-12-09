@@ -643,7 +643,12 @@ void ReadPair::Compile()
 	aRemove();
 	/*
 	    for (int i = 0; i < PrintLongestArray.size(); i++) {
-        	std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
+	    	int count = 0;
+    		for (int j = 0; j< PrintLongestArray.size(); j++){
+    			if (PrintLongestArray[i].compare(PrintLongestArray[j]) == 0)
+    			count++;
+    			}
+        	std::cout << " Adapter Removed " << PrintLongestArray[i]  << "\tcount :" << count << '\n';
 	    }
 	 */
 
