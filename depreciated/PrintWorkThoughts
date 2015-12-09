@@ -2,30 +2,34 @@
 
 // Might try to work with pairs instead of 3 different arrays
 
-    if ((AdapterFound == true) && (AdapterFound2 == true)){
+       if ((AdapterFound == true) && (AdapterFound2 == true)){
         
             PrintLongestArray.push_back(LongestAdapter);
             PrintLongestArrayLength.push_back(LongestAdapter.length());
-            PrintLongestArrayCount.push_back(1);
             
             PrintLongestArray.push_back(LongestAdapter2);
             PrintLongestArrayLength.push_back(LongestAdapter2.length());
-            PrintLongestArrayCount.push_back(1);
+            
             
         AdapterRemoved = 3;}
     else if ((AdapterFound == true) && (AdapterFound2 == false)){
         
             PrintLongestArray.push_back(LongestAdapter);
             PrintLongestArrayLength.push_back(LongestAdapter.length());
-            PrintLongestArrayCount.push_back(1);
+
         
         AdapterRemoved = 1;}
     else if ((AdapterFound == false) && (AdapterFound2 == true)){
         
             PrintLongestArray.push_back(LongestAdapter2);
             PrintLongestArrayLength.push_back(LongestAdapter2.length());
-            PrintLongestArrayCount.push_back(1);
+
             
         AdapterRemoved = 2;}
     else {
         AdapterRemoved = 0;}
+
+    
+    for (int i = 0; i < PrintLongestArray.size(); i++) {
+        std::cout << "Longest Array " << PrintLongestArray[i] << " With Size " << PrintLongestArrayLength[i] << '\n';
+    }
