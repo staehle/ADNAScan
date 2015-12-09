@@ -20,6 +20,7 @@ ReadPair::ReadPair(std::string r1, std::string q1)
 	read1 = r1;
 	qual1 = q1;
 	fRead = "";
+	std::vector < std::string > PrintLongestArray;
 }
 
 // Constructor for the ReadPair class. Takes the bases and quality of both sides of a read
@@ -30,6 +31,7 @@ ReadPair::ReadPair(std::string r1, std::string q1,std::string r2, std::string q2
 	qual1 = q1;
 	qual2 = q2;
 	fRead = "";
+	std::vector < std::string > PrintLongestArray;
 	Compile();
 }
 
@@ -191,6 +193,8 @@ int ReadPair::aRemove()
     bool AdapterFound = false;
     bool AdapterFound2 = false;
 
+    std::string PrintLongestAdapter;
+    std::string PrintLongestAdapter2;
 
 
 
@@ -266,13 +270,13 @@ int ReadPair::aRemove()
 						//Adapter Found
 				std::size_t found = CurrSeq.find(CurrAdap);
 				if (found != std::string::npos) {
-					std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
+					//std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
 					FoundString.assign(CurrSeq);
 					NumbOfArrays.push_back(counter);
 
 						//If First Adapter Found
 					if (AdapterFound == false){
-						std::cout << "Longest Adapter is currently " << FoundString << '\n';
+						//std::cout << "Longest Adapter is currently " << FoundString << '\n';
 						LongestAdapter.assign(FoundString);
 						AdapterFound = true;
 						RemoveAdapter = counter; // assigning adapter to remove
@@ -281,11 +285,11 @@ int ReadPair::aRemove()
 					else{ // If another adapter is found
 						if(FoundString.length() >= LongestAdapter.length()){ // If longer than previous (Currently >= !!)
 							LongestAdapter.assign(FoundString);
-							std::cout << "New Longest Adapter is currently " << FoundString << '\n';
+							//std::cout << "New Longest Adapter is currently " << FoundString << '\n';
 							RemoveAdapter = counter;
 							break;}
 						else { // If Not longer than previous
-							std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
+							//std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
 							break;}
 						} // For the else
 					} // If Found
@@ -297,7 +301,7 @@ int ReadPair::aRemove()
 			} // While loop
 
 		// Print Statements
-
+		/*
 		if (AdapterFound == false)
 			std::cout << "\n\n\n No Adapters Found in First Half of sequence" << '\n';
 		else{
@@ -310,7 +314,7 @@ int ReadPair::aRemove()
 		} // Else loop
 
 			std::cout << "\n\n\n" << '\n';
-
+		*/
 		//Basically the same as first Half, the only thing different is the For loop
 		// Since it is now checking the last part of the sequence, going in a different direction
 
@@ -345,13 +349,13 @@ int ReadPair::aRemove()
 
 					std::size_t found = CurrSeq.find(CurrAdap);
 					if (found != std::string::npos) {
-						std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
+						//std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
 						FoundString.assign(CurrSeq);
 						NumbOfArrays2.push_back(counter);
 
 
 						if (AdapterFound2 == false){ // If first Adapter Found
-							std::cout << "Longest Adapter is currently " << FoundString << '\n';
+							//std::cout << "Longest Adapter is currently " << FoundString << '\n';
 							LongestAdapter2.assign(FoundString);
 							AdapterFound2 = true;
 							RemoveAdapter2 = counter; // assigning adapter to remove
@@ -360,11 +364,11 @@ int ReadPair::aRemove()
 						else{ // If another adapter is found
 							if(FoundString.length() >= LongestAdapter2.length()){
 								LongestAdapter2.assign(FoundString);
-								std::cout << "New Longest Adapter is currently " << FoundString << '\n';
+								//std::cout << "New Longest Adapter is currently " << FoundString << '\n';
 								RemoveAdapter2 = counter;
 								break;}
 							else {
-								std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
+								//std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
 							break;}
 						} // else
 					} // if found
@@ -377,7 +381,7 @@ int ReadPair::aRemove()
 			}
 
 			// Print Statements
-
+			/*
 			if (AdapterFound2 == false)
 				std::cout << "\n\n\n No Adapters Found in Second Half of sequence" << '\n';
 			else {
@@ -389,12 +393,15 @@ int ReadPair::aRemove()
 				} // for statement
 			} // else
 
-
+			*/
 		// Adapter Removal
 
 
 		int FirstLength = LongestAdapter.length();
 		int SecondLength = LongestAdapter2.length();
+		
+		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
+    		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
 
 		//For testing purpose, not replacing the original string, just creating a new
 
@@ -446,13 +453,13 @@ int ReadPair::aRemove()
 			//Adapter Found
 				std::size_t found = CurrSeq.find(CurrAdap);
 				if (found != std::string::npos) {
-					std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
+					//std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
 					FoundString.assign(CurrSeq);
 					NumbOfArrays.push_back(counter);
 
 						//If First Adapter Found
 					if (AdapterFound == false){
-						std::cout << "Longest Adapter is currently " << FoundString << '\n';
+						//std::cout << "Longest Adapter is currently " << FoundString << '\n';
 						LongestAdapter.assign(FoundString);
 						AdapterFound = true;
 						RemoveAdapter = counter; // assigning adapter to remove
@@ -461,11 +468,11 @@ int ReadPair::aRemove()
 					else{ // If another adapter is found
 						if(FoundString.length() >= LongestAdapter.length()){ // If longer than previous (Currently >= !!)
 							LongestAdapter.assign(FoundString);
-							std::cout << "New Longest Adapter is currently " << FoundString << '\n';
+							//std::cout << "New Longest Adapter is currently " << FoundString << '\n';
 							RemoveAdapter = counter;
 							break;}
 						else { // If Not longer than previous
-							std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
+							//std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
 							break;}
 						} // For the else
 					} // If Found
@@ -477,7 +484,7 @@ int ReadPair::aRemove()
 			} // While loop
 
 		// Print Statements
-
+		/*
 		if (AdapterFound == false)
 			std::cout << "\n\n\n No Adapters Found in First Half of sequence" << '\n';
 		else{
@@ -490,7 +497,7 @@ int ReadPair::aRemove()
 		} // Else loop
 
 			std::cout << "\n\n\n" << '\n';
-
+		*/
 		//Basically the same as first Half, the only thing different is the For loop
 		// Since it is now checking the last part of the sequence, going in a different direction
 
@@ -528,13 +535,13 @@ int ReadPair::aRemove()
 
 					std::size_t found = CurrSeq.find(CurrAdap);
 					if (found != std::string::npos) {
-						std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
+						//std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
 						FoundString.assign(CurrSeq);
 						NumbOfArrays2.push_back(counter);
 
 
 						if (AdapterFound2 == false){ // If first Adapter Found
-							std::cout << "Longest Adapter is currently " << FoundString << '\n';
+							//std::cout << "Longest Adapter is currently " << FoundString << '\n';
 							LongestAdapter2.assign(FoundString);
 							AdapterFound2 = true;
 							RemoveAdapter2 = counter; // assigning adapter to remove
@@ -543,11 +550,11 @@ int ReadPair::aRemove()
 						else{ // If another adapter is found
 							if(FoundString.length() >= LongestAdapter2.length()){
 								LongestAdapter2.assign(FoundString);
-								std::cout << "New Longest Adapter is currently " << FoundString << '\n';
+								//std::cout << "New Longest Adapter is currently " << FoundString << '\n';
 								RemoveAdapter2 = counter;
 								break;}
 							else {
-								std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
+								//std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
 							break;}
 						} // else
 					} // if found
@@ -560,7 +567,7 @@ int ReadPair::aRemove()
 			}
 
 			// Print Statements
-
+			/*
 			if (AdapterFound2 == false)
 				std::cout << "\n\n\n No Adapters Found in Second Half of sequence" << '\n';
 			else {
@@ -572,12 +579,15 @@ int ReadPair::aRemove()
 				} // for statement
 			} // else
 
-
+			*/
 		// Adapter Removal
 
 
 		int FirstLength = LongestAdapter.length();
 		int SecondLength = LongestAdapter2.length();
+		
+		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
+    		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
 
 
 						///////// REPLACE WITH READ1 //////////
@@ -597,17 +607,25 @@ int ReadPair::aRemove()
 
     }
 
-    if ((AdapterFound == true) && (AdapterFound2 == true)){
+      if ((AdapterFound == true) && (AdapterFound2 == true)){
+    	PrintLongestArray.push_back(PrintLongestAdapter);
+    	PrintLongestArray.push_back(PrintLongestAdapter2);
+    	std::cout << "\n Adapter Removed from both sides\n" << '\n';
         AdapterRemoved = 3;}
     else if ((AdapterFound == true) && (AdapterFound2 == false)){
+    	PrintLongestArray.push_back(PrintLongestAdapter);
+    	std::cout << "\n Adapter Removed from only first side\n" << '\n';
         AdapterRemoved = 1;}
     else if ((AdapterFound == false) && (AdapterFound2 == true)){
+    	std::cout << "\n Adapter Removed from only second side\n" << '\n';
+    	PrintLongestArray.push_back(PrintLongestAdapter2);
         AdapterRemoved = 2;}
     else {
+    	std::cout << "\n No Adapters Removed\n" << '\n';
         AdapterRemoved = 0;}
 
 
-    std::cout << "AdapterRemoved " << AdapterRemoved << '\n';
+    
 
     // Returns 1 if only First Half Removed
     // Returns 2 if only Second Half Removed
@@ -623,6 +641,12 @@ void ReadPair::Compile()
 	tStrip();
 	oCheck();
 	aRemove();
+	/*
+	    for (int i = 0; i < PrintLongestArray.size(); i++) {
+        	std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
+	    }
+	 */
+
 	qualPass();
 	/*
 	if(qualPass())
