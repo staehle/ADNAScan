@@ -593,7 +593,7 @@ int ReadPair::aRemove()
 						///////// REPLACE WITH READ1 //////////
 		read1 = str1.substr(FirstLength, (str1.length() - FirstLength));
 						///////// REPLACE WITH READ2 /////////
-		read2 = str2.substr(SecondLength, (str2.length() - SecondLength));
+		read2 = str2.substr(0, (str2.length() - SecondLength));
 		//For testing purpose, not replacing the original string, just creating a new
 
 
