@@ -15,29 +15,37 @@
 using namespace std;
 
 // Partial Constructor for the ReadPair class. Used on the first read.
-ReadPair::ReadPair(std::string r1, std::string q1)
+ReadPair::ReadPair(std::string d1, std::string r1, std::string q1, int threadNum)
 {
+	ID1 = d1;
 	read1 = r1;
 	qual1 = q1;
 	fRead = "";
+	fQual = "";
+	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 }
 
 // Constructor for the ReadPair class. Takes the bases and quality of both sides of a read
-ReadPair::ReadPair(std::string r1, std::string q1,std::string r2, std::string q2)
+ReadPair::ReadPair(std::string d1, std::string d2, std::string r1, std::string q1,std::string r2, std::string q2, int threadNum)
 {
+	ID1 = d1;
+	ID2 = d2;
 	read1 = r1;
 	read2 = r2;
 	qual1 = q1;
 	qual2 = q2;
 	fRead = "";
+	fQual = "";
+	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 	Compile();
 }
 
 // Adds the data for read 2 and then compiles.
-void ReadPair::addR2(std::string r2, std::string q2)
+void ReadPair::addR2(std::string d2, std::string r2, std::string q2)
 {
+	ID2 = d2;
 	read2 = r2;
 	qual2 = q2;
 	//Compile(); //call after
@@ -47,55 +55,86 @@ void ReadPair::addR2(std::string r2, std::string q2)
 // bad pairs, and because many of the reads look to be failing, I currently just have a failure/pass print
 int ReadPair::qualPass()
 {
-	//test first half
-	int ret = 0;
-    int qual = -1;
-	int failCtr = 0;
-	for(std::string::iterator c = qual1.begin(); c != qual1.end(); ++c)
+	if(fRead.compare("") == 0)
 	{
-	    qual = int(*c)-33;
-	    //printf("%c : %i\n", *c, qual);
-		if(int(*c)-33 < 15)
+		//test first half
+		int ret = 0;
+		int qual = -1;
+		int failCtr = 0;
+		for(std::string::iterator c = qual1.begin(); c != qual1.end(); ++c)
 		{
-			failCtr+=1;
-			//printf("%i\n", failCtr);
+			qual = int(*c)-33;
+			//printf("%c : %i\n", *c, qual);
+			if(int(*c)-33 < 15)
+			{
+				failCtr+=1;
+				//printf("%i\n", failCtr);
+			}
 		}
-	}
-	printf("FAILURES : %i\n\n",failCtr);
-	if (failCtr < 10)
-	{
-		printf("Read 1 passed qual test\n");
-		ret += 1;
-	}
-	else
-	{
-		printf("Read 1 failed qual test\n");
+		printf("FAILURES : %i\n\n",failCtr);
+		if (failCtr < 10)
+		{
+			printf("Read 1 passed qual test\n");
+			ret += 1;
+		}
+		else
+		{
+			printf("Read 1 failed qual test\n");
+		}
+
+		//test second half
+		qual = -1;
+		failCtr = 0;
+		for(std::string::iterator c = qual2.begin(); c != qual2.end(); ++c)
+		{
+			qual = int(*c)-33;
+			//printf("%c : %i\n", *c, qual);
+			if(int(*c)-33 < 15)
+			{
+				failCtr+=1;
+				//printf("%i\n", failCtr);
+			}
+		}
+		printf("FAILURES : %i\n\n",failCtr);
+		if (failCtr < 10)
+		{
+			printf("Read 2 passed qual test\n");
+			ret += 2;
+		}
+		else
+		{
+			printf("Read 2 failed qual test\n");
+		}
+		return ret;
 	}
 
-	//test second half
-    qual = -1;
-	failCtr = 0;
-	for(std::string::iterator c = qual2.begin(); c != qual2.end(); ++c)
-	{
-	    qual = int(*c)-33;
-	    //printf("%c : %i\n", *c, qual);
-		if(int(*c)-33 < 15)
-		{
-			failCtr+=1;
-			//printf("%i\n", failCtr);
-		}
-	}
-	printf("FAILURES : %i\n\n",failCtr);
-	if (failCtr < 10)
-	{
-		printf("Read 2 passed qual test\n");
-		ret += 2;
-	}
+	// if reads were combined
 	else
 	{
-		printf("Read 2 failed qual test\n");
+		int qual = -1;
+		int failCtr = 0;
+		for(std::string::iterator c = fQual.begin(); c != fQual.end(); ++c)
+		{
+			qual = int(*c)-33;
+			//printf("%c : %i\n", *c, qual);
+			if(int(*c)-33 < 15)
+			{
+				failCtr+=1;
+				//printf("%i\n", failCtr);
+			}
+		}
+		printf("FAILURES : %i\n\n",failCtr);
+		if (failCtr < 10)
+		{
+			printf("Combined read passed qual test\n");
+			return 4;
+		}
+		else
+		{
+			printf("Combined read failed qual test\n");
+			return 0;
+		}
 	}
-	return ret;
 }
 
 // This method strips the leading T and trailing 2 T's by changing their quality scores to #(2)
@@ -158,7 +197,9 @@ int ReadPair::oCheck()
 
 
 					fRead = read1.substr(0,i1) + read2;
+					fQual = qual1.substr(0,i1) + qual2;
 					std::cout << "New single-read: " << fRead << "\n";
+					std::cout << "New single-read quality: " << fQual << "\n";
 					return 1;
 				}
 				++i1Temp;
@@ -312,7 +353,6 @@ int ReadPair::aRemove()
 				std::cout << " Adapter." << NumbOfArrays[i] << " : " << Adapters[NumbOfArrays[i]] << '\n';
 			} // For loop
 		} // Else loop
-
 			std::cout << "\n\n\n" << '\n';
 		*/
 		//Basically the same as first Half, the only thing different is the For loop
@@ -392,14 +432,13 @@ int ReadPair::aRemove()
 					std::cout << " Adapter." << NumbOfArrays2[i] << " : " << Adapters[NumbOfArrays2[i]] << '\n';
 				} // for statement
 			} // else
-
 			*/
 		// Adapter Removal
 
 
 		int FirstLength = LongestAdapter.length();
 		int SecondLength = LongestAdapter2.length();
-		
+
 		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
     		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
 
@@ -495,7 +534,6 @@ int ReadPair::aRemove()
 				std::cout << " Adapter." << NumbOfArrays[i] << " : " << Adapters[NumbOfArrays[i]] << '\n';
 			} // For loop
 		} // Else loop
-
 			std::cout << "\n\n\n" << '\n';
 		*/
 		//Basically the same as first Half, the only thing different is the For loop
@@ -578,14 +616,13 @@ int ReadPair::aRemove()
 					std::cout << " Adapter." << NumbOfArrays2[i] << " : " << Adapters[NumbOfArrays2[i]] << '\n';
 				} // for statement
 			} // else
-
 			*/
 		// Adapter Removal
 
 
 		int FirstLength = LongestAdapter.length();
 		int SecondLength = LongestAdapter2.length();
-		
+
 		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
     		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
 
@@ -625,14 +662,53 @@ int ReadPair::aRemove()
         AdapterRemoved = 0;}
 
 
-    
+
 
     // Returns 1 if only First Half Removed
     // Returns 2 if only Second Half Removed
     // Returns 3 if both Removed
 	return AdapterRemoved;
 
-} //Main
+}
+
+void ReadPair::passOutFile()
+{
+	if(fRead.compare("") == 0)
+	{
+		printf("hi\n");
+		char* fileName1;
+		sprintf(fileName1, "read1Pass_%i.fastq", tNum);
+		char* fileName2;
+		sprintf(fileName2, "read2Pass_%i.fastq", tNum);
+		cout << fileName1 << "\n";
+
+	}
+	else
+	{
+		printf("hi2\n");
+		std::string fileName = "singleReadPass.fastq";
+
+	}
+}
+
+void ReadPair::failOutFile()
+{
+	if(fRead.compare("") == 0)
+	{
+		std::string fileName1 = "readFail1.fastq";
+		std::string fileName2 = "readFail2.fastq";
+
+	}
+	else
+	{
+		std::string fileName = "singleReadFail.fastq";
+
+	}
+}
+
+
+
+//Main
 
 /////////////////////////////////////////////////////////////////
 
@@ -641,16 +717,11 @@ void ReadPair::Compile()
 	tStrip();
 	oCheck();
 	aRemove();
-	/*
-	    for (int i = 0; i < PrintLongestArray.size(); i++) {
-	    	int count = 0;
-    		for (int j = 0; j< PrintLongestArray.size(); j++){
-    			if (PrintLongestArray[i].compare(PrintLongestArray[j]) == 0)
-    			count++;
-    			}
-        	std::cout << " Adapter Removed " << PrintLongestArray[i]  << "\tcount :" << count << '\n';
-	    }
-	 */
+	passOutFile();
+	for (int i = 0; i < PrintLongestArray.size(); i++) {
+    	std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
+	}
+
 
 	qualPass();
 	/*
