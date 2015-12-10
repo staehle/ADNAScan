@@ -492,6 +492,7 @@ cout << "coutWHILELOOP2\n";
 		// Reducing the chance for random matches
 			for (int startIndex = 0; startIndex <= (endIndex - MinLengthAdapters); startIndex = startIndex + 1)
 			{
+				cout << "searching adap\n";
 			// Creating Temp Strings for match - Printing
 				std::string CurrSeq = str1.substr(0, (endIndex - startIndex));
 				std::string CurrAdap = AdapterSearch.substr(startIndex, (endIndex)); // Looking at LAST part of the sequence
