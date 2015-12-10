@@ -12,8 +12,8 @@
 #include <string>
 #include <cstdio>
 #include <vector>
-#include <sstream>
-#include <algorithm>
+//#include <sstream>
+//#include <algorithm>
 #include "ReadPair.hpp"
 using namespace std;
 
@@ -769,6 +769,7 @@ void ReadPair::Compile()
 	aRemove();
 
 
+	/*
 	std::vector < std::string > final;
 	std::vector < std::string > veryfinal;
 	//cout << "before array print statement\n";
@@ -804,6 +805,7 @@ void ReadPair::Compile()
     		std::cout << veryfinal[i] << '\n';
     	}
 	
+	*/
 	
 	//qualPass();
 		//cout << "before qualPass\n";
