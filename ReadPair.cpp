@@ -472,7 +472,7 @@ cout << "cout19\n";
 
 		std::string LongestAdapter = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 		int counter = 0; // Counter for Adapters
-		int RemoveAdapter; // Longest Adapter that is found in sequence (The number in my array) ETC Adapter Number 4
+		int RemoveAdapter = 0; // Longest Adapter that is found in sequence (The number in my array) ETC Adapter Number 4
 		std::vector< int > NumbOfArrays; //Array for all the adapters found - For testing
 		AdapterFound = false; // If Adapter Found
 
@@ -557,7 +557,7 @@ cout << "coutWHILELOOP2\n";
 cout << "did we break\n";
 			counter = 0; // Counter for Adapters
 			std::string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
-			int RemoveAdapter2; // Longest Adapter that is found in sequence (The number in my array)
+			int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array)
 			std::vector< int > NumbOfArrays2; //Array for all the adapters found - For testing
 			AdapterFound2 = false; // If Adapter Found
 cout << "now?\n";

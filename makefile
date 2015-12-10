@@ -1,6 +1,6 @@
 CC=mpic++
 STD=-std=gnu++0x
-CFLAGS=-Wall -Wextra
+CFLAGS=-Wall -Wextra -g
 
 SRC=adna.cpp ReadPair.cpp
 TARGET=adna
