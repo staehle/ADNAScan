@@ -533,7 +533,7 @@ cout << "coutWHILELOOP2\n";
 			//std::cout << "\nAdapter " << Adapters[counter] << " is searched. \n\n" << '\n'; //see adapters being checked
 		// Counter for Adapters
 				counter ++;
-			} // While loop
+		} // While loop
 
 		// Print Statements
 		/*
@@ -554,17 +554,18 @@ cout << "coutWHILELOOP2\n";
 
 		//Second
 			std::string str2 = read2;
-
+cout << "did we break\n";
 			counter = 0; // Counter for Adapters
 			std::string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 			int RemoveAdapter2; // Longest Adapter that is found in sequence (The number in my array)
 			std::vector< int > NumbOfArrays2; //Array for all the adapters found - For testing
 			AdapterFound2 = false; // If Adapter Found
-
+cout << "now?\n";
 		// str.length to avoid too small sequences
 			while (counter < NumberOfAdapters){ //
 
 				//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
+				cout << "newWhileloop\n";
 				std::string AdapterSearch = "";
 				AdapterSearch.assign(Adapters[counter]);
 				int endIndex = AdapterSearch.length();
