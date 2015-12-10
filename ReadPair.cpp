@@ -12,6 +12,8 @@
 #include <string>
 #include <cstdio>
 #include <vector>
+#include <sstream>
+#include <algorithm>
 #include "ReadPair.hpp"
 using namespace std;
 
@@ -766,10 +768,35 @@ void ReadPair::Compile()
 		//cout << "before aRemove\n";
 	aRemove();
 
+
+	std::vector < std::string > final;
+	std::vector < std::string > veryfinal;
 	//cout << "before array print statement\n";
-	//for (int i = 0; i < PrintLongestArray.size(); i++) {
-    	//std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
-	//}
+	for (int i = 0; i < PrintLongestArray.size(); i++) {
+    		int count = 0;
+    		for (int j = 0; j< PrintLongestArray.size(); j++){
+    			if (PrintLongestArray[i].compare(PrintLongestArray[j]) == 0)
+    				count++;
+    			}
+    	
+
+    		std::stringstream ss;
+    		ss << count;
+    		final.push_back(PrintLongestArray[i] + " Count:" + ss.str());
+    		}
+    	std::sort(final.begin(),final.end());
+
+    	for (int i = 0; i < final.size()-1; i ++) {
+    		if (final[i].compare(final[i+1]) != 0){
+    			veryfinal.push_back(final[i]);
+    			}
+    		}
+    	veryfinal.push_back(final[final.size()-1]);
+
+    	for (int i = 0; i <= veryfinal.size(); i ++) {
+    		std::cout << veryfinal[i] << '\n';
+    		}
+	}
 	//qualPass();
 		//cout << "before qualPass\n";
 	int p = qualPass();
