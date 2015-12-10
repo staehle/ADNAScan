@@ -481,7 +481,7 @@ cout << "cout19\n";
 cout << "coutWHILELOOP2\n";
 			//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
 			std::string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
-			AdapterSearch.assign(Adapters[counter - 1]);
+			AdapterSearch.assign(Adapters[counter]);
 			int endIndex = AdapterSearch.length(); // Again not needed, could use AdapterSearch.length() in the for loop
 
 			std::string FoundString = "";
@@ -564,7 +564,7 @@ cout << "coutWHILELOOP2\n";
 
 				//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
 				std::string AdapterSearch = "";
-				AdapterSearch.assign(Adapters[counter - 1]);
+				AdapterSearch.assign(Adapters[counter]);
 				int endIndex = AdapterSearch.length();
 				std::string FoundString = "";
 
