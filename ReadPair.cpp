@@ -696,6 +696,7 @@ void ReadPair::passOutFile()
 		char fileName [15];
 		sprintf(fileName, "singleReadPass_%i.fastq", tNum);
 		ofstream oFile;
+		oFile.open(fileName);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		oFile.close();
 	}
