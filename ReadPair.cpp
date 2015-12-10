@@ -637,11 +637,11 @@ cout << "now?\n";
 		// Adapter Removal
 
 cout << "did we get here\n";
-		int FirstLength = LongestAdapter.length() - 1;
-		int SecondLength = LongestAdapter2.length() - 1;
+		int FirstLength = LongestAdapter.length();
+		int SecondLength = LongestAdapter2.length();
 
 		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
-    		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
+    		PrintLongestAdapter.assign(Adapters[RemoveAdapter2]);
 
 cout << "...........\n";
 						///////// REPLACE WITH READ1 //////////
