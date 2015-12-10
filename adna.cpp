@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 			cerr << "Error: Not enough arguments" << endl;
 			cerr << "Usage: " << argv[0] << " <input_fastq_file_1> <input_fastq_file_2>" << endl;
 			exit(1); // is this the proper way to exit MPI?
-		}
+		} 
 	}
 	// other mpi processes need to wait for process 0 to check arguments
 	
