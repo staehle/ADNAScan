@@ -697,25 +697,25 @@ void ReadPair::passOutFile()
 	if(fRead.compare("") == 0)
 	{
 		char fileName1 [15];
-		sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum);
+		sprintf(fileName1, "read1Pass_%i.fastq", tNum);
 		ofstream oFile1;
-		oFile1.open(fileName1);
+		oFile1.open(fileName1, std::ios::app);
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		oFile1.close();
 
 		char fileName2 [15];
-		sprintf(fileName2, "./results/read2Pass_%i.fastq", tNum);
+		sprintf(fileName2, "read2Pass_%i.fastq", tNum);
 		ofstream oFile2;
-		oFile2.open(fileName2);
+		oFile2.open(fileName2, std::ios::app);
 		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		oFile2.close();
 	}
 	else
 	{
 		char fileName [15];
-		sprintf(fileName, "./results/singleReadPass_%i.fastq", tNum);
+		sprintf(fileName, "singleReadPass_%i.fastq", tNum);
 		ofstream oFile;
-		oFile.open(fileName);
+		oFile.open(fileName, std::ios::app);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		oFile.close();
 	}
@@ -726,26 +726,26 @@ void ReadPair::failOutFile()
 	if(fRead.compare("") == 0)
 	{
 		char fileName1 [15];
-		sprintf(fileName1, "./results/read1Fail_%i.fastq", tNum);
+		sprintf(fileName1, "read1Fail_%i.fastq", tNum);
 		ofstream oFile1;
-		oFile1.open(fileName1);
+		oFile1.open(fileName1, std::ios::app);
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		oFile1.close();
 
 		char fileName2 [15];
-		sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum);
+		sprintf(fileName2, "read2Fail_%i.fastq", tNum);
 		ofstream oFile2;
-		oFile2.open(fileName2);
+		oFile2.open(fileName2, std::ios::app);
 		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		oFile2.close();
 	}
 	else
 	{
 		char fileName [15];
-		sprintf(fileName, "./results/singleReadFail_%i.fastq", tNum);
+		sprintf(fileName, "singleReadFail_%i.fastq", tNum);
 		cout << fileName << "\n";
 		ofstream oFile;
-		oFile.open(fileName);
+		oFile.open(fileName, std::ios::app);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		oFile.close();
 	}
@@ -759,30 +759,30 @@ void ReadPair::failOutFile()
 
 void ReadPair::Compile()
 {
-	cout << "before tStrip\n";
+	//cout << "before tStrip\n";
 	tStrip();
-		cout << "beforeoCheck\n";
+		//cout << "beforeoCheck\n";
 	oCheck();
-		cout << "before aRemove\n";
+		//cout << "before aRemove\n";
 	aRemove();
 
-	cout << "before array print statement\n";
+	//cout << "before array print statement\n";
 	for (int i = 0; i < PrintLongestArray.size(); i++) {
     	std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
 	}
 	//qualPass();
-		cout << "before qualPass\n";
+		//cout << "before qualPass\n";
 	int p = qualPass();
 	if(p == 3 || p == 4)
 	{
-			cout << "before passOutFile\n";
+			//cout << "before passOutFile\n";
 		passOutFile();
 	}
 	else
 	{
-			cout << "before failOutFile\n";
+			//cout << "before failOutFile\n";
 		failOutFile();
 	}
-	printf("program should be finished\n");
+	//printf("program should be finished\n");
 
 }
