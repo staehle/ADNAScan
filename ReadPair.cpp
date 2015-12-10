@@ -711,7 +711,7 @@ void ReadPair::passOutFile()
 				cout << "out5\n";
 		oFile2.open(fileName2);
 				cout << "out6\n";
-		oFile1 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
+		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		oFile2.close();
 		cout << "out7\n";
 	}
