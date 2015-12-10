@@ -72,15 +72,15 @@ int ReadPair::qualPass()
 				//printf("%i\n", failCtr);
 			}
 		}
-		printf("FAILURES : %i\n\n",failCtr);
+		//printf("FAILURES : %i\n\n",failCtr);
 		if (failCtr < 10)
 		{
-			printf("Read 1 passed qual test\n");
+		//	printf("Read 1 passed qual test\n");
 			ret += 1;
 		}
 		else
 		{
-			printf("Read 1 failed qual test\n");
+		//	printf("Read 1 failed qual test\n");
 		}
 
 		//test second half
@@ -96,15 +96,15 @@ int ReadPair::qualPass()
 				//printf("%i\n", failCtr);
 			}
 		}
-		printf("FAILURES : %i\n\n",failCtr);
+		//printf("FAILURES : %i\n\n",failCtr);
 		if (failCtr < 10)
 		{
-			printf("Read 2 passed qual test\n");
+		//	printf("Read 2 passed qual test\n");
 			ret += 2;
 		}
 		else
 		{
-			printf("Read 2 failed qual test\n");
+		//	printf("Read 2 failed qual test\n");
 		}
 		return ret;
 	}
@@ -124,15 +124,15 @@ int ReadPair::qualPass()
 				//printf("%i\n", failCtr);
 			}
 		}
-		printf("FAILURES : %i\n\n",failCtr);
+		//printf("FAILURES : %i\n\n",failCtr);
 		if (failCtr < 10)
 		{
-			printf("Combined read passed qual test\n");
+		//	printf("Combined read passed qual test\n");
 			return 4;
 		}
 		else
 		{
-			printf("Combined read failed qual test\n");
+		//	printf("Combined read failed qual test\n");
 			return 0;
 		}
 	}
@@ -143,24 +143,24 @@ void ReadPair::tStrip()
 {
     if(read1.at(0) == 'T')
     {
-        printf("found a T\n");
+        //printf("found a T\n");
         qual1[0] = '#';
     }
     if((read1.at(read1.length() - 1) == 'T') && (read1.at(read1.length() - 2) == 'T'))
     {
-        printf("found ending T's\n");
+        //printf("found ending T's\n");
         qual1[qual1.length() - 1] = '#';
         qual1[qual1.length() - 2] = '#';
     }
 
     if(read2.at(0) == 'T')
     {
-        printf("found a T\n");
+        //printf("found a T\n");
         qual2[0] = '#';
     }
     if((read2.at(read2.length() - 1) == 'T') && (read2.at(read2.length() - 2) == 'T'))
     {
-        printf("found ending T's\n");
+        //printf("found ending T's\n");
         qual2[qual2.length() - 1] = '#';
         qual2[qual2.length() - 2] = '#';
     }
@@ -194,13 +194,13 @@ int ReadPair::oCheck()
 				if (oCtr > 10 && i1Temp == read1.length() - 1)
 				{
 					i2 += 1;
-					printf("found %i overlapping bases\n", i2);
+					//printf("found %i overlapping bases\n", i2);
 
 
 					fRead = read1.substr(0,i1) + read2;
 					fQual = qual1.substr(0,i1) + qual2;
-					std::cout << "New single-read: " << fRead << "\n";
-					std::cout << "New single-read quality: " << fQual << "\n";
+					//std::cout << "New single-read: " << fRead << "\n";
+					//std::cout << "New single-read quality: " << fQual << "\n";
 					return 1;
 				}
 				++i1Temp;
@@ -457,9 +457,9 @@ int ReadPair::aRemove()
 
 					// REPLACE WITH FREAD///////////////////////////////////////////
 		fRead = str.substr(FirstLength, (str.length() - FirstLength - SecondLength));
-		std::cout <<"\n\n\n Adapter Removal Complete \n" << '\n';
-		std::cout <<" Original Sequence : [" << str << "]" << '\n';
-		std::cout <<" New Sequence      : [" << fRead << "]" << '\n';
+		//std::cout <<"\n\n\n Adapter Removal Complete \n" << '\n';
+		//std::cout <<" Original Sequence : [" << str << "]" << '\n';
+		//std::cout <<" New Sequence      : [" << fRead << "]" << '\n';
 
 		} // if fread is not empty
     else {
@@ -587,7 +587,7 @@ int ReadPair::aRemove()
 					std::size_t found = CurrSeq.find(CurrAdap);
 					if (found != std::string::npos) {
 						//std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
-						cout << "cout11\n";
+						//cout << "cout11\n";
 						FoundString.assign(CurrSeq);
 						NumbOfArrays2.push_back(counter);
 
@@ -597,11 +597,11 @@ int ReadPair::aRemove()
 							LongestAdapter2.assign(FoundString);
 							AdapterFound2 = true;
 							RemoveAdapter2 = counter; // assigning adapter to remove
-							cout << "cout12\n";
+							//cout << "cout12\n";
 							break;
 						}
 						else{ // If another adapter is found
-						cout << "cout12\n";
+						//cout << "cout12\n";
 							if(FoundString.length() >= LongestAdapter2.length()){
 								LongestAdapter2.assign(FoundString);
 								//std::cout << "New Longest Adapter is currently " << FoundString << '\n';
@@ -655,11 +655,11 @@ int ReadPair::aRemove()
 		//For testing purpose, not replacing the original string, just creating a new
 
 
-		std::cout <<"\n\n\n Adapter Removal Complete \n" << '\n';
-		std::cout <<" Original Sequence Read 1: [" << str1 << "]" << '\n';
-		std::cout <<" New Sequence      : [" << read1 << "]" << '\n';
-		std::cout <<" Original Sequence Read 2: [" << str2 << "]" << '\n';
-		std::cout <<" New Sequence      : [" << read2 << "]" << '\n';
+		//std::cout <<"\n\n\n Adapter Removal Complete \n" << '\n';
+		//std::cout <<" Original Sequence Read 1: [" << str1 << "]" << '\n';
+		//std::cout <<" New Sequence      : [" << read1 << "]" << '\n';
+		//std::cout <<" Original Sequence Read 2: [" << str2 << "]" << '\n';
+		//std::cout <<" New Sequence      : [" << read2 << "]" << '\n';
 
 //cout << "cout13\n";
 
@@ -668,18 +668,18 @@ int ReadPair::aRemove()
       if ((AdapterFound == true) && (AdapterFound2 == true)){
     	PrintLongestArray.push_back(PrintLongestAdapter);
     	PrintLongestArray.push_back(PrintLongestAdapter2);
-    	std::cout << "\n Adapter Removed from both sides\n" << '\n';
+    	//std::cout << "\n Adapter Removed from both sides\n" << '\n';
         AdapterRemoved = 3;}
     else if ((AdapterFound == true) && (AdapterFound2 == false)){
     	PrintLongestArray.push_back(PrintLongestAdapter);
-    	std::cout << "\n Adapter Removed from only first side\n" << '\n';
+    	//std::cout << "\n Adapter Removed from only first side\n" << '\n';
         AdapterRemoved = 1;}
     else if ((AdapterFound == false) && (AdapterFound2 == true)){
-    	std::cout << "\n Adapter Removed from only second side\n" << '\n';
+    	//std::cout << "\n Adapter Removed from only second side\n" << '\n';
     	PrintLongestArray.push_back(PrintLongestAdapter2);
         AdapterRemoved = 2;}
     else {
-    	std::cout << "\n No Adapters Removed\n" << '\n';
+    	//std::cout << "\n No Adapters Removed\n" << '\n';
         AdapterRemoved = 0;}
 
 
@@ -767,9 +767,9 @@ void ReadPair::Compile()
 	aRemove();
 
 	//cout << "before array print statement\n";
-	for (int i = 0; i < PrintLongestArray.size(); i++) {
-    	std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
-	}
+	//for (int i = 0; i < PrintLongestArray.size(); i++) {
+    	//std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
+	//}
 	//qualPass();
 		//cout << "before qualPass\n";
 	int p = qualPass();
