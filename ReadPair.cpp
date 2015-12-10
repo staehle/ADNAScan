@@ -723,8 +723,10 @@ void ReadPair::failOutFile()
 	else
 	{
 		char fileName [15];
-		sprintf(fileName, "singleReadFail_%i.fastq", tNum);
+		sprintf(fileName, "/home/bvovk/workspace/adna-scan/singleReadFail_%i.fastq", tNum);
+		cout << fileName << "\n";
 		ofstream oFile;
+		oFile.open(fileName);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		oFile.close();
 	}
@@ -755,6 +757,6 @@ void ReadPair::Compile()
 	{
 		failOutFile();
 	}
-	//printf("hi\n");
+	printf("hi\n");
 
 }
