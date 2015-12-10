@@ -224,7 +224,7 @@ int ReadPair::aRemove()
     // if FREAD == !" = Check both sides
 
     const int MinLengthAdapters = 6; // Min Length for accepted Adapters
-    const int NumberOfAdapters = 26; // Amount of Adapters we are using // I use this instead of length, for more flexibility
+    const int NumberOfAdapters = 25; // Amount of Adapters we are using // I use this instead of length, for more flexibility
 
     // These are for Return
     // Returns 1 if Only removed from First read
@@ -477,11 +477,11 @@ cout << "cout19\n";
 		AdapterFound = false; // If Adapter Found
 
 		// str.length to avoid too small sequences
-		 while (counter < NumberOfAdapters - 1){ // While loop to get every Adapter.
+		 while (counter < NumberOfAdapters){ // While loop to get every Adapter.
 cout << "coutWHILELOOP2\n";
 			//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
 			std::string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
-			AdapterSearch.assign(Adapters[counter]);
+			AdapterSearch.assign(Adapters[counter - 1]);
 			int endIndex = AdapterSearch.length(); // Again not needed, could use AdapterSearch.length() in the for loop
 
 			std::string FoundString = "";
@@ -564,7 +564,7 @@ cout << "coutWHILELOOP2\n";
 
 				//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
 				std::string AdapterSearch = "";
-				AdapterSearch.assign(Adapters[counter]);
+				AdapterSearch.assign(Adapters[counter - 1]);
 				int endIndex = AdapterSearch.length();
 				std::string FoundString = "";
 
