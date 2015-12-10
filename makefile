@@ -1,4 +1,4 @@
-CC=mpiCC
+CC=mpic++
 STD=-std=gnu++0x
 CFLAGS=-Wall -Wextra -g
 
