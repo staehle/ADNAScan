@@ -224,7 +224,7 @@ int ReadPair::aRemove()
     // if FREAD == !" = Check both sides
 
     const int MinLengthAdapters = 6; // Min Length for accepted Adapters
-    const int NumberOfAdapters = 26; // Amount of Adapters we are using // I use this instead of length, for more flexibility
+    const int NumberOfAdapters = 27; // Amount of Adapters we are using // I use this instead of length, for more flexibility
 
     // These are for Return
     // Returns 1 if Only removed from First read
@@ -243,6 +243,7 @@ int ReadPair::aRemove()
     	// Array of the adapter
 	std::string Adapters[] =
 	{
+		"",
 	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
 	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT",
 	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
@@ -552,18 +553,18 @@ int ReadPair::aRemove()
 
 		//Second
 			std::string str2 = read2;
-cout << "did we break\n";
+//cout << "did we break\n";
 			counter = 0; // Counter for Adapters
 			std::string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 			int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array)
 			std::vector< int > NumbOfArrays2; //Array for all the adapters found - For testing
 			AdapterFound2 = false; // If Adapter Found
-cout << "now?\n";
+//cout << "now?\n";
 		// str.length to avoid too small sequences
 			while (counter < NumberOfAdapters){ //
 
 				//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
-				cout << "newWhileloop\n";
+				//cout << "newWhileloop\n";
 				std::string AdapterSearch = "";
 				AdapterSearch.assign(Adapters[counter]);
 				int endIndex = AdapterSearch.length();
@@ -634,19 +635,19 @@ cout << "now?\n";
 			*/
 		// Adapter Removal
 
-cout << "did we get here\n";
+//cout << "did we get here\n";
 		int FirstLength = LongestAdapter.length();
-		cout << "1\n";
+		//cout << "1\n";
 		int SecondLength = LongestAdapter2.length();
-		cout << "2\n";
+		//cout << "2\n";
 		cout << Adapters[RemoveAdapter] << "\n";
-				cout << Adapters[RemoveAdapter2] << "\n";
+				//cout << Adapters[RemoveAdapter2] << "\n";
 		PrintLongestAdapter = Adapters[RemoveAdapter];
-				cout << "3\n";
+				//cout << "3\n";
     		PrintLongestAdapter2 = Adapters[RemoveAdapter2];
-    				cout << "4\n";
+    				//cout << "4\n";
 
-cout << "...........\n";
+//cout << "...........\n";
 						///////// REPLACE WITH READ1 //////////
 		read1 = str1.substr(FirstLength, (str1.length() - FirstLength));
 						///////// REPLACE WITH READ2 /////////
@@ -660,7 +661,7 @@ cout << "...........\n";
 		std::cout <<" Original Sequence Read 2: [" << str2 << "]" << '\n';
 		std::cout <<" New Sequence      : [" << read2 << "]" << '\n';
 
-cout << "cout13\n";
+//cout << "cout13\n";
 
     }
 
@@ -695,38 +696,28 @@ void ReadPair::passOutFile()
 {
 	if(fRead.compare("") == 0)
 	{
-		cout << "out1\n";
 		char fileName1 [15];
 		sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum);
 		ofstream oFile1;
-				cout << "out2\n";
 		oFile1.open(fileName1);
-				cout << "out3\n";
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		oFile1.close();
-		cout << "out4\n";
+
 		char fileName2 [15];
 		sprintf(fileName2, "./results/read2Pass_%i.fastq", tNum);
 		ofstream oFile2;
-				cout << "out5\n";
 		oFile2.open(fileName2);
-				cout << "out6\n";
 		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		oFile2.close();
-		cout << "out7\n";
 	}
 	else
 	{
-				cout << "Fout1\n";
 		char fileName [15];
 		sprintf(fileName, "./results/singleReadPass_%i.fastq", tNum);
 		ofstream oFile;
-				cout << "Fout2\n";
 		oFile.open(fileName);
-				cout << "Fout3\n";
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		oFile.close();
-				cout << "Fout4\n";
 	}
 }
 
