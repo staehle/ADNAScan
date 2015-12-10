@@ -641,9 +641,9 @@ cout << "did we get here\n";
 		cout << "1\n";
 		int SecondLength = LongestAdapter2.length();
 		cout << "2\n";
-		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
+		PrintLongestAdapter = Adapters[RemoveAdapter];
 				cout << "3\n";
-    		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
+    		PrintLongestAdapter2 = Adapters[RemoveAdapter2];
     				cout << "4\n";
 
 cout << "...........\n";
