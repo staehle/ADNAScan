@@ -8,6 +8,7 @@
  *
  */
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <cstdio>
 #include <vector>
@@ -675,19 +676,28 @@ void ReadPair::passOutFile()
 {
 	if(fRead.compare("") == 0)
 	{
-		printf("hi\n");
-		char* fileName1;
+		char fileName1 [15];
 		sprintf(fileName1, "read1Pass_%i.fastq", tNum);
-		char* fileName2;
+		ofstream oFile1;
+		oFile1.open(fileName1);
+		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
+		oFile1.close();
+
+		char fileName2 [15];
 		sprintf(fileName2, "read2Pass_%i.fastq", tNum);
-		cout << fileName1 << "\n";
+		ofstream oFile2;
+		oFile2.open(fileName2);
+		oFile1 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
+		oFile2.close();
 
 	}
 	else
 	{
-		printf("hi2\n");
-		std::string fileName = "singleReadPass.fastq";
-
+		char fileName [15];
+		sprintf(fileName, "singleReadPass_%i.fastq", tNum);
+		ofstream oFile;
+		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
+		oFile.close();
 	}
 }
 
@@ -695,14 +705,27 @@ void ReadPair::failOutFile()
 {
 	if(fRead.compare("") == 0)
 	{
-		std::string fileName1 = "readFail1.fastq";
-		std::string fileName2 = "readFail2.fastq";
+		char fileName1 [15];
+		sprintf(fileName1, "read1Fail_%i.fastq", tNum);
+		ofstream oFile1;
+		oFile1.open(fileName1);
+		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
+		oFile1.close();
 
+		char fileName2 [15];
+		sprintf(fileName2, "read2Fail_%i.fastq", tNum);
+		ofstream oFile2;
+		oFile2.open(fileName2);
+		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
+		oFile2.close();
 	}
 	else
 	{
-		std::string fileName = "singleReadFail.fastq";
-
+		char fileName [15];
+		sprintf(fileName, "singleReadFail_%i.fastq", tNum);
+		ofstream oFile;
+		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
+		oFile.close();
 	}
 }
 
@@ -717,21 +740,20 @@ void ReadPair::Compile()
 	tStrip();
 	oCheck();
 	aRemove();
-	passOutFile();
+
 	for (int i = 0; i < PrintLongestArray.size(); i++) {
     	std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
 	}
-
-
-	qualPass();
-	/*
-	if(qualPass())
+	//qualPass();
+	int p = qualPass();
+	if(p == 3 || p == 4)
 	{
-		oCheck();
+		passOutFile();
 	}
 	else
 	{
-		printf("This set of reads will be dumped to failure file.\n");
+		failOutFile();
 	}
-	*/
+	printf("hi\n");
+
 }
