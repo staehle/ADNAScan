@@ -24,7 +24,7 @@ ReadPair::ReadPair(std::string d1, std::string r1, std::string q1, int threadNum
 	fRead = "";
 	fQual = "";
 	tNum = threadNum;
-	std::vector < std::string > PrintLongestAdapter;
+	std::vector < std::string > PrintLongestArray;
 }
 
 // Constructor for the ReadPair class. Takes the bases and quality of both sides of a read
@@ -39,7 +39,7 @@ ReadPair::ReadPair(std::string d1, std::string d2, std::string r1, std::string q
 	fRead = "";
 	fQual = "";
 	tNum = threadNum;
-	std::vector < std::string > PrintLongestAdapter;
+	std::vector < std::string > PrintLongestArray;
 	Compile();
 }
 
@@ -640,8 +640,8 @@ cout << "did we get here\n";
 		int FirstLength = LongestAdapter.length();
 		int SecondLength = LongestAdapter2.length();
 
-		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
-    		PrintLongestAdapter.assign(Adapters[RemoveAdapter2]);
+		PrintLongestAdapter.assign(Adapters[RemoveAdapter - 1]);
+    		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2 - 1]);
 
 cout << "...........\n";
 						///////// REPLACE WITH READ1 //////////
