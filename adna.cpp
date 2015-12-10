@@ -51,13 +51,11 @@ int main(int argc, char **argv) {
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readOne, line);
 			string lineRead = line;
-			//readOne.ignore(numeric_limits<streamsize>::max(),'\n');
-			getline(readOne, line);
-			string lineDesc = line;
+			readOne.ignore(numeric_limits<streamsize>::max(),'\n');
 			getline(readOne, line);
 			string lineQual = line;
 			
-			ReadPair readData = ReadPair(lineDesc, lineRead, lineQual, my_rank);
+			ReadPair readData = ReadPair(header, lineRead, lineQual, my_rank);
 			readdb.emplace(header, readData);
 			readsassigned++;
 		} else { // this process will not use this header
@@ -89,15 +87,13 @@ int main(int argc, char **argv) {
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readTwo, line);
 			string lineRead = line;
-			//readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
-			getline(readTwo, line);
-			string lineDesc = line;
+			readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
 			getline(readTwo, line);
 			string lineQual = line;
 			try {
 				ReadPair temp = readdb.at(header);
 				readdb.erase(header);
-				temp.addR2(lineDesc, lineRead, lineQual);
+				temp.addR2(header, lineRead, lineQual);
 				temp.Compile();
 				readdb.emplace(header, temp);
 			} catch(const std::out_of_range& oor) {
