@@ -524,10 +524,11 @@ cout << "coutWHILELOOP2\n";
 							break;}
 						else { // If Not longer than previous
 							//std::cout << "Adapter Found, but not longer than current Longest Adapter " << FoundString <<  " vs " << LongestAdapter <<'\n';
-							break;}
-						} // For the else
-					} // If Found
-				} // For Loop
+						break;}
+					} // For the else
+				} // If Found
+				cout << "no adap\n";	
+			} // For Loop
 
 			//std::cout << "\nAdapter " << Adapters[counter] << " is searched. \n\n" << '\n'; //see adapters being checked
 		// Counter for Adapters
