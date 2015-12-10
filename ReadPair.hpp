@@ -5,7 +5,7 @@ class ReadPair
 {
 	std::string ID1, ID2, read1, read2, qual1, qual2, fRead, fQual;
 	int tNum;
-	std::vector <std::string> PrintLongestArray;
+	std::vector <std::string> PrintLongestAdapter;
 	//char fRead;
 public:
 	ReadPair(std::string, std::string, std::string,std::string, std::string,std::string , int);
