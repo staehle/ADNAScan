@@ -477,7 +477,7 @@ cout << "cout19\n";
 		AdapterFound = false; // If Adapter Found
 
 		// str.length to avoid too small sequences
-		 while (counter < NumberOfAdapters){ // While loop to get every Adapter.
+		 while (counter < NumberOfAdapters - 1){ // While loop to get every Adapter.
 cout << "coutWHILELOOP2\n";
 			//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
 			std::string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
