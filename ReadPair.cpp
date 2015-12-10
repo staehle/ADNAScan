@@ -239,7 +239,7 @@ int ReadPair::aRemove()
     std::string PrintLongestAdapter2;
 
 
-cout << "cout1\n";
+	//cout << "cout1\n";
     	// Array of the adapter
 	std::string Adapters[] =
 	{
@@ -272,7 +272,7 @@ cout << "cout1\n";
 	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGGCCTTATCTCGTATGCCGTCTTCTGCTTG"
 	};
 
-cout << "cout2\n";
+	//cout << "cout2\n";
 
 	// If fRead(Overlap) occured
     if (!fRead.empty()){
@@ -297,7 +297,7 @@ cout << "cout2\n";
 			int endIndex = AdapterSearch.length(); // Again not needed, could use AdapterSearch.length() in the for loop
 
 			std::string FoundString = "";
-cout << "cout3\n";
+		//cout << "cout3\n";
 		// For loop, From the first Character, to the length of the Adapter - Minimum characters matching (6) in our case
 		// (We don't want to look for matching 1/2/3/4/5 adapter matches, since these couldve matched randomly.)
 		// (C T G A The chances of one of our etc 30 adapters to have a matching any 2 character start is 2/30, but 6 matching randomly is 0.007/30)
@@ -312,7 +312,7 @@ cout << "cout3\n";
 						//Adapter Found
 				std::size_t found = CurrSeq.find(CurrAdap);
 				if (found != std::string::npos) {
-					cout << "cout4\n";
+					//cout << "cout4\n";
 					//std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
 					FoundString.assign(CurrSeq);
 					NumbOfArrays.push_back(counter);
@@ -323,11 +323,11 @@ cout << "cout3\n";
 						LongestAdapter.assign(FoundString);
 						AdapterFound = true;
 						RemoveAdapter = counter; // assigning adapter to remove
-						cout << "cout5\n";
+						//cout << "cout5\n";
 						break;
 					}
 					else{ // If another adapter is found
-					cout << "cout5\n";
+					//cout << "cout5\n";
 						if(FoundString.length() >= LongestAdapter.length()){ // If longer than previous (Currently >= !!)
 							LongestAdapter.assign(FoundString);
 							//std::cout << "New Longest Adapter is currently " << FoundString << '\n';
@@ -372,7 +372,7 @@ cout << "cout3\n";
 			while (counter < NumberOfAdapters){ //
 
 				//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
-				cout << "coutWHILELOOP\n";
+				//cout << "coutWHILELOOP\n";
 				std::string AdapterSearch = "";
 				AdapterSearch.assign(Adapters[counter]);
 				int endIndex = AdapterSearch.length();
@@ -395,7 +395,7 @@ cout << "cout3\n";
 					std::size_t found = CurrSeq.find(CurrAdap);
 					if (found != std::string::npos) {
 						//std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
-						cout << "cout6\n";
+						//cout << "cout6\n";
 						FoundString.assign(CurrSeq);
 						NumbOfArrays2.push_back(counter);
 
@@ -405,11 +405,11 @@ cout << "cout3\n";
 							LongestAdapter2.assign(FoundString);
 							AdapterFound2 = true;
 							RemoveAdapter2 = counter; // assigning adapter to remove
-							cout << "cout7\n";
+							//cout << "cout7\n";
 							break;
 						}
 						else{ // If another adapter is found
-						cout << "cout7\n";
+						//cout << "cout7\n";
 							if(FoundString.length() >= LongestAdapter2.length()){
 								LongestAdapter2.assign(FoundString);
 								//std::cout << "New Longest Adapter is currently " << FoundString << '\n';
@@ -460,11 +460,9 @@ cout << "cout3\n";
 		std::cout <<" Original Sequence : [" << str << "]" << '\n';
 		std::cout <<" New Sequence      : [" << fRead << "]" << '\n';
 
-cout << "cout8\n";
-
 		} // if fread is not empty
     else {
-cout << "cout19\n";
+		//cout << "cout19\n";
         std::string str1 = read1;
 		// (this is the String from Sequence)
 
@@ -478,7 +476,7 @@ cout << "cout19\n";
 
 		// str.length to avoid too small sequences
 		 while (counter < NumberOfAdapters){ // While loop to get every Adapter.
-cout << "coutWHILELOOP2\n";
+			//cout << "coutWHILELOOP2\n";
 			//std::cout << "Adapter " << Adapters[counter] << " is being checked. \n" << '\n'; // see adapters being checked
 			std::string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
 			AdapterSearch.assign(Adapters[counter]);
@@ -492,7 +490,7 @@ cout << "coutWHILELOOP2\n";
 		// Reducing the chance for random matches
 			for (int startIndex = 0; startIndex <= (endIndex - MinLengthAdapters); startIndex = startIndex + 1)
 			{
-				cout << "searching adap\n";
+				//cout << "searching adap\n";
 			// Creating Temp Strings for match - Printing
 				std::string CurrSeq = str1.substr(0, (endIndex - startIndex));
 				std::string CurrAdap = AdapterSearch.substr(startIndex, (endIndex)); // Looking at LAST part of the sequence
@@ -501,7 +499,7 @@ cout << "coutWHILELOOP2\n";
 			//Adapter Found
 				std::size_t found = CurrSeq.find(CurrAdap);
 				if (found != std::string::npos) {
-					cout << "cout9\n";
+					//cout << "cout9\n";
 					//std::cout << "\nAdapter found at length: " << CurrSeq.length() << '\n';
 					FoundString.assign(CurrSeq);
 					NumbOfArrays.push_back(counter);
@@ -512,11 +510,11 @@ cout << "coutWHILELOOP2\n";
 						LongestAdapter.assign(FoundString);
 						AdapterFound = true;
 						RemoveAdapter = counter; // assigning adapter to remove
-						cout << "cout10\n";
+						//cout << "cout10\n";
 						break;
 					}
 					else{ // If another adapter is found
-					cout << "cout10\n";
+					//cout << "cout10\n";
 						if(FoundString.length() >= LongestAdapter.length()){ // If longer than previous (Currently >= !!)
 							LongestAdapter.assign(FoundString);
 							//std::cout << "New Longest Adapter is currently " << FoundString << '\n';
@@ -527,7 +525,7 @@ cout << "coutWHILELOOP2\n";
 						break;}
 					} // For the else
 				} // If Found
-				cout << "no adap\n";	
+				//cout << "no adap\n";	
 			} // For Loop
 
 			//std::cout << "\nAdapter " << Adapters[counter] << " is searched. \n\n" << '\n'; //see adapters being checked
