@@ -224,7 +224,7 @@ int ReadPair::aRemove()
     // if FREAD == !" = Check both sides
 
     const int MinLengthAdapters = 6; // Min Length for accepted Adapters
-    const int NumberOfAdapters = 25; // Amount of Adapters we are using // I use this instead of length, for more flexibility
+    const int NumberOfAdapters = 26; // Amount of Adapters we are using // I use this instead of length, for more flexibility
 
     // These are for Return
     // Returns 1 if Only removed from First read
