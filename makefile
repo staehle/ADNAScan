@@ -1,5 +1,5 @@
-CC=mpicc
-STD=-std=c++11
+CC=mpic++
+STD=-std=gnu++0x
 CFLAGS=-Wall -Wextra -g
 
 SRC=adna.cpp ReadPair.cpp
