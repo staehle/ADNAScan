@@ -740,23 +740,30 @@ void ReadPair::failOutFile()
 
 void ReadPair::Compile()
 {
+	cout << "before tStrip\n";
 	tStrip();
+		cout << "beforeoCheck\n";
 	oCheck();
+		cout << "before aRemove\n";
 	aRemove();
 
+	cout << "before array print statement\n";
 	for (int i = 0; i < PrintLongestArray.size(); i++) {
     	std::cout << " Adapter Removed " << PrintLongestArray[i]  << '\n';
 	}
 	//qualPass();
+		cout << "before qualPass\n";
 	int p = qualPass();
 	if(p == 3 || p == 4)
 	{
+			cout << "before passOutFile\n";
 		passOutFile();
 	}
 	else
 	{
+			cout << "before failOutFile\n";
 		failOutFile();
 	}
-	printf("hi\n");
+	printf("program should be finished\n");
 
 }
