@@ -640,7 +640,7 @@ int ReadPair::aRemove()
 		//cout << "1\n";
 		int SecondLength = LongestAdapter2.length();
 		//cout << "2\n";
-		cout << Adapters[RemoveAdapter] << "\n";
+		//cout << Adapters[RemoveAdapter] << "\n";
 				//cout << Adapters[RemoveAdapter2] << "\n";
 		PrintLongestAdapter = Adapters[RemoveAdapter];
 				//cout << "3\n";
