@@ -697,29 +697,38 @@ void ReadPair::passOutFile()
 {
 	if(fRead.compare("") == 0)
 	{
+		cout << "out1\n";
 		char fileName1 [15];
 		sprintf(fileName1, "read1Pass_%i.fastq", tNum);
 		ofstream oFile1;
+				cout << "out2\n";
 		oFile1.open(fileName1);
+				cout << "out3\n";
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		oFile1.close();
-
+		cout << "out4\n";
 		char fileName2 [15];
 		sprintf(fileName2, "read2Pass_%i.fastq", tNum);
 		ofstream oFile2;
+				cout << "out5\n";
 		oFile2.open(fileName2);
+				cout << "out6\n";
 		oFile1 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		oFile2.close();
-
+		cout << "out7\n";
 	}
 	else
 	{
+				cout << "Fout1\n";
 		char fileName [15];
 		sprintf(fileName, "singleReadPass_%i.fastq", tNum);
 		ofstream oFile;
+				cout << "Fout2\n";
 		oFile.open(fileName);
+				cout << "Fout3\n";
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		oFile.close();
+				cout << "Fout4\n";
 	}
 }
 
