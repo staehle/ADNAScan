@@ -756,6 +756,6 @@ void ReadPair::Compile()
 	{
 		failOutFile();
 	}
-	printf("hi\n");
+	//printf("hi\n");
 
 }
