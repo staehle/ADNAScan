@@ -453,6 +453,11 @@ int ReadPair::aRemove()
 		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
     		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
 
+    		ofstream oFile;
+    		oFile.open("./results/adaptersRemoved", std::ios::app);
+    		oFile << "LA" << RemoveAdapter + 1 << " : " << Adapters[RemoveAdapter] << "  length " << FirstLength << "\n" <<  "RA" << RemoveAdapter2 + 1 << " : " << Adapters[RemoveAdapter2] << "  length " << SecondLength << "\n";
+    		oFile.close();
+
 		//For testing purpose, not replacing the original string, just creating a new
 
 
@@ -528,7 +533,7 @@ int ReadPair::aRemove()
 						break;}
 					} // For the else
 				} // If Found
-				//cout << "no adap\n";	
+				//cout << "no adap\n";
 			} // For Loop
 
 			//std::cout << "\nAdapter " << Adapters[counter] << " is searched. \n\n" << '\n'; //see adapters being checked
@@ -648,6 +653,10 @@ int ReadPair::aRemove()
 				//cout << "3\n";
     		PrintLongestAdapter2 = Adapters[RemoveAdapter2];
     				//cout << "4\n";
+    		ofstream oFile;
+    		oFile.open("./results/adaptersRemoved", std::ios::app);
+    		oFile << "LA" << RemoveAdapter + 1 << " : " << Adapters[RemoveAdapter] << "  length " << FirstLength << "\n" <<  "RA" << RemoveAdapter2 + 1 << " : " << Adapters[RemoveAdapter2] << "  length " << SecondLength << "\n";
+    		oFile.close();
 
 //cout << "...........\n";
 						///////// REPLACE WITH READ1 //////////
@@ -773,7 +782,7 @@ void ReadPair::Compile()
 	std::vector < std::string > final;
 	std::vector < std::string > veryfinal;
 	//cout << "before array print statement\n";
-	for (int i = 0; i < PrintLongestArray.size(); i++) 
+	for (int i = 0; i < PrintLongestArray.size(); i++)
 	{
     		int count = 0;
     		for (int j = 0; j< PrintLongestArray.size(); j++)
@@ -783,7 +792,7 @@ void ReadPair::Compile()
     				count++;
     			}
     		}
-    	
+
 
     		std::stringstream ss;
     		ss << count;
@@ -791,7 +800,7 @@ void ReadPair::Compile()
     	}
     	std::sort(final.begin(),final.end());
 
-    	for (int i = 0; i < final.size()-1; i ++) 
+    	for (int i = 0; i < final.size()-1; i ++)
     	{
     		if (final[i].compare(final[i+1]) != 0)
     		{
@@ -800,13 +809,13 @@ void ReadPair::Compile()
     	}
     	veryfinal.push_back(final[final.size()-1]);
 
-    	for (int i = 0; i <= veryfinal.size(); i ++) 
+    	for (int i = 0; i <= veryfinal.size(); i ++)
     	{
     		std::cout << veryfinal[i] << '\n';
     	}
-	
+
 	*/
-	
+
 	//qualPass();
 		//cout << "before qualPass\n";
 	int p = qualPass();
@@ -821,5 +830,5 @@ void ReadPair::Compile()
 		failOutFile();
 	}
 	//printf("program should be finished\n");
-
+//cout << "HIIII :D\n";
 }
