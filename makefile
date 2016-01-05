@@ -1,4 +1,5 @@
 CC=mpic++
+BART=/usr/local/gcc-5.3.0/bin/g++
 STD=-std=gnu++0x
 CFLAGS=-Wall -Wextra -g
 
@@ -18,6 +19,11 @@ all:
 clean:
 	rm -f *.o
 	rm -f ./bin/*
+
+bart:
+	$(MAKE) clean
+	mkdir -p ./bin
+	$(BART) $(STD) $(CFLAGS) $(SRC) -o ./bin/$(TARGET) 
 
 #test:
 #	mpirun -np $(PROCS) ./bin/$(TARGET) ./test/$(FASTQ1) ./test/$(FASTQ2) 
