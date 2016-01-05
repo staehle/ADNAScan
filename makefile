@@ -1,13 +1,12 @@
 CC=mpic++
-BART=/usr/local/gcc-5.3.0/bin/g++
+BART=/usr/local/gcc-5.3.0/bin/mpic++
 STD=-std=gnu++0x
-CFLAGS=-Wall -Wextra -g
+CFLAGS=-Wall -Wextra
 
 SRC=adna.cpp ReadPair.cpp
 TARGET=adna
 
-PROCS=4
-
+#PROCS=4
 #FASTQ1=test1.fastq
 #FASTQ2=test2.fastq
 
