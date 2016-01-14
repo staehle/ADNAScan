@@ -754,7 +754,6 @@ void ReadPair::failOutFile()
 	{
 		char fileName [15];
 		//sprintf(fileName, "./results/singleReadFail_%i.fastq", tNum);
-		cout << fileName << "\n";
 		ofstream oFile;
 		oFile.open(fileName, std::ios::app);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
