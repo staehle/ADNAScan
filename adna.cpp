@@ -141,7 +141,7 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-NULL fillAdapters(int x, int y)
+void fillAdapters(int x, int y)
 {
    if [x != 0]
    {
