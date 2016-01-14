@@ -25,11 +25,11 @@ ReadPair::ReadPair(std::string d1, std::string r1, std::string q1, int threadNum
 	qual1 = q1;
 	fRead = "";
 	fQual = "";
-	int lAdap = 0;
-	int rAdap = 0;
-	int merged = 1;
-	int tRem = 1;
-	int badRead = 1;
+	lAdap = 0;
+	rAdap = 0;
+	merged = 1;
+	tRem = 1;
+	badRead = 1;
 	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 }
@@ -45,11 +45,11 @@ ReadPair::ReadPair(std::string d1, std::string d2, std::string r1, std::string q
 	qual2 = q2;
 	fRead = "";
 	fQual = "";
-	int lAdap = 0;
-	int rAdap = 0;
-	int merged = 1;
-	int tRem = 1;
-	int badRead = 1;
+	lAdap = 0;
+	rAdap = 0;
+	merged = 1;
+	tRem = 1;
+	badRead = 1;
 	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 	Compile();
