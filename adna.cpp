@@ -44,6 +44,9 @@ int main(int argc, char **argv) {
 		exit(1); // again, proper exit?
 	}
 	int readsassigned = 0;
+	int merges = 0;
+	int tRems = 0;
+	int badReads = 0;
 	while(!readOne.eof()) { 
 		getline(readOne, line); //must be a header line
 		if (line.length() < 4) break; //somethings wrong, this is not a header line
@@ -98,6 +101,18 @@ int main(int argc, char **argv) {
 				temp.addR2(header, lineRead, lineQual);
 				temp.Compile();
 				fillAdapters(temp.getLeftA(), temp.getRightA());
+				if (temp.isBad())
+				{
+					badReads++;
+				}
+				if (temp.isMerged())
+				{
+					merges++;
+				}
+				if (temp.tStripped())
+				{
+					tRems++;
+				}
 				readdb.emplace(header, temp);
 			} catch(const std::out_of_range& oor) {
 				throw std::runtime_error("Cannot find read for header in read two.");
@@ -120,6 +135,9 @@ int main(int argc, char **argv) {
     {
     	std::cout << "Adapter [" << i + 1 << "] removed " << adaps[i] << " times.\n";
     }
+    std::cout << "Number of reads with removed T's: " << tRems < "\n";
+    std::cout << "Number of reads that were merged due to overlap: " << merges << "\n";
+    std::cout << "Number of reads below quality threshold: " << badReads << "\n";
     return 0;
 }
 
