@@ -14,6 +14,8 @@ using namespace std;
 
 typedef unordered_map<string, ReadPair> readmap;
 
+int adaps[27] = {0};
+
 int main(int argc, char **argv) {
 	/* MPI Start */
     MPI::Init(argc, argv);
@@ -95,6 +97,7 @@ int main(int argc, char **argv) {
 				readdb.erase(header);
 				temp.addR2(header, lineRead, lineQual);
 				temp.Compile();
+				fillAdapters(temp.getLeftA(), temp.getRightA());
 				readdb.emplace(header, temp);
 			} catch(const std::out_of_range& oor) {
 				throw std::runtime_error("Cannot find read for header in read two.");
@@ -113,5 +116,22 @@ int main(int argc, char **argv) {
 	cout<<report2.str();
 	   
     MPI_Finalize();
+    for (int i = 0 ; i<adaps.length() ; i++)
+    {
+    	std::cout << "Adapter [" << i + 1 << "] removed " << adaps[i] << " times.\n";
+    }
     return 0;
+}
+
+NULL fillAdapters(int x, int y)
+{
+   if [x != 0]
+   {
+      adaps[x-1] = adaps [x-1] + 1;
+   }
+   if [y != 0]
+   {
+      adaps[y-1] = adaps [y-1] + 1;
+   }
+	
 }
