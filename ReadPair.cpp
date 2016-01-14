@@ -25,6 +25,8 @@ ReadPair::ReadPair(std::string d1, std::string r1, std::string q1, int threadNum
 	qual1 = q1;
 	fRead = "";
 	fQual = "";
+	int lAdap = 0;
+	int rAdap = 0;
 	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 }
@@ -40,6 +42,8 @@ ReadPair::ReadPair(std::string d1, std::string d2, std::string r1, std::string q
 	qual2 = q2;
 	fRead = "";
 	fQual = "";
+	int lAdap = 0;
+	int rAdap = 0;
 	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 	Compile();
@@ -457,6 +461,9 @@ int ReadPair::aRemove()
     		oFile.open("./results/adaptersRemoved", std::ios::app);
     		oFile << "LA" << RemoveAdapter + 1 << " : " << Adapters[RemoveAdapter] << "  length " << FirstLength << "\n" <<  "RA" << RemoveAdapter2 + 1 << " : " << Adapters[RemoveAdapter2] << "  length " << SecondLength << "\n";
     		oFile.close();
+    		
+    		lAdap = RemoveAdapter;
+    		rAdap = RemoveAdapter2;
 
 		//For testing purpose, not replacing the original string, just creating a new
 
@@ -657,6 +664,9 @@ int ReadPair::aRemove()
     		oFile.open("./results/adaptersRemoved", std::ios::app);
     		oFile << "LA" << RemoveAdapter + 1 << " : " << Adapters[RemoveAdapter] << "  length " << FirstLength << "\n" <<  "RA" << RemoveAdapter2 + 1 << " : " << Adapters[RemoveAdapter2] << "  length " << SecondLength << "\n";
     		oFile.close();
+    		
+    		lAdap = RemoveAdapter;
+    		rAdap = RemoveAdapter2;
 
 //cout << "...........\n";
 						///////// REPLACE WITH READ1 //////////
@@ -759,6 +769,16 @@ void ReadPair::failOutFile()
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		oFile.close();
 	}
+}
+
+int ReadPair::getLeftA()
+{
+	return lAdap;
+}
+
+int ReadPair::getRightA()
+{
+	return rAdap;
 }
 
 
