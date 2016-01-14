@@ -143,11 +143,11 @@ int main(int argc, char **argv) {
 
 void fillAdapters(int x, int y)
 {
-   if [x != 0]
+   if (x != 0)
    {
       adaps[x-1] = adaps [x-1] + 1;
    }
-   if [y != 0]
+   if (y != 0)
    {
       adaps[y-1] = adaps [y-1] + 1;
    }
