@@ -16,6 +16,22 @@ typedef unordered_map<string, ReadPair> readmap;
 
 int adaps[27] = {0};
 
+
+void fillAdapters(int x, int y)
+{
+   if (x != 0)
+   {
+      adaps[x-1] = adaps [x-1] + 1;
+   }
+   if (y != 0)
+   {
+      adaps[y-1] = adaps [y-1] + 1;
+   }
+	
+}
+
+
+
 int main(int argc, char **argv) {
 	/* MPI Start */
     MPI::Init(argc, argv);
@@ -131,25 +147,12 @@ int main(int argc, char **argv) {
 	cout<<report2.str();
 	   
     MPI_Finalize();
-    for (int i = 0 ; i<adaps.length() ; i++)
+    for (int i = 0 ; i < 27 ; i++)
     {
     	std::cout << "Adapter [" << i + 1 << "] removed " << adaps[i] << " times.\n";
     }
-    std::cout << "Number of reads with removed T's: " << tRems < "\n";
+    std::cout << "Number of reads with removed T's: " << tRems << "\n";
     std::cout << "Number of reads that were merged due to overlap: " << merges << "\n";
     std::cout << "Number of reads below quality threshold: " << badReads << "\n";
     return 0;
-}
-
-void fillAdapters(int x, int y)
-{
-   if (x != 0)
-   {
-      adaps[x-1] = adaps [x-1] + 1;
-   }
-   if (y != 0)
-   {
-      adaps[y-1] = adaps [y-1] + 1;
-   }
-	
 }
