@@ -718,14 +718,14 @@ void ReadPair::passOutFile()
 	if(fRead.compare("") == 0)
 	{
 		char fileName1 [15];
-		//sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum);
+		sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum);
 		ofstream oFile1;
 		oFile1.open(fileName1, std::ios::app);
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		oFile1.close();
 
 		char fileName2 [15];
-		//sprintf(fileName2, "./results/read2Pass_%i.fastq", tNum);
+		sprintf(fileName2, "./results/read2Pass_%i.fastq", tNum);
 		ofstream oFile2;
 		oFile2.open(fileName2, std::ios::app);
 		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
@@ -734,7 +734,7 @@ void ReadPair::passOutFile()
 	else
 	{
 		char fileName [15];
-		//sprintf(fileName, "./results/singleReadPass_%i.fastq", tNum);
+		sprintf(fileName, "./results/singleReadPass_%i.fastq", tNum);
 		ofstream oFile;
 		oFile.open(fileName, std::ios::app);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
@@ -747,14 +747,14 @@ void ReadPair::failOutFile()
 	if(fRead.compare("") == 0)
 	{
 		char fileName1 [15];
-		//sprintf(fileName1, "./results/read1Fail_%i.fastq", tNum);
+		sprintf(fileName1, "./results/read1Fail_%i.fastq", tNum);
 		ofstream oFile1;
 		oFile1.open(fileName1, std::ios::app);
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		oFile1.close();
 
 		char fileName2 [15];
-		//sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum);
+		sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum);
 		ofstream oFile2;
 		oFile2.open(fileName2, std::ios::app);
 		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
@@ -763,7 +763,7 @@ void ReadPair::failOutFile()
 	else
 	{
 		char fileName [15];
-		//sprintf(fileName, "./results/singleReadFail_%i.fastq", tNum);
+		sprintf(fileName, "./results/singleReadFail_%i.fastq", tNum);
 		ofstream oFile;
 		oFile.open(fileName, std::ios::app);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
