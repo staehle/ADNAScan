@@ -27,6 +27,9 @@ ReadPair::ReadPair(std::string d1, std::string r1, std::string q1, int threadNum
 	fQual = "";
 	int lAdap = 0;
 	int rAdap = 0;
+	int merged = 1;
+	int tRem = 1;
+	int badRead = 1;
 	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 }
@@ -44,6 +47,9 @@ ReadPair::ReadPair(std::string d1, std::string d2, std::string r1, std::string q
 	fQual = "";
 	int lAdap = 0;
 	int rAdap = 0;
+	int merged = 1;
+	int tRem = 1;
+	int badRead = 1;
 	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 	Compile();
@@ -112,6 +118,10 @@ int ReadPair::qualPass()
 		{
 		//	printf("Read 2 failed qual test\n");
 		}
+		if(ret != 3)
+		{
+			badRead = 0;
+		}
 		return ret;
 	}
 
@@ -134,11 +144,13 @@ int ReadPair::qualPass()
 		if (failCtr < 10)
 		{
 		//	printf("Combined read passed qual test\n");
+			
 			return 4;
 		}
 		else
 		{
 		//	printf("Combined read failed qual test\n");
+			badRead = 0;
 			return 0;
 		}
 	}
@@ -151,24 +163,28 @@ void ReadPair::tStrip()
     {
         //printf("found a T\n");
         qual1[0] = '#';
+        tRem = 0;
     }
     if((read1.at(read1.length() - 1) == 'T') && (read1.at(read1.length() - 2) == 'T'))
     {
         //printf("found ending T's\n");
         qual1[qual1.length() - 1] = '#';
         qual1[qual1.length() - 2] = '#';
+        tRem = 0;
     }
 
     if(read2.at(0) == 'T')
     {
         //printf("found a T\n");
         qual2[0] = '#';
+        tRem = 0;
     }
     if((read2.at(read2.length() - 1) == 'T') && (read2.at(read2.length() - 2) == 'T'))
     {
         //printf("found ending T's\n");
         qual2[qual2.length() - 1] = '#';
         qual2[qual2.length() - 2] = '#';
+        tRem = 0;
     }
 }
 
@@ -207,6 +223,7 @@ int ReadPair::oCheck()
 					fQual = qual1.substr(0,i1) + qual2;
 					//std::cout << "New single-read: " << fRead << "\n";
 					//std::cout << "New single-read quality: " << fQual << "\n";
+					merged = 0;
 					return 1;
 				}
 				++i1Temp;
@@ -781,7 +798,20 @@ int ReadPair::getRightA()
 	return rAdap;
 }
 
+int ReadPair::isBad()
+{
+	return badRead;
+}
 
+int ReadPair::isMerged()
+{
+	return merged;
+}
+
+int ReadPair::tStripped()
+{
+	return tRem;
+}
 
 //Main
 
