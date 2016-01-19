@@ -195,7 +195,10 @@ int main(int argc, char **argv) {
 	}
     readTwo.close();
     
-    std::cout << "adna is 100% through the second reads...\n";
+    if(my_rank == 1)
+    {
+    	std::cout << "adna is 100% through the second reads...\n";
+    }
     
     stringstream report2;
 	report2<<my_rank<<": has completed read two"<<endl;
