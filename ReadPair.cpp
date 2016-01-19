@@ -901,7 +901,7 @@ void ReadPair::Compile()
 	//qualPass();
 		//cout << "before qualPass\n";
 	int p = qualPass();
-	if(badRead == 3 || badRead == 4)
+	if(p == 3 || p == 4)
 	{
 		failOutFile();
 	}
