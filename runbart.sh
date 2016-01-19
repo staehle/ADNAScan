@@ -11,7 +11,9 @@ mkdir -p results
 /usr/local/gcc-5.3.0/openmpi/bin/mpirun -np $1 ./bin/adna $2 $3
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
-id=${sed 's/.\{5\}$//' <<< "$1"}
+id=$1
+id=${id::-5}
+#id=${`sed 's/.\{5\}$//' <<< "$1"`}
 id+="$DATE"
 r1P=$id+"_1Pass.fastq"
 r2p=$id+"_2Pass.fastq"
