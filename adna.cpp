@@ -170,10 +170,7 @@ int main(int argc, char **argv) {
 				temp.addR2(header, lineRead, lineQual);
 				temp.Compile();
 				fillAdapters(temp.getLeftA(), temp.getRightA());
-				if (temp.isBad())
-				{
-					badReads++;
-				}
+				badReads+=temp.getBad();
 				if (temp.isMerged())
 				{
 					merges++;
@@ -234,7 +231,7 @@ int main(int argc, char **argv) {
    ofstream oFile3;
    oFile3.open(bFileName, std::ios::app);
    oFile3 << "Number of reads from process " << my_rank << " that were below quality threshold: " << badReads << "\n";
-   oFile3 << "Good : " << readsassigned - badReads << "\n";
+   oFile3 << "Good : " << (readsassigned - badReads) << "\n";
    oFile3.close();
 
     return 0;
