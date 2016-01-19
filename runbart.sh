@@ -10,7 +10,7 @@ mkdir -p results
 #rm -rf ./results/*
 /usr/local/gcc-5.3.0/openmpi/bin/mpirun -np $1 ./bin/adna $2 $3
 
-DATE=`date +%Y-%m-%d:%H:%M:%S`
+DATE=`date +%Y%m%d_%H_%M`
 id=$2
 id=${id::${#id}-5}
 #id=${`sed 's/.\{5\}$//' <<< "$2"`}
