@@ -70,6 +70,7 @@ int main(int argc, char **argv) {
 		
 		size_t header_hash = hashfn(header);
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
+			
 			getline(readOne, line);
 			string lineRead = line;
 			readOne.ignore(numeric_limits<streamsize>::max(),'\n');
@@ -95,6 +96,8 @@ int main(int argc, char **argv) {
 	/* READ TWO */
     ifstream readTwo;
     readTwo.open(argv[2], ios::in);
+    int progress = 0;
+    int ctr = 0;
     if (!readTwo.is_open()) {
 		cerr << "Error: Cannot open file " << argv[2] << endl;
 		exit(1); // again, proper exit?
@@ -106,6 +109,56 @@ int main(int argc, char **argv) {
 		
 		size_t header_hash = hashfn(header);
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
+			ctr++;
+			if(my_rank == 1)
+			{
+				if (progress == 0 && ctr > (readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 10% through the second reads...\n";
+				}
+				else if (progress == 1 && ctr > (2 * readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 20% through the second reads...\n";
+				}
+				else if (progress == 2 && ctr > (3 * readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 30% through the second reads...\n";
+				}
+				else if (progress == 3 && ctr > (4 * readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 40% through the second reads...\n";
+				}
+				else if (progress == 4 && ctr > (5 * readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 50% through the second reads...\n";
+				}
+				else if (progress == 5 && ctr > (6 * readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 60% through the second reads...\n";
+				}
+				else if (progress == 6 && ctr > (7 * readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 70% through the second reads...\n";
+				}
+				else if (progress == 7 && ctr > (8 * readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 80% through the second reads...\n";
+				}
+				else if (progress == 8 && ctr > (9 * readsassigned/10))
+				{
+					progress++;
+					std::cout << "adna is 90% through the second reads...\n";
+				}
+			}
+		
 			getline(readTwo, line);
 			string lineRead = line;
 			readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
@@ -142,6 +195,8 @@ int main(int argc, char **argv) {
 	}
     readTwo.close();
     
+    std::cout << "adna is 100% through the second reads..."
+    
     stringstream report2;
 	report2<<my_rank<<": has completed read two"<<endl;
 	cout<<report2.str();
@@ -149,10 +204,37 @@ int main(int argc, char **argv) {
     MPI_Finalize();
     for (int i = 0 ; i < 27 ; i++)
     {
-    	std::cout << "Adapter [" << i + 1 << "] removed " << adaps[i] << " times.\n";
+    	char aFileName [30];
+    	sprintf(aFileName, "./results/aRem_%i.out", my_rank);
+    	ofstream adapOFile;
+    	adapOFile.open(aFileName, std::ios::app);
+    	adapOFile << "Adapter " << i + 1 << " removed " << adaps[i] << " times from process " << my_rank << ".\n";
+    	adapOFile.close();
     }
-    std::cout << "Number of reads with removed T's: " << tRems << "\n";
-    std::cout << "Number of reads that were merged due to overlap: " << merges << "\n";
-    std::cout << "Number of reads below quality threshold: " << badReads << "\n";
+    
+   char tFileName [30];
+   sprintf(tFileName, "./results/tRem_%i.out", my_rank);
+   ofstream oFile1;
+   oFile1.open(tFileName, std::ios::app);
+   oFile1 << "Number of reads from process " << my_rank << " with removed T's: " << tRems << "\n";
+   oFile1.close();
+   
+   char mFileName [30];
+   sprintf(mFileName, "./results/merges_%i.out", my_rank);
+   ofstream oFile2;
+   oFile2.open(mFileName, std::ios::app);
+   oFile2 << "Number of reads from process " << my_rank << " that were merged due to overlap: " << merges << "\n";
+   oFile2.close();
+
+   char bFileName [30];
+   sprintf(bFileName, "./results/badReads_%i.out", my_rank);
+   ofstream oFile3;
+   oFile3.open(bFileName, std::ios::app);
+   oFile3 << "Number of reads from process " << my_rank << " that were below quality threshold: " << badReads << "\n";
+   oFile3.close();
+
     return 0;
 }
+
+
+
