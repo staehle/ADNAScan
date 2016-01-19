@@ -197,7 +197,7 @@ int main(int argc, char **argv) {
     
     if(my_rank == 1)
     {
-    	std::cout << "adna is 100% through the second reads...\n";
+    	std::cout << "adna is 100% through the second reads on its first process...\n";
     }
     
     stringstream report2;
