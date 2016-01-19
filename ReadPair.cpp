@@ -744,7 +744,6 @@ void ReadPair::passOutFile()
 {
 	if(fRead.compare("") == 0)
 	{
-		if ( )
 		char fileName1 [15];
 		sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum);
 		ofstream oFile1;
