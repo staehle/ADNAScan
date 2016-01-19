@@ -7,17 +7,19 @@ fi
 LD_LIBRARY_PATH=/usr/local/gcc-5.3.0/lib64/:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
 mkdir -p results
-rm -rf ./results/*
+#rm -rf ./results/*
 /usr/local/gcc-5.3.0/openmpi/bin/mpirun -np $1 ./bin/adna $2 $3
 
+DATE=`date +%Y-%m-%d:%H:%M:%S`
 id=$1
-id=${id:0:-5}
-r1P=$id+="1Pass.fastq"
-r2p=$id+="2Pass.fastq"
-r1F=$id+="1Fail.fastq"
-r2F=$id+="2Fail.fastq"
-sRP=$id+="singlePass.fastq"
-sRF=$id+="singleFail.fastq"
+id=${id:0:${#id}-5}
+id+="$DATE"
+r1P=$id+"_1Pass.fastq"
+r2p=$id+"_2Pass.fastq"
+r1F=$id+"_1Fail.fastq"
+r2F=$id+"_2Fail.fastq"
+sRP=$id+"_singlePass.fastq"
+sRF=$id+"_singleFail.fastq"
 
 
 for i in `ls | grep -E "*read1Pass*"` ; do
