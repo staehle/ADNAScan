@@ -63,15 +63,16 @@ for i in `ls | grep -E "*read2Fail*"` ; do
 	rm $i
 done
 
-for i in `ls | grep -E "*singleReadPass*"` ; do
-	cat $i >> $sRP
-	rm $i
-done
 
-for i in `ls | grep -E "*singleReadFail*"` ; do
-	cat $i >> $sRF
-	rm $i
-done
+#for i in `ls | grep -E "*singleReadPass*"` ; do
+#	cat $i >> $sRP
+#	rm $i
+#done
+
+#for i in `ls | grep -E "*singleReadFail*"` ; do
+#	cat $i >> $sRF
+#	rm $i
+#done
 
 for i in `ls | grep -E "*aRem*"` ; do
 	cat $i >> $aRem
