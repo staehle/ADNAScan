@@ -14,7 +14,7 @@ DATE=`date +%Y%m%d_%H_%M`
 DATE=${DATE::${#DATE}-1}
 id=$2
 id=${id::${#id}-5}
-id=${id##*/}
+id="./results/"${id##*/}
 #id=${`sed 's/.\{5\}$//' <<< "$2"`}
 id+="$DATE"
 r1P=$id"_r1Pass.fastq"
@@ -31,7 +31,7 @@ touch $r2F
 touch $sRP
 touch $sRF
 
-for i in `ls | grep -E "*read1Pass*"` ; do
+for i in `ls ./results | grep -E "*read1Pass*"` ; do
 	cat $i >> $r1P
 	rm $i
 done
