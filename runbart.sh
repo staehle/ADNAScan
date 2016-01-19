@@ -12,7 +12,7 @@ mkdir -p results
 
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 id=$1
-id=${id::-5}
+id=${id::${#id}-5}
 #id=${`sed 's/.\{5\}$//' <<< "$1"`}
 id+="$DATE"
 r1P=$id+"_1Pass.fastq"
