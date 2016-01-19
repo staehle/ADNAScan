@@ -27,6 +27,8 @@ for i in `ls | grep -E "*read1Pass*"` ; do
 	cat $i >> $r1P
 done
 
+echo $r1P
+
 for i in `ls | grep -E "*read2Pass*"` ; do
 	cat $i >> $r2P
 done
