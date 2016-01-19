@@ -43,53 +43,53 @@ touch $mCount
 touch $tRem
 
 
-for i in `ls | grep -E "*read1Pass*"` ; do
+for i in `ls | grep "read1Pass"` ; do
 	cat $i >> $r1P
 	rm $i
 done
 
-for i in `ls | grep -E "*read2Pass*"` ; do
+for i in `ls | grep "read2Pass"` ; do
 	cat $i >> $r2P
 	rm $i
 done
 
-for i in `ls | grep -E "*read1Fail*"` ; do
+for i in `ls | grep "read1Fail"` ; do
 	cat $i >> $r1F
 	rm $i
 done
 
-for i in `ls | grep -E "*read2Fail*"` ; do
+for i in `ls | grep "read2Fail"` ; do
 	cat $i >> $r2F
 	rm $i
 done
 
 
-for i in `ls | grep -E "*singleReadPass_*"` ; do
+for i in `ls | grep "singleReadPass_"` ; do
 	cat $i >> $sRP
 	rm $i
 done
 
-for i in `ls | grep -E "*singleReadFail_*"` ; do
+for i in `ls | grep "singleReadFail_"` ; do
 	cat $i >> $sRF
 	rm $i
 done
 
-for i in `ls | grep -E "*aRem*"` ; do
+for i in `ls | grep "aRem"` ; do
 	cat $i >> $aRem
 	rm $i
 done
 
-for i in `ls | grep -E "*badReads*"` ; do
+for i in `ls | grep "badReads"` ; do
 	cat $i >> $bReads
 	rm $i
 done
 
-for i in `ls | grep -E "*merges_*"` ; do
+for i in `ls | grep "merges_"` ; do
 	cat $i >> $mCount
 	rm $i
 done
 
-for i in `ls | grep -E "*tRem_*"` ; do
+for i in `ls | grep "tRem_"` ; do
 	cat $i >> $tRem
 	rm $i
 done
