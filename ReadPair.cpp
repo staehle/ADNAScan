@@ -903,10 +903,10 @@ void ReadPair::Compile()
 	int p = qualPass();
 	if(p == 3 || p == 4)
 	{
-		failOutFile();
+		passOutFile();
 	}
 	else
 	{
-		passOutFile();
+		failOutFile();
 	}
 }
