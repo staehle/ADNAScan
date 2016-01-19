@@ -25,12 +25,22 @@ r2F=$id"_r2Fail.fastq"
 sRP=$id"_singleReadPass.fastq"
 sRF=$id"_singleReadFail.fastq"
 
+aRem=$id"_removedAdapters.out"
+bReads=$id"_goodBadReadsCount.out"
+mCount=$id"_mergeCount.out"
+tRem=$id"_tRemoveCount.out"
+
 touch $r1P
 touch $r2P
 touch $r1F
 touch $r2F
 touch $sRP
 touch $sRF
+
+touch $aRem
+touch $bReads
+touch $mCount
+touch $tRem
 
 
 for i in `ls | grep -E "*read1Pass*"` ; do
@@ -64,6 +74,27 @@ for i in `ls | grep -E "*singleReadFail*"` ; do
 	cat $i >> $sRF
 	rm $i
 done
+
+for i in `ls | grep -E "aRem*"` ; do
+	cat $i >> $aRem
+	rm $i
+done
+
+for i in `ls | grep -E "badReads*"` ; do
+	cat $i >> $bReads
+	rm $i
+done
+
+for i in `ls | grep -E "merges*"` ; do
+	cat $i >> $mCount
+	rm $i
+done
+
+for i in `ls | grep -E "tRem*"` ; do
+	cat $i >> $tRem
+	rm $i
+done
+
 
 cd ..
 
