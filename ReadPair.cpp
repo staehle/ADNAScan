@@ -831,7 +831,7 @@ int ReadPair::getRightA()
 	return rAdap;
 }
 
-int ReadPair::isBad()
+int ReadPair::getBad()
 {
 	return badRead;
 }
