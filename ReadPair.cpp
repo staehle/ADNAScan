@@ -29,7 +29,8 @@ ReadPair::ReadPair(std::string d1, std::string r1, std::string q1, int threadNum
 	rAdap = 0;
 	merged = 1;
 	tRem = 1;
-	badRead = 1;
+	badRead = 0;
+	badSide = 0;
 	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 }
@@ -49,7 +50,8 @@ ReadPair::ReadPair(std::string d1, std::string d2, std::string r1, std::string q
 	rAdap = 0;
 	merged = 1;
 	tRem = 1;
-	badRead = 1;
+	badRead = 0;
+	badSide = 0;
 	tNum = threadNum;
 	std::vector < std::string > PrintLongestArray;
 	Compile();
@@ -90,10 +92,7 @@ int ReadPair::qualPass()
 		//	printf("Read 1 passed qual test\n");
 			ret += 1;
 		}
-		else
-		{
-		//	printf("Read 1 failed qual test\n");
-		}
+
 
 		//test second half
 		qual = -1;
@@ -114,13 +113,24 @@ int ReadPair::qualPass()
 		//	printf("Read 2 passed qual test\n");
 			ret += 2;
 		}
-		else
+		if(ret == 1)
 		{
-		//	printf("Read 2 failed qual test\n");
+			fRead = read1;
+			fQual = qual1;
+			badSide = 2;
+			badRead = 1;
 		}
-		if(ret != 3)
+		else if (ret == 2)
 		{
-			badRead = 0;
+			fRead = read2;
+			fQual = qual2;
+			badSide = 1;
+			badRead = 1;
+		}
+		else if (ret == 3)
+		{
+			badSide = 3;
+			badRead = 2;
 		}
 		return ret;
 	}
@@ -150,7 +160,7 @@ int ReadPair::qualPass()
 		else
 		{
 		//	printf("Combined read failed qual test\n");
-			badRead = 0;
+			badRead = 1;
 			return 0;
 		}
 	}
@@ -734,6 +744,7 @@ void ReadPair::passOutFile()
 {
 	if(fRead.compare("") == 0)
 	{
+		if ( )
 		char fileName1 [15];
 		sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum);
 		ofstream oFile1;
@@ -756,6 +767,25 @@ void ReadPair::passOutFile()
 		oFile.open(fileName, std::ios::app);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		oFile.close();
+		
+		if (badSide == 2)
+		{
+			char fileName2 [15];
+			sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum);
+			ofstream oFile2;
+			oFile2.open(fileName2, std::ios::app);
+			oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
+			oFile2.close();
+		}
+		else if (badSide == 1)
+		{
+			char fileName2 [15];
+			sprintf(fileName2, "./results/read1Fail_%i.fastq", tNum);
+			ofstream oFile2;
+			oFile2.open(fileName2, std::ios::app);
+			oFile2 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
+			oFile2.close();
+		}
 	}
 }
 
@@ -868,16 +898,12 @@ void ReadPair::Compile()
 	//qualPass();
 		//cout << "before qualPass\n";
 	int p = qualPass();
-	if(p == 3 || p == 4)
+	if(badRead == 3 || badRead == 4)
 	{
-			//cout << "before passOutFile\n";
-		passOutFile();
+		failOutFile();
 	}
 	else
 	{
-			//cout << "before failOutFile\n";
-		failOutFile();
+		passOutFile();
 	}
-	//printf("program should be finished\n");
-//cout << "HIIII :D\n";
 }
