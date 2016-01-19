@@ -484,11 +484,13 @@ int ReadPair::aRemove()
 		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
     		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
 
+/*
     		ofstream oFile;
     		oFile.open("./results/adaptersRemoved", std::ios::app);
     		oFile << "LA" << RemoveAdapter + 1 << " : " << Adapters[RemoveAdapter] << "  length " << FirstLength << "\n" <<  "RA" << RemoveAdapter2 + 1 << " : " << Adapters[RemoveAdapter2] << "  length " << SecondLength << "\n";
     		oFile.close();
     		
+*/
     		lAdap = RemoveAdapter;
     		rAdap = RemoveAdapter2;
 
@@ -687,10 +689,12 @@ int ReadPair::aRemove()
 				//cout << "3\n";
     		PrintLongestAdapter2 = Adapters[RemoveAdapter2];
     				//cout << "4\n";
+    	/*
     		ofstream oFile;
     		oFile.open("./results/adaptersRemoved", std::ios::app);
     		oFile << "LA" << RemoveAdapter + 1 << " : " << Adapters[RemoveAdapter] << "  length " << FirstLength << "\n" <<  "RA" << RemoveAdapter2 + 1 << " : " << Adapters[RemoveAdapter2] << "  length " << SecondLength << "\n";
     		oFile.close();
+    	*/
     		
     		lAdap = RemoveAdapter;
     		rAdap = RemoveAdapter2;
