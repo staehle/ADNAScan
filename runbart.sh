@@ -64,12 +64,12 @@ for i in `ls | grep -E "*read2Fail*"` ; do
 done
 
 
-for i in `ls | grep -E "*singleReadPass*"` ; do
+for i in `ls | grep -E "*singleReadPass_*"` ; do
 	cat $i >> $sRP
 	rm $i
 done
 
-for i in `ls | grep -E "*singleReadFail*"` ; do
+for i in `ls | grep -E "*singleReadFail_*"` ; do
 	cat $i >> $sRF
 	rm $i
 done
@@ -84,12 +84,12 @@ for i in `ls | grep -E "*badReads*"` ; do
 	rm $i
 done
 
-for i in `ls | grep -E "*merges*"` ; do
+for i in `ls | grep -E "*merges_*"` ; do
 	cat $i >> $mCount
 	rm $i
 done
 
-for i in `ls | grep -E "*tRem*"` ; do
+for i in `ls | grep -E "*tRem_*"` ; do
 	cat $i >> $tRem
 	rm $i
 done
