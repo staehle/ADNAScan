@@ -17,7 +17,7 @@ public:
 	int aRemove();
 	int getLeftA();
 	int getRightA();
-	int isBad();
+	int getBad();
 	int isMerged();
 	int tStripped();
 	void passOutFile();
