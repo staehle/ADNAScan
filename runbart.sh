@@ -17,12 +17,12 @@ id=${id::${#id}-5}
 id=${id##*/}
 #id=${`sed 's/.\{5\}$//' <<< "$2"`}
 id+="$DATE"
-r1P=$id+"_1Pass.fastq"
-r2p=$id+"_2Pass.fastq"
-r1F=$id+"_1Fail.fastq"
-r2F=$id+"_2Fail.fastq"
-sRP=$id+"_singlePass.fastq"
-sRF=$id+"_singleFail.fastq"
+r1P=$id"_1Pass.fastq"
+r2p=$id"_2Pass.fastq"
+r1F=$id"_1Fail.fastq"
+r2F=$id"_2Fail.fastq"
+sRP=$id"_singlePass.fastq"
+sRF=$id"_singleFail.fastq"
 
 
 for i in `ls | grep -E "*read1Pass*"` ; do
