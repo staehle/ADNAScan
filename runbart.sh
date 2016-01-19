@@ -21,84 +21,82 @@ id+="$DATE"
 
 mkdir -p $id
 
-cd $id
+r1P="r1Pass.fastq"
+r2P="r2Pass.fastq"
+r1F="r1Fail.fastq"
+r2F="r2Fail.fastq"
+sRP="singleReadPass.fastq"
+sRF="singleReadFail.fastq"
 
-r1P=$id"_r1Pass.fastq"
-r2P=$id"_r2Pass.fastq"
-r1F=$id"_r1Fail.fastq"
-r2F=$id"_r2Fail.fastq"
-sRP=$id"_singleReadPass.fastq"
-sRF=$id"_singleReadFail.fastq"
+aRem="removedAdapters.out"
+bReads="goodBadReadsCount.out"
+mCount="mergeCount.out"
+tRem="tRemoveCount.out"
 
-aRem=$id"_removedAdapters.out"
-bReads=$id"_goodBadReadsCount.out"
-mCount=$id"_mergeCount.out"
-tRem=$id"_tRemoveCount.out"
+touch ./$id/$r1P
+touch ./$id/$r2P
+touch ./$id/$r1F
+touch ./$id/$r2F
+touch ./$id/$sRP
+touch ./$id/$sRF
 
-touch $r1P
-touch $r2P
-touch $r1F
-touch $r2F
-touch $sRP
-touch $sRF
-
-touch $aRem
-touch $bReads
-touch $mCount
-touch $tRem
+touch ./$id/$aRem
+touch ./$id/$bReads
+touch ./$id/$mCount
+touch ./$id/$tRem
 
 
 for i in `ls | grep "read1Pass"` ; do
-	cat $i >> $r1P
+	cat $i >> ./$id/$r1P
 	rm $i
 done
 
 for i in `ls | grep "read2Pass"` ; do
-	cat $i >> $r2P
+	cat $i >> ./$id/$r2P
 	rm $i
 done
 
 for i in `ls | grep "read1Fail"` ; do
-	cat $i >> $r1F
+	cat $i >> ./$id/$r1F
 	rm $i
 done
 
 for i in `ls | grep "read2Fail"` ; do
-	cat $i >> $r2F
+	cat $i >> ./$id/$r2F
 	rm $i
 done
 
 
 for i in `ls | grep "singleReadPass_"` ; do
-	cat $i >> $sRP
+	cat $i >> ./$id/$sRP
 	rm $i
 done
 
 for i in `ls | grep "singleReadFail_"` ; do
-	cat $i >> $sRF
+	cat $i >> ./$id/$sRF
 	rm $i
 done
 
 for i in `ls | grep "aRem"` ; do
-	cat $i >> $aRem
+	cat $i >> ./$id/$aRem
 	rm $i
 done
 
 for i in `ls | grep "badReads"` ; do
-	cat $i >> $bReads
+	cat $i >> ./$id/$bReads
 	rm $i
 done
 
 for i in `ls | grep "merges_"` ; do
-	cat $i >> $mCount
+	cat $i >> ./$id/$mCount
 	rm $i
 done
 
 for i in `ls | grep "tRem_"` ; do
-	cat $i >> $tRem
+	cat $i >> ./$id/$tRem
 	rm $i
 done
 
 
-cd ../..
+cd ..
 
