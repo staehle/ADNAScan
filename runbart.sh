@@ -18,6 +18,11 @@ id=${id::${#id}-5}
 id=${id##*/}
 #id=${`sed 's/.\{5\}$//' <<< "$2"`}
 id+="$DATE"
+
+mkdir -p $id
+
+cd $id
+
 r1P=$id"_r1Pass.fastq"
 r2P=$id"_r2Pass.fastq"
 r1F=$id"_r1Fail.fastq"
@@ -95,5 +100,5 @@ for i in `ls | grep "tRem_"` ; do
 done
 
 
-cd ..
+cd ../..
 
