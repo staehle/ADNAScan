@@ -7,20 +7,19 @@ fi
 LD_LIBRARY_PATH=/usr/local/gcc-5.3.0/lib64/:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
 mkdir -p results
-#rm -rf ./results/*
+
 /usr/local/gcc-5.3.0/openmpi/bin/mpirun -np $1 ./bin/adna $2 $3
 
 cd ./results
 
 DATE=`date +%Y%m%d_%H_%M`
-DATE=${DATE::${#DATE}-1}
 id=$2
 id=${id::${#id}-5}
 id=${id##*/}
 #id=${`sed 's/.\{5\}$//' <<< "$2"`}
 id+="$DATE"
 r1P=$id"_r1Pass.fastq"
-r2p=$id"_r2Pass.fastq"
+r2P=$id"_r2Pass.fastq"
 r1F=$id"_r1Fail.fastq"
 r2F=$id"_r2Fail.fastq"
 sRP=$id"_singleReadPass.fastq"
