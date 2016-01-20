@@ -27,8 +27,8 @@ ReadPair::ReadPair(std::string d1, std::string r1, std::string q1, int threadNum
 	fQual = "";
 	lAdap = 0;
 	rAdap = 0;
-	merged = 1;
-	tRem = 1;
+	merged = 0;
+	tRem = 0;
 	badRead = 0;
 	badSide = 0;
 	tNum = threadNum;
@@ -48,8 +48,8 @@ ReadPair::ReadPair(std::string d1, std::string d2, std::string r1, std::string q
 	fQual = "";
 	lAdap = 0;
 	rAdap = 0;
-	merged = 1;
-	tRem = 1;
+	merged = 0;
+	tRem = 0;
 	badRead = 0;
 	badSide = 0;
 	tNum = threadNum;
@@ -162,12 +162,12 @@ int ReadPair::qualPass()
 		{
 		//	printf("Combined read passed qual test\n");
 			
-			return 4;
+			return 3;
 		}
 		else
 		{
 		//	printf("Combined read failed qual test\n");
-			badRead = 1;
+			badRead = 2;
 			return 0;
 		}
 	}
@@ -180,28 +180,28 @@ void ReadPair::tStrip()
     {
         //printf("found a T\n");
         qual1[0] = '#';
-        tRem = 0;
+        tRem = 1;
     }
     if((read1.at(read1.length() - 1) == 'T') && (read1.at(read1.length() - 2) == 'T'))
     {
         //printf("found ending T's\n");
         qual1[qual1.length() - 1] = '#';
         qual1[qual1.length() - 2] = '#';
-        tRem = 0;
+        tRem = 1;
     }
 
     if(read2.at(0) == 'T')
     {
         //printf("found a T\n");
         qual2[0] = '#';
-        tRem = 0;
+        tRem = 1;
     }
     if((read2.at(read2.length() - 1) == 'T') && (read2.at(read2.length() - 2) == 'T'))
     {
         //printf("found ending T's\n");
         qual2[qual2.length() - 1] = '#';
         qual2[qual2.length() - 2] = '#';
-        tRem = 0;
+        tRem = 1;
     }
 }
 
@@ -240,7 +240,7 @@ int ReadPair::oCheck()
 					fQual = qual1.substr(0,i1) + qual2;
 					//std::cout << "New single-read: " << fRead << "\n";
 					//std::cout << "New single-read quality: " << fQual << "\n";
-					merged = 0;
+					merged = 1;
 					return 1;
 				}
 				++i1Temp;
@@ -908,7 +908,7 @@ void ReadPair::Compile()
 	//qualPass();
 		//cout << "before qualPass\n";
 	int p = qualPass();
-	if(p == 3 || p == 4)
+	if(p == 3)
 	{
 		passOutFile();
 	}
