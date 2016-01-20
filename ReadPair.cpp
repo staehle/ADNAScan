@@ -113,7 +113,12 @@ int ReadPair::qualPass()
 		//	printf("Read 2 passed qual test\n");
 			ret += 2;
 		}
-		if(ret == 1)
+		if(ret == 0)
+		{
+			badSide = 3;
+			badRead=2;
+		}
+		else if(ret == 1)
 		{
 			fRead = read1;
 			fQual = qual1;
@@ -127,11 +132,13 @@ int ReadPair::qualPass()
 			badSide = 1;
 			badRead = 1;
 		}
+		/*
 		else if (ret == 3)
 		{
-			badSide = 3;
-			badRead = 2;
+			badSide = 0;
+			badRead = 0;
 		}
+		*/
 		return ret;
 	}
 
