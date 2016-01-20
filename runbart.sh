@@ -46,22 +46,22 @@ touch ./$id/$mCount
 touch ./$id/$tRem
 
 
-for i in `ls | grep "read1Pass"` ; do
+for i in `ls | grep "read1Pass_"` ; do
 	cat $i >> ./$id/$r1P
 	rm $i
 done
 
-for i in `ls | grep "read2Pass"` ; do
+for i in `ls | grep "read2Pass_"` ; do
 	cat $i >> ./$id/$r2P
 	rm $i
 done
 
-for i in `ls | grep "read1Fail"` ; do
+for i in `ls | grep "read1Fail_"` ; do
 	cat $i >> ./$id/$r1F
 	rm $i
 done
 
-for i in `ls | grep "read2Fail"` ; do
+for i in `ls | grep "read2Fail_"` ; do
 	cat $i >> ./$id/$r2F
 	rm $i
 done
@@ -77,12 +77,12 @@ for i in `ls | grep "singleReadFail_"` ; do
 	rm $i
 done
 
-for i in `ls | grep "aRem"` ; do
+for i in `ls | grep "aRem_"` ; do
 	cat $i >> ./$id/$aRem
 	rm $i
 done
 
-for i in `ls | grep "badReads"` ; do
+for i in `ls | grep "badReads_"` ; do
 	cat $i >> ./$id/$bReads
 	rm $i
 done
