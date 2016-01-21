@@ -16,7 +16,9 @@ public:
 	int oCheck();
 	int aRemove();
 	int getLeftA();
+	int getLeftAL();
 	int getRightA();
+	int getRightAL();
 	int getBad();
 	int isMerged();
 	int tStripped();
