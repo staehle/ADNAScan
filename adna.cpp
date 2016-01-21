@@ -14,7 +14,7 @@ using namespace std;
 
 typedef unordered_map<string, ReadPair> readmap;
 
-int adaps[27][70] = {0}{0};
+int adaps[27][70] = {0};
 
 
 void fillAdapters(int x, int xl, int y, int yl)
@@ -212,7 +212,7 @@ int main(int argc, char **argv) {
     	for (int y = 0; y < 70; y++)
     	{
     		if (adaps[i][y] > 0){
-    			adapOfFile << "Adapter " << i + 1 << " length [" << y + 1 << "] -" << adaps[i][y] << "- times from process " << my_rank << ".\n";
+    			adapOFile << "Adapter " << i + 1 << " length [" << y + 1 << "] -" << adaps[i][y] << "- times from process " << my_rank << ".\n";
     		}
     	}
     	//adapOFile << "Adapter " << i + 1 << " removed " << adaps[i] << " times from process " << my_rank << ".\n";
