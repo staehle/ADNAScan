@@ -14,18 +14,18 @@ using namespace std;
 
 typedef unordered_map<string, ReadPair> readmap;
 
-int adaps[27] = {0};
+int adaps[27][70] = {0}{0};
 
 
-void fillAdapters(int x, int y)
+void fillAdapters(int x, int xl, int y, int yl)
 {
    if (x != 0)
    {
-      adaps[x-1] = adaps [x-1] + 1;
+      adaps[x-1][xl] = adaps [x-1][xl] + 1;
    }
    if (y != 0)
    {
-      adaps[y-1] = adaps [y-1] + 1;
+      adaps[y-1][yl] = adaps [y-1][yl] + 1;
    }
 	
 }
@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
 				readdb.erase(header);
 				temp.addR2(header, lineRead, lineQual);
 				temp.Compile();
-				fillAdapters(temp.getLeftA(), temp.getRightA());
+				fillAdapters(temp.getLeftA(), temp.getLeftAL(), temp.getRightA(), temp.getRightAL());
 				badReads+=temp.getBad();
 				if (temp.isMerged())
 				{
@@ -202,15 +202,22 @@ int main(int argc, char **argv) {
 	cout<<report2.str();
 	   
     MPI_Finalize();
+    
+    char aFileName [30];
+    sprintf(aFileName, "./results/aRem_%i.out", my_rank);
+    ofstream adapOFile;
+    adapOFile.open(aFileName, std::ios::app);
     for (int i = 0 ; i < 27 ; i++)
     {
-    	char aFileName [30];
-    	sprintf(aFileName, "./results/aRem_%i.out", my_rank);
-    	ofstream adapOFile;
-    	adapOFile.open(aFileName, std::ios::app);
-    	adapOFile << "Adapter " << i + 1 << " removed " << adaps[i] << " times from process " << my_rank << ".\n";
-    	adapOFile.close();
+    	for (int y = 0; y < 70; y++)
+    	{
+    		if (adaps[i][y] > 0){
+    			adapOfFile << "Adapter " << i + 1 << " length [" << y + 1 << "] -" << adaps[i][y] << "- times from process " << my_rank << ".\n";
+    		}
+    	}
+    	//adapOFile << "Adapter " << i + 1 << " removed " << adaps[i] << " times from process " << my_rank << ".\n";
     }
+    adapOFile.close();
     
    char tFileName [30];
    sprintf(tFileName, "./results/tRem_%i.out", my_rank);
