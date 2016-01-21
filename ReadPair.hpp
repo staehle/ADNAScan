@@ -4,7 +4,7 @@
 class ReadPair
 {
 	std::string ID1, ID2, read1, read2, qual1, qual2, fRead, fQual;
-	int tNum, lAdap, rAdap, merged, tRem, badRead, badSide;
+	int tNum, lAdap, lAdapLength, rAdap, rAdapLength, merged, tRem, badRead, badSide;
 	std::vector <std::string> PrintLongestArray;
 	//char fRead;
 public:
