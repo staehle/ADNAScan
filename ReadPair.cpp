@@ -26,7 +26,9 @@ ReadPair::ReadPair(std::string d1, std::string r1, std::string q1, int threadNum
 	fRead = "";
 	fQual = "";
 	lAdap = 0;
+	lAdapLength = 0;
 	rAdap = 0;
+	rAdapLength = 0;
 	merged = 0;
 	tRem = 0;
 	badRead = 0;
@@ -47,7 +49,9 @@ ReadPair::ReadPair(std::string d1, std::string d2, std::string r1, std::string q
 	fRead = "";
 	fQual = "";
 	lAdap = 0;
+	lAdapLength = 0;
 	rAdap = 0;
+	rAdapLength = 0;
 	merged = 0;
 	tRem = 0;
 	badRead = 0;
@@ -499,7 +503,9 @@ int ReadPair::aRemove()
     		
 */
     		lAdap = RemoveAdapter;
+    		lAdapLength = FirstLength;
     		rAdap = RemoveAdapter2;
+    		rAdapLength = SecondLength;
 
 		//For testing purpose, not replacing the original string, just creating a new
 
@@ -704,7 +710,9 @@ int ReadPair::aRemove()
     	*/
     		
     		lAdap = RemoveAdapter;
+    		lAdapLength = FirstLength;
     		rAdap = RemoveAdapter2;
+    		rAdapLength = SecondLength;
 
 //cout << "...........\n";
 						///////// REPLACE WITH READ1 //////////
@@ -833,9 +841,19 @@ int ReadPair::getLeftA()
 	return lAdap;
 }
 
+int ReadPair::getLeftAL()
+{
+	return lAdapLength;
+}
+
 int ReadPair::getRightA()
 {
 	return rAdap;
+}
+
+int ReadPair::getRightAL()
+{
+	return rAdapLength;
 }
 
 int ReadPair::getBad()
