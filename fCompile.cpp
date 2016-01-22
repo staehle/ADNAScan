@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
   //max length of adapters currently ~ 60. will change in future
   int adaps[27][70] = {0};
   
-  string arr[3];
+  int arr[3];
   int i = 0;
 
   
