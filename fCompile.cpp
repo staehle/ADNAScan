@@ -19,7 +19,22 @@ int main(int argc, char **argv) {
 	
   ifstream adapFile;
   adapFile.open(aFileName);
-  char line[15];
+  string line;
+  while (std::getline(adapFile, line))
+  {
+    std::istringstream iss(line);
+    int a, b, c;
+    if (!(iss >> a >> b >> c)) { break; } // error
+	adaps[a][b] += arr[c];
+    // process pair (a,b)
+  }
+  
+  
+  
+  
+  
+  
+/*
   if (adapFile.is_open())
   {
     while(!adapFile.eof())
@@ -36,6 +51,7 @@ int main(int argc, char **argv) {
       adaps[arr[0]][arr[1]] += arr[2];
     }
   }
+  */
   adapFile.close();
   
   ofstream adapOFile;
