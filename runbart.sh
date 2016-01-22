@@ -100,4 +100,4 @@ done
 
 cd ..
 
-./bin/fCompile
+./bin/fCompile $id
