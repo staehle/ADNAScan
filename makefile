@@ -3,8 +3,8 @@ BCC=/usr/local/gcc-5.3.0/openmpi/bin/mpic++
 STD=-std=gnu++0x
 CFLAGS=-Wall -Wextra
 
-SRC=adna.cpp ReadPair.cpp
-TARGET=adna
+SRC=adna.cpp ReadPair.cpp fCompile.cpp
+TARGET=adna fCompile
 
 #PROCS=4
 #FASTQ1=test1.fastq
