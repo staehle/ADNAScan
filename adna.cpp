@@ -212,7 +212,7 @@ int main(int argc, char **argv) {
     	for (int y = 0; y < 70; y++)
     	{
     		if (adaps[i][y] > 0){
-    			adapOFile << "Adapter " << i + 1 << " length [" << y + 1 << "] -" << adaps[i][y] << "- times from process " << my_rank << ".\n";
+    			adapOFile << i + 1 << " " << y + 1 << " " << adaps[i][y] << ".\n";
     		}
     	}
     	//adapOFile << "Adapter " << i + 1 << " removed " << adaps[i] << " times from process " << my_rank << ".\n";
