@@ -28,10 +28,10 @@ r2F="r2Fail.fastq"
 sRP="singleReadPass.fastq"
 sRF="singleReadFail.fastq"
 
-aRem="removedAdapters.out"
-bReads="goodBadReadsCount.out"
-mCount="mergeCount.out"
-tRem="tRemoveCount.out"
+aRem="removedAdapters.temp"
+bReads="goodBadReadsCount.temp"
+mCount="mergeCount.temp"
+tRem="tRemoveCount.temp"
 
 touch ./$id/$r1P
 touch ./$id/$r2P
@@ -96,6 +96,8 @@ for i in `ls | grep "tRem_"` ; do
 	cat $i >> ./$id/$tRem
 	rm $i
 done
+
+
 
 
 cd ..
