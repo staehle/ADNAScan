@@ -28,6 +28,7 @@ int main(int argc, char **argv) {
       stringstream ssin(line);
       while (ssin.good() && i < 3)
       {
+      	cout << ssin << "\n";
         string l = ssin.str();
         atoi(l.c_str()) >> arr[i];
         ++i;
