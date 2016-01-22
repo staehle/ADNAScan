@@ -98,7 +98,6 @@ for i in `ls | grep "tRem_"` ; do
 done
 
 
-
-
 cd ..
 
+./bin/fCompile
