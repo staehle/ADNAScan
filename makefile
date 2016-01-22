@@ -3,8 +3,9 @@ BCC=/usr/local/gcc-5.3.0/openmpi/bin/mpic++
 STD=-std=gnu++0x
 CFLAGS=-Wall -Wextra
 
-SRC=adna.cpp ReadPair.cpp fCompile.cpp
-TARGET=adna fCompile
+SRC=adna.cpp ReadPair.cpp
+CMP= fCompile.cpp
+TARGET=adna
 
 #PROCS=4
 #FASTQ1=test1.fastq
@@ -14,6 +15,7 @@ all:
 	$(MAKE) clean
 	mkdir -p ./bin
 	$(CC) $(STD) $(CFLAGS) $(SRC) -o ./bin/$(TARGET)
+	$(CC) $(STD) $(CFLAGS) $(CMP) -o ./bin/fCompile
 	
 clean:
 	rm -f *.o
@@ -23,6 +25,7 @@ bart:
 	$(MAKE) clean
 	mkdir -p ./bin
 	$(BCC) $(STD) $(CFLAGS) $(SRC) -o ./bin/$(TARGET) 
+	$(BCC) $(STD) $(CFLAGS) $(CMP) -o ./bin/fCompile
 
 #test:
 #	mpirun -np $(PROCS) ./bin/$(TARGET) ./test/$(FASTQ1) ./test/$(FASTQ2) 
