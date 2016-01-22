@@ -22,11 +22,11 @@ int main(int argc, char **argv) {
   string line;
   while (std::getline(adapFile, line))
   {
-    cout << line << "\n";
+    //cout << line << "\n";
     std::istringstream iss(line);
     int a, b, c;
     if (!(iss >> a >> b >> c)) { break; } // error
-	adaps[a][b] += arr[c];
+	adaps[a][b] += c;
     // process pair (a,b)
   }
   
