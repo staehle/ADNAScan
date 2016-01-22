@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
     for(int j=0;j<70;j++)
     {
 
-      if(adaps[i][j] >= 0)
+      if(adaps[i][j] > 0)
       {
         adapOFile << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
       }
