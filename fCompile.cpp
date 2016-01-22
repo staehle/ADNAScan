@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
+
 #include <string>
 #include <cstdio>
 
@@ -25,14 +25,14 @@ int main(int argc, char **argv) {
     while(!adapFile.eof())
     {
       adapFile >> line;
-      stringstream ssin(line);
-      while (ssin.good() && i < 3)
-      {
-        string l = ssin.str();
-        atoi(l.c_str()) >> arr[i];
-        ++i;
-      }
-      adaps[arr[0]][arr[1]] += arr[2];
+      //stringstream ssin(line);
+      //while (ssin.good() && i < 3)
+      //{
+      //  string l = ssin.str();
+      //  atoi(l.c_str()) >> arr[i];
+      //  ++i;
+      //}
+      //adaps[arr[0]][arr[1]] += arr[2];
     }
   }
   adapFile.close();
