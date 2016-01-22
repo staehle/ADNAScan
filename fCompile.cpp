@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   int arr[3];
   int i = 0;
 
-  char aFileName [30];
+  char aFileName [100];
 	sprintf(aFileName, "./results/%s/removedAdapters.temp", argv[1]);
 	
   ifstream adapFile;
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   
   ofstream adapOFile;
   
-  char aOFileName [30];
+  char aOFileName [100];
 	sprintf(aOFileName, "./results/%s/removedAdapters.out", argv[1]);
 	
   adapOFile.open(aOFileName, std::ios::app);
