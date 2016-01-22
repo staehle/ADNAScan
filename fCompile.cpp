@@ -14,9 +14,11 @@ int main(int argc, char **argv) {
   int arr[3];
   int i = 0;
 
-  
+  char aFileName [30];
+	sprintf(aFileName, "./results/%s/removedAdapters.temp", argv[1]);
+	
   ifstream adapFile;
-  adapFile.open("removedAdapters.temp");
+  adapFile.open(aFileName);
   char line[15];
   if (adapFile.is_open())
   {
@@ -36,7 +38,11 @@ int main(int argc, char **argv) {
   adapFile.close();
   
   ofstream adapOFile;
-  adapOFile.open("removedAdapters.out", std::ios::app);
+  
+  char aOFileName [30];
+	sprintf(aOFileName, "./results/%s/removedAdapters.out", argv[1]);
+	
+  adapOFile.open(aOFileName, std::ios::app);
   for(int i =0; i < 27; i++)
   {
     for(int j=0;j<70;j++)
