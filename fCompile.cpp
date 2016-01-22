@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
     adapOFile << "Adapter " << i << ":\n";
     for(int j=0;j<70;j++)
     {
-    	cout << a << " " << b << " " << c << "\n";
+    	cout << i << " " << j << " " << adaps[i][j] << "\n";
       if(adaps[i][j] >= 0)
       {
         adapOFile << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
