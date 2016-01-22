@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <cstdio>
 
@@ -25,7 +26,7 @@ int main(int argc, char **argv) {
       stringstream ssin(line);
       while (ssin.good() && i < 3)
       {
-        ssin >> arr[i];
+        atoi(ssin) >> arr[i];
         ++i;
       }
       adaps[arr[0]][arr[1]] += arr[2];
