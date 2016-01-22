@@ -62,10 +62,11 @@ int main(int argc, char **argv) {
   adapOFile.open(aOFileName, std::ios::app);
   for(int i =0; i < 27; i++)
   {
+    adapOFile << "Adapter " << i << ":\n";
     for(int j=0;j<70;j++)
     {
-      adapOFile << "Adapter " << i << ":\n";
-      if(adaps[i][j] > 0)
+    	cout << a << " " << b << " " << c << "\n";
+      if(adaps[i][j] >= 0)
       {
         adapOFile << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
       }
