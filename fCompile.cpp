@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
   string line;
   while (std::getline(adapFile, line))
   {
+    cout << line << "\n";
     std::istringstream iss(line);
     int a, b, c;
     if (!(iss >> a >> b >> c)) { break; } // error
@@ -65,7 +66,7 @@ int main(int argc, char **argv) {
     adapOFile << "Adapter " << i << ":\n";
     for(int j=0;j<70;j++)
     {
-    	cout << i << " " << j << " " << adaps[i][j] << "\n";
+
       if(adaps[i][j] >= 0)
       {
         adapOFile << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
