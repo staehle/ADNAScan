@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
       stringstream ssin(line);
       while (ssin.good() && i < 3)
       {
-        atoi(ssin) >> arr[i];
+        atoi(ssin.c_str()) >> arr[i];
         ++i;
       }
       adaps[arr[0]][arr[1]] += arr[2];
