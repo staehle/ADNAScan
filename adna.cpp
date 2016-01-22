@@ -223,22 +223,21 @@ int main(int argc, char **argv) {
    sprintf(tFileName, "./results/tRem_%i.out", my_rank);
    ofstream oFile1;
    oFile1.open(tFileName, std::ios::app);
-   oFile1 << "Number of reads from process " << my_rank << " with removed T's: " << tRems << "\n";
+   oFile1 << tRems << "\n";
    oFile1.close();
    
    char mFileName [30];
    sprintf(mFileName, "./results/merges_%i.out", my_rank);
    ofstream oFile2;
    oFile2.open(mFileName, std::ios::app);
-   oFile2 << "Number of reads from process " << my_rank << " that were merged due to overlap: " << merges << "\n";
+   oFile2 << merges << "\n";
    oFile2.close();
 
    char bFileName [30];
    sprintf(bFileName, "./results/badReads_%i.out", my_rank);
    ofstream oFile3;
    oFile3.open(bFileName, std::ios::app);
-   oFile3 << "Number of reads (halves) from process " << my_rank << " that were below quality threshold: " << badReads << "\n";
-   oFile3 << "Good (halves): " << (2 * readsassigned - badReads - merges) << "\n";
+   oFile3 << (2 * readsassigned - badReads) << " " << badReads << "\n";
    oFile3.close();
 
     return 0;
