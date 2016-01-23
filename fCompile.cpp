@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
       }
     }
   }
-  rFile << "\n\nPassing Read Count: " << gTotal << "Failing Read Count: " << bTotal << "\n";
+  rFile << "\n\nPassing Read Count: " << gTotal << " Failing Read Count: " << bTotal << "\n";
   rFile << "\n\nMerged Read Pair Count: " << mTotal  << "\n";
   rFile << "\n\nT Removal Count (Total Pairs): " << tTotal  << "\n";
   
