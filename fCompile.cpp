@@ -6,6 +6,12 @@
 
 using namespace std;
 
+string line;
+int gtotal = 0;
+int btotal = 0;
+int mtotal = 0;
+int ttotal = 0;
+
 int main(int argc, char **argv) {
   //BEGIN ADAPTER FILE COMPILE
   //max length of adapters currently ~ 60. will change in future
@@ -16,7 +22,7 @@ int main(int argc, char **argv) {
 	
   ifstream aFile;
   aFile.open(aFileName);
-  string line;
+  line;
   while (std::getline(aFile, line))
   {
     std::istringstream iss(line);
@@ -33,16 +39,16 @@ int main(int argc, char **argv) {
   
   ifstream gBFile;
   gBFile.open(gBFileName);
-  string line;
-  int gtotal = 0;
-  int bTotal = 0;
+  line;
+  gtotal = 0;
+  btotal = 0;
   while (std::getline(gBFile, line))
   {
     std::istringstream iss(line);
     int a, b;
     if (!(iss >> a >> b)) { break; } // error
-    gTotal += a;
-    bTotal += b;
+    gtotal += a;
+    btotal += b;
   }
   gBFile.close();
   
@@ -52,8 +58,8 @@ int main(int argc, char **argv) {
   
   ifstream mFile;
   mFile.open(mFileName);
-  string line;
-  int mtotal = 0;
+  line;
+  mtotal = 0;
   while (std::getline(mFile, line))
   {
 	mtotal += atoi(line.c_str());
@@ -67,8 +73,8 @@ int main(int argc, char **argv) {
   
   ifstream tFile;
   tFile.open(tFileName);
-  string line;
-  int ttotal = 0;
+  line;
+  ttotal = 0;
   while (std::getline(tFile, line))
   {
 	ttotal += atoi(line.c_str());
