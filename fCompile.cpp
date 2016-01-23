@@ -7,10 +7,10 @@
 using namespace std;
 
 string line;
-int gtotal = 0;
-int btotal = 0;
-int mtotal = 0;
-int ttotal = 0;
+int gTotal = 0;
+int bTotal = 0;
+int mTotal = 0;
+int tTotal = 0;
 
 int main(int argc, char **argv) {
   //BEGIN ADAPTER FILE COMPILE
@@ -40,15 +40,15 @@ int main(int argc, char **argv) {
   ifstream gBFile;
   gBFile.open(gBFileName);
   line;
-  gtotal = 0;
-  btotal = 0;
+  gTotal = 0;
+  bTotal = 0;
   while (std::getline(gBFile, line))
   {
     std::istringstream iss(line);
     int a, b;
     if (!(iss >> a >> b)) { break; } // error
-    gtotal += a;
-    btotal += b;
+    gTotal += a;
+    bTotal += b;
   }
   gBFile.close();
   
@@ -59,10 +59,10 @@ int main(int argc, char **argv) {
   ifstream mFile;
   mFile.open(mFileName);
   line;
-  mtotal = 0;
+  mTotal = 0;
   while (std::getline(mFile, line))
   {
-	mtotal += atoi(line.c_str());
+	mTotal += atoi(line.c_str());
   }
   mFile.close();
   
@@ -74,10 +74,10 @@ int main(int argc, char **argv) {
   ifstream tFile;
   tFile.open(tFileName);
   line;
-  ttotal = 0;
+  tTotal = 0;
   while (std::getline(tFile, line))
   {
-	ttotal += atoi(line.c_str());
+	tTotal += atoi(line.c_str());
   }
   tFile.close();
 
