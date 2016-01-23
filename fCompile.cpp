@@ -7,75 +7,99 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-  //Compile adapter file
+  //BEGIN ADAPTER FILE COMPILE
   //max length of adapters currently ~ 60. will change in future
   int adaps[27][70] = {0};
-  
-  int arr[3];
-  int i = 0;
 
   char aFileName [100];
-	sprintf(aFileName, "./results/%s/removedAdapters.temp", argv[1]);
+  sprintf(aFileName, "./results/%s/removedAdapters.temp", argv[1]);
 	
-  ifstream adapFile;
-  adapFile.open(aFileName);
+  ifstream aFile;
+  aFile.open(aFileName);
   string line;
-  while (std::getline(adapFile, line))
+  while (std::getline(aFile, line))
   {
-    //cout << line << "\n";
     std::istringstream iss(line);
     int a, b, c;
     if (!(iss >> a >> b >> c)) { break; } // error
 	adaps[a][b] += c;
-    // process pair (a,b)
   }
+  aFile.close();
   
   
+  // BEGIN GOOD/BAD FILE COMPILE
+  char gBFileName [100];
+  sprintf(gBFileName, "./results/%s/goodBadReadsCount.temp", argv[1]);
   
-  
-  
-  
-/*
-  if (adapFile.is_open())
+  ifstream gBFile;
+  gBFile.open(gBFileName);
+  string line;
+  int gtotal = 0;
+  int bTotal = 0;
+  while (std::getline(gBFile, line))
   {
-    while(!adapFile.eof())
-    {
-      adapFile >> line;
-      stringstream ssin(line);
-      while (ssin.good() && i < 3)
-      {
-      	cout << ssin.str() << "\n";
-        string l = ssin.str();
-        atoi(l.c_str()) >> arr[i];
-        ++i;
-      }
-      adaps[arr[0]][arr[1]] += arr[2];
-    }
+    std::istringstream iss(line);
+    int a, b;
+    if (!(iss >> a >> b)) { break; } // error
+    gTotal += a;
+    bTotal += b;
   }
-  */
-  adapFile.close();
+  gBFile.close();
   
-  ofstream adapOFile;
+    // BEGIN MERGE FILE COMPILE
+  char mFileName [100];
+  sprintf(mFileName, "./results/%s/mergeCount.temp", argv[1]);
   
-  char aOFileName [100];
-	sprintf(aOFileName, "./results/%s/removedAdapters.out", argv[1]);
+  ifstream mFile;
+  mFile.open(mFileName);
+  string line;
+  int mtotal = 0;
+  while (std::getline(mFile, line))
+  {
+	mtotal += atoi(line.c_str());
+  }
+  mFile.close();
+  
+  
+  // BEGIN T REMoVAL COUNT FILE COMPILE
+  char tFileName [100];
+  sprintf(tFileName, "./results/%s/tRemoveCount.temp", argv[1]);
+  
+  ifstream tFile;
+  tFile.open(tFileName);
+  string line;
+  int ttotal = 0;
+  while (std::getline(tFile, line))
+  {
+	ttotal += atoi(line.c_str());
+  }
+  tFile.close();
+
+  
+  
+  //BEGIN FINAL COMPILE
+  ofstream rFile;
+  
+  char rFileName [100];
+  sprintf(rFileName, "./results/%s/results.out", argv[1]);
 	
-  adapOFile.open(aOFileName, std::ios::app);
+  rFile.open(rFileName, std::ios::app);
   for(int i =0; i < 27; i++)
   {
-    adapOFile << "Adapter " << i << ":\n";
+    rFile << "Adapter " << i << ":\n";
     for(int j=0;j<70;j++)
     {
 
       if(adaps[i][j] > 0)
       {
-        adapOFile << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
+        rFile << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
       }
     }
   }
+  rFile << "\n\nPassing Read Count: " << gTotal << "Failing Read Count: " << bTotal << "\n";
+  rFile << "\n\nMerged Read Pair Count: " << mTotal  << "\n";
+  rFile << "\n\nT Removal Count (Total Pairs): " << tTotal  << "\n";
   
-  adapOFile.close();
-
-
+  rFile.close();
 
 }
