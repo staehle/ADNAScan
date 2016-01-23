@@ -173,7 +173,6 @@ int main(int argc, char **argv) {
 				badReads+=temp.getBad();
 				if (temp.isMerged() == 1)
 				{
-					cout << "Merged\n";
 					merges++;
 				}
 				if (temp.tStripped())
