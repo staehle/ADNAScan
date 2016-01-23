@@ -171,9 +171,8 @@ int main(int argc, char **argv) {
 				temp.Compile();
 				fillAdapters(temp.getLeftA(), temp.getLeftAL(), temp.getRightA(), temp.getRightAL());
 				badReads+=temp.getBad();
-				if (temp.isMerged())
+				if (temp.isMerged() == 1)
 				{
-					cout << "bizz got merged\n";
 					merges++;
 				}
 				if (temp.tStripped())
