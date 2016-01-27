@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     int my_rank = MPI::COMM_WORLD.Get_rank(); // process rank
     
     if (my_rank==0){
-		cout << "ADNA-Finder -- Scan FASTQ reads and return sequence locations" << endl;
+		cout << "adna -- Asynchronous process DNA trimmer and analyzer" << endl;
 		if (argc < 3) {
 			cerr << "Error: Not enough arguments" << endl;
 			cerr << "Usage: " << argv[0] << " <input_fastq_file_1> <input_fastq_file_2>" << endl;
