@@ -1,15 +1,9 @@
 /* ADNA
- * Main driver for shared memory initialization 
+ * Job Initialization
  */
 
 #include <iostream>
 #include <cstring>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include "adnashm.hpp"
 
 using namespace std;
@@ -50,14 +44,13 @@ int main(int argc, char **argv) {
 	//init process table
 	_stat thisStat[numProcs];
 	for (int i=0; i<numProcs; i++) {
-		thisStat[i].PID = 0;
 		thisStat[i].readsAssigned = 0;
 		thisStat[i].readsComplete = 0;
 	}
 	
 	//initialize shared memory
 	int statsize = sizeof(_stat)*numProcs; 
-	int jobsize = sizeof(thisJob);
+	int jobsize = sizeof(_job);
 	shm_unlink(TABKEY);
 	shm_unlink(JOBKEY);
 	int fdt = shm_open(TABKEY, O_CREAT|O_RDWR, 0666);
@@ -90,3 +83,7 @@ int main(int argc, char **argv) {
 	cout << "adna -- initialization complete" << endl;
 	return 0;
 }
+
+
+
+
