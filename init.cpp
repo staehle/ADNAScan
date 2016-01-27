@@ -9,7 +9,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-	cout << "adna -- Asynchronous process DNA trimmer and analyzer" << endl << endl;
+	cout << endl << "adna -- Asynchronous process DNA trimmer and analyzer" << endl;
 	if (argc < 4) {
 		cerr << "Error: Not enough arguments" << endl;
 		cerr << "Usage: " << argv[0] << " <num_processes> <input_fastq_file_1> <input_fastq_file_2> (output_name)" << endl;
@@ -24,22 +24,22 @@ int main(int argc, char **argv) {
 	}
 	
 	//init job
-	_job thisJob;
-	thisJob.fq1n = string(argv[2]);
-	thisJob.fq2n = string(argv[3]);
+	_job* thisJob = new _job();
+	thisJob->fq1n = string(argv[2]);
+	thisJob->fq2n = string(argv[3]);
 	if (argc < 5) {
-		string fq1nt = thisJob.fq1n.substr(thisJob.fq1n.find_last_of('/')+1, 37);
-		string fq2nt = thisJob.fq2n.substr(thisJob.fq2n.find_last_of('/')+1, 37);
+		string fq1nt = thisJob->fq1n.substr(thisJob->fq1n.find_last_of('/')+1, 37);
+		string fq2nt = thisJob->fq2n.substr(thisJob->fq2n.find_last_of('/')+1, 37);
 		if (fq1nt.compare(fq2nt) != 0) {
 			cerr << "Error: The two fastq files do not match. Got:\t" << endl << fq1nt << endl << fq2nt << endl;
 			exit(1);
 		} else {
-			thisJob.jobname = fq1nt;
+			thisJob->jobname = fq1nt;
 		}
 	} else {
-		thisJob.jobname = string(argv[4]);
+		thisJob->jobname = string(argv[4]);
 	}
-	cout << "Notice: Using job name: '" << thisJob.jobname << "'" << endl;
+	cout << "Notice: Using job name: '" << thisJob->jobname << "'" << endl;
 	
 	//init process table
 	_stat thisStat[numProcs];
@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
 		cerr << "Error: Cannot write to shared stat memory" << endl;
 		exit(1);
 	}
-	memcpy(mapptrj, &thisJob, statsize);
+	memcpy(mapptrj, thisJob, statsize);
 	if (msync(mapptrj, jobsize, MS_SYNC) != 0) {
 		cerr << "Error: Cannot write to shared job memory" << endl;
 		exit(1);
