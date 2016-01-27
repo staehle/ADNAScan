@@ -2,21 +2,15 @@
  * Main driver for shared memory initialization 
  */
 
-#include <cstdio>
 #include <iostream>
-#include <fstream>
-#include <limits>
-#include <sstream>
-#include <unordered_map>
 #include <cstring>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
-#include <sys/sem.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include "main.hpp"
+#include "adnashm.hpp"
 
 using namespace std;
 

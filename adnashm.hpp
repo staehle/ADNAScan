@@ -1,5 +1,5 @@
-#ifndef ADNA_HPP
-#define ADNA_HPP
+#ifndef ADNASHM_HPP
+#define ADNASHM_HPP
 
 #define TABKEY "/adna_stat"
 #define JOBKEY "/adna_job"
