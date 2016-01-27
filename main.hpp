@@ -1,15 +1,18 @@
 #ifndef ADNA_HPP
 #define ADNA_HPP
 
-#define MEMKEY "/adna_table"
+#define TABKEY "/adna_stat"
+#define JOBKEY "/adna_job"
 
-typedef unordered_map<std::string, adna::ReadPair> readmap;
-
-struct _table {
-   pid_t PID;
-   int   readsAssigned;
-   int   readsComplete;
+struct _stat {
+	pid_t PID;
+	int readsAssigned;
+	int readsComplete;
 };
-
+struct _job {
+	std::string jobname;
+	std::string fq1n;
+	std::string fq2n;
+};
 
 #endif
