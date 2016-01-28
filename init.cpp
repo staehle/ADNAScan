@@ -25,21 +25,25 @@ int main(int argc, char **argv) {
 	
 	//init job
 	_job* thisJob = new _job();
-	thisJob->fq1n = string(argv[2]);
-	thisJob->fq2n = string(argv[3]);
+	string fq1o = string(argv[2]);
+	string fq2o = string(argv[3]);
+	strcpy(thisJob->fq1n, argv[2]);
+	strcpy(thisJob->fq2n, argv[3]);
 	if (argc < 5) {
-		string fq1nt = thisJob->fq1n.substr(thisJob->fq1n.find_last_of('/')+1, 37);
-		string fq2nt = thisJob->fq2n.substr(thisJob->fq2n.find_last_of('/')+1, 37);
+		string fq1nt = fq1o.substr(fq1o.find_last_of('/')+1, 37);
+		string fq2nt = fq2o.substr(fq2o.find_last_of('/')+1, 37);
 		if (fq1nt.compare(fq2nt) != 0) {
 			cerr << "Error: The two fastq files do not match. Got:\t" << endl << fq1nt << endl << fq2nt << endl;
 			exit(1);
 		} else {
-			thisJob->jobname = fq1nt;
+			//thisJob->jobname = fq1nt.c_str();
+			strcpy(thisJob->jobname, fq1nt.c_str());
 		}
 	} else {
-		thisJob->jobname = string(argv[4]);
+		//thisJob->jobname = string(argv[4]);
+		strcpy(thisJob->jobname, argv[4]);
 	}
-	cout << "Notice: Using job name: '" << thisJob->jobname << "'" << endl;
+	cout << "Init: Creating job name: '" << thisJob->jobname << "'" << endl;
 	
 	//init process table
 	_stat thisStat[numProcs];
@@ -74,7 +78,7 @@ int main(int argc, char **argv) {
 		cerr << "Error: Cannot write to shared stat memory" << endl;
 		exit(1);
 	}
-	memcpy(mapptrj, thisJob, statsize);
+	memcpy(mapptrj, thisJob, jobsize);
 	if (msync(mapptrj, jobsize, MS_SYNC) != 0) {
 		cerr << "Error: Cannot write to shared job memory" << endl;
 		exit(1);

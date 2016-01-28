@@ -16,9 +16,9 @@ struct _stat {
 	int readsComplete;
 };
 struct _job {
-	char[64] jobname;
-	char[64] fq1n;
-	char[64] fq2n;
+	char jobname[64];
+	char fq1n[64];
+	char fq2n[64];
 };
 
 #endif
