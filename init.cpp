@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
 		cerr << "Error: Not enough arguments" << endl;
 		cerr << "Usage: " << argv[0] << " <num_processes> <input_fastq_file_1> <input_fastq_file_2> (output_name)" << endl;
 		cerr << "OPTIONAL:" << endl;
-		cerr << "\toutput_name\tSkip fastq name checking and use this custom name" << endl;
+		cerr << "\toutput_name\tType a job name, otherwise it will generate based on input_fastq_file_1" << endl;
 		exit(1);
 	}
 	int numProcs = atoi(argv[1]);
@@ -23,36 +23,29 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	
-	//init job
+	// Init job
 	_job* thisJob = new _job();
-	string fq1o = string(argv[2]);
-	string fq2o = string(argv[3]);
 	strcpy(thisJob->fq1n, argv[2]);
 	strcpy(thisJob->fq2n, argv[3]);
 	if (argc < 5) {
-		string fq1nt = fq1o.substr(fq1o.find_last_of('/')+1, 37);
-		string fq2nt = fq2o.substr(fq2o.find_last_of('/')+1, 37);
-		if (fq1nt.compare(fq2nt) != 0) {
-			cerr << "Error: The two fastq files do not match. Got:\t" << endl << fq1nt << endl << fq2nt << endl;
-			exit(1);
-		} else {
-			//thisJob->jobname = fq1nt.c_str();
-			strcpy(thisJob->jobname, fq1nt.c_str());
-		}
+		string fqo = string(argv[2]);
+		fqo = fqo.substr(fqo.find_last_of('/')+1);
+		fqo = fqo.substr(0, fqo.find_last_of('.')-1);
+		strcpy(thisJob->jobname, fqo.c_str());
 	} else {
-		//thisJob->jobname = string(argv[4]);
 		strcpy(thisJob->jobname, argv[4]);
 	}
 	cout << "Init: Creating job name: '" << thisJob->jobname << "'" << endl;
 	
-	//init process table
+	// Init process table
 	_stat thisStat[numProcs];
 	for (int i=0; i<numProcs; i++) {
+		thisStat[i].PID = 0;
 		thisStat[i].readsAssigned = 0;
 		thisStat[i].readsComplete = 0;
 	}
 	
-	//initialize shared memory
+	// Initialize shared memory
 	int statsize = sizeof(_stat)*numProcs; 
 	int jobsize = sizeof(_job);
 	shm_unlink(TABKEY);
@@ -72,7 +65,7 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	
-	//copy table to shared memory
+	// Copy table to shared memory
 	memcpy(mapptrt, thisStat, statsize);
 	if (msync(mapptrt, statsize, MS_SYNC) != 0) {
 		cerr << "Error: Cannot write to shared stat memory" << endl;

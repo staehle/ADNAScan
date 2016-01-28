@@ -5,13 +5,19 @@ if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ]; then
 	exit 1
 fi
 
-CUSTOM=""
-if [ "$4" != "" ]; then
-	$CUSTOM=$4
-fi
-
 mkdir -p results
 rm -rf ./results/*
 
-./bin/adna-init $1 $2 $3 $custom
-mpirun -np $1 ./bin/adna-gompi
+if [ "$4" == "" ]; then
+	./bin/adna-init $1 $2 $3
+else
+	./bin/adna-init $1 $2 $3 $4
+fi
+
+if [ $? == 0 ]; then
+	mpirun -np $1 ./bin/adna-gompi
+else
+	echo "adna run script stopped due to initialization error"
+fi
+
+

@@ -12,6 +12,7 @@
 #define JOBKEY "/adna_job"
 
 struct _stat {
+	pid_t PID;
 	int readsAssigned;
 	int readsComplete;
 };
