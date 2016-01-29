@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 	if (mapptrj==MAP_FAILED) {
 		stringstream error;
 		error << "MPI Proc "<< my_rank << " Error: Unable to set job shared memory" << endl;
-		cerr << error;
+		cerr << error.str();
 		exit(1);
 	}
 	int fdt = shm_open(TABKEY, O_RDWR, 0666);
@@ -36,19 +36,22 @@ int main(int argc, char **argv) {
 	if (mapptrt==MAP_FAILED) {
 		stringstream error;
 		error << "MPI Proc "<< my_rank << " Error: Unable to set stat shared memory" << endl;
-		cerr << error;
+		cerr << error.str();
 		exit(1);
 	}
 	_job* myJob = static_cast<_job*>(mapptrj);
 	_stat* myStat = static_cast<_stat*>(mapptrt);
 	
+	if ((my_rank==0) and (comm_sz != myJob->numProcs)) {
+		stringstream error;
+		error << "MPI Proc "<< my_rank << " Error: Job Process Number (" << myJob->numProcs;
+		error << ") does not match number of running MPI Processes (" << comm_sz << ")" << endl;
+		cerr << error.str();
+		exit(1);
+	}
+	
 	myStat[my_rank].PID = getpid();
-
-	stringstream test;
-	test << "MPI Proc " << my_rank << ": has PID: " << getpid() << endl;
-	test << "MPI Proc " << my_rank << ": starting job name: " << myJob->jobname << endl;
-	test << "MPI Proc " << my_rank << ": has status PID of: " << myStat[my_rank].PID << endl;
-	cout << test.str();
+	myStat[my_rank].section = 1;
 	
 	// Start Read One
 	ifstream readOne;
@@ -82,10 +85,12 @@ int main(int argc, char **argv) {
 	}
 	readOne.close();
 	
-	stringstream report;
-	report << "MPI Proc " << my_rank << ": assigned "<< myStat[my_rank].readsAssigned << " reads" << endl;
-	cout << report.str();
-
+	myStat[my_rank].section = 2;
+	
+	
+	
+	// End of MPI Process
+	myStat[my_rank].PID = 0;
 	MPI_Finalize();
 	return 0;
 }

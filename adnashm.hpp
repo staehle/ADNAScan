@@ -15,11 +15,13 @@ struct _stat {
 	pid_t PID;
 	int readsAssigned;
 	int readsComplete;
+	int section;
 };
 struct _job {
 	char jobname[64];
 	char fq1n[64];
 	char fq2n[64];
+	int numProcs;
 };
 
 #endif

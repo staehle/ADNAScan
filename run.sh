@@ -15,9 +15,11 @@ else
 fi
 
 if [ $? == 0 ]; then
-	mpirun -np $1 ./bin/adna-gompi
+	nohup mpirun -np $1 ./bin/adna-gompi &
+	sleep 2
+	echo "adna-gompi has been daemonized. use ./adna-check to see progress."
+	echo "When reported as complete, run ./adna-finish to cleanup the job."
 else
-	echo "adna run script stopped due to initialization error"
+	echo "ERROR: adna run script stopped due to initialization error"
 fi
-
 

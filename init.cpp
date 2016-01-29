@@ -9,7 +9,9 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-	cout << endl << "adna -- Asynchronous process DNA trimmer and analyzer" << endl;
+	cout << "-------------------------------------------" << endl;
+	cout << "- adna -- Asynchronous DNA fastq trimmer  -" << endl;
+	cout << "-------------------------------------------" << endl;
 	if (argc < 4) {
 		cerr << "Error: Not enough arguments" << endl;
 		cerr << "Usage: " << argv[0] << " <num_processes> <input_fastq_file_1> <input_fastq_file_2> (output_name)" << endl;
@@ -35,7 +37,9 @@ int main(int argc, char **argv) {
 	} else {
 		strcpy(thisJob->jobname, argv[4]);
 	}
-	cout << "Init: Creating job name: '" << thisJob->jobname << "'" << endl;
+	thisJob->numProcs = numProcs;
+	cout << "Init: Creating job: '" << thisJob->jobname << "'" << endl;
+	cout << "Init: Setting job for " << thisJob->numProcs << " processes" << endl;
 	
 	// Init process table
 	_stat thisStat[numProcs];
@@ -43,6 +47,7 @@ int main(int argc, char **argv) {
 		thisStat[i].PID = 0;
 		thisStat[i].readsAssigned = 0;
 		thisStat[i].readsComplete = 0;
+		thisStat[i].section = 0;
 	}
 	
 	// Initialize shared memory
@@ -77,7 +82,9 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	
-	cout << "adna -- initialization complete" << endl;
+	cout << "-------------------------------------------" << endl;
+	cout << "- adna -- initialization successful       -" << endl;
+	cout << "-------------------------------------------" << endl << endl;
 	return 0;
 }
 
