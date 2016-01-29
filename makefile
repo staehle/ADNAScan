@@ -7,6 +7,7 @@ BMCC=/usr/local/gcc-5.3.0/openmpi/bin/mpic++
 STD=-std=gnu++0x
 CFLAGS=-Wall -Wextra
 LFLAGS=-lrt
+NCFLGS=-lcurses
 
 SINT=init.cpp
 SMPI=mpiworld.cpp ReadPair.cpp
@@ -22,7 +23,7 @@ all:
 	$(MAKE) clean
 	$(GCC) $(STD) $(CFLAGS) $(SINT) -o ./bin/$(TINT) $(LFLAGS) 
 	$(MCC) $(STD) $(CFLAGS) $(SMPI) -o ./bin/$(TMPI) $(LFLAGS) 
-	$(GCC) $(STD) $(CFLAGS) $(SCHK) -o ./bin/$(TCHK) $(LFLAGS)
+	$(GCC) $(STD) $(CFLAGS) $(SCHK) -o ./bin/$(TCHK) $(LFLAGS) $(NCFLGS)
 	$(GCC) $(STD) $(CFLAGS) $(SFIN) -o ./bin/$(TFIN) $(LFLAGS)
 
 bart:
