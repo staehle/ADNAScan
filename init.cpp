@@ -53,20 +53,19 @@ int main(int argc, char **argv) {
 	// Initialize shared memory
 	int statsize = sizeof(_stat)*numProcs; 
 	int jobsize = sizeof(_job);
-	shm_unlink(TABKEY);
-	shm_unlink(JOBKEY);
-	int fdt = shm_open(TABKEY, O_CREAT|O_RDWR, 0666);
-	int fdj = shm_open(JOBKEY, O_CREAT|O_RDWR, 0666);
+	
+	int fdt = shm_open(TABKEY, O_CREAT|O_RDWR|O_EXCL, 0666);
+	int fdj = shm_open(JOBKEY, O_CREAT|O_RDWR|O_EXCL, 0666);
 	ftruncate(fdt, 4096);
 	ftruncate(fdj, 4096);
 	void* mapptrt = mmap(NULL, statsize, PROT_READ|PROT_WRITE, MAP_SHARED, fdt, 0);
 	if (mapptrt==MAP_FAILED) {
-		cerr<< "Error: Unable to set shared memory for stat table" <<endl;
+		cerr<< "Error: Unable to set shared memory for stat table. Did you run adna-finish after your last job?" <<endl;
 		exit(1);
 	}
 	void* mapptrj = mmap(NULL, jobsize, PROT_READ|PROT_WRITE, MAP_SHARED, fdj, 0);
 	if (mapptrj==MAP_FAILED) {
-		cerr<< "Error: Unable to set shared memory for job table" <<endl;
+		cerr<< "Error: Unable to set shared memory for job table. Did you run adna-finish after your last job?" <<endl;
 		exit(1);
 	}
 	
