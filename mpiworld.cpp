@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
 	
 	
 	// End of MPI Process
-	myStat[my_rank].PID = 0;
+	//myStat[my_rank].PID = 0;
 	MPI_Finalize();
 	return 0;
 }
