@@ -25,8 +25,10 @@ all:
 
 bart:
 	$(MAKE) clean
-	
-	
+	$(BGCC) $(STD) $(CFLAGS) $(SINT) -o ./bin/$(TINT) $(LFLAGS)
+	$(BMCC) $(STD) $(CFLAGS) $(SMPI) -o ./bin/$(TMPI) $(LFLAGS)
+	$(BGCC) $(STD) $(CFLAGS) $(SCHK) -o ./bin/$(TCHK) $(LFLAGS) $(NCFLGS)
+
 clean:
 	rm -rf ./bin
 	mkdir -p ./bin
