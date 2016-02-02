@@ -13,3 +13,5 @@ System Requirements
 -------------------
 - GCC 4.8+ (required for full C++11 implementation of `<unordered_map>`)
 - openmpi
+- libncurses5-dev libncursesw5-dev
+

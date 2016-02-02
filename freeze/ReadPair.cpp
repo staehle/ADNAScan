@@ -54,7 +54,7 @@ ReadPair::ReadPair(string d1, string d2, string r1, string q1,string r2, string 
 	badSide = 0;
 	tNum = threadNum;
 	vector<string> PrintLongestArray;
-	//Compile();
+	Compile();
 }
 
 // Adds the data for read 2 and then compiles.
@@ -75,8 +75,9 @@ int ReadPair::qualPass() {
 		int failCtr = 0;
 		for(string::iterator c = qual1.begin(); c != qual1.end(); ++c) {
 			qual = int(*c)-33;
-			//if(int(*c)-33 < 15) {
-			if(qual < 15) failCtr+=1;
+			if(int(*c)-33 < 15) {
+				failCtr+=1;
+			}
 		}
 		if (failCtr < 10) ret += 1;
 
@@ -85,7 +86,7 @@ int ReadPair::qualPass() {
 		failCtr = 0;
 		for(string::iterator c = qual2.begin(); c != qual2.end(); ++c) {
 			qual = int(*c)-33;
-			if(qual < 15) failCtr+=1;
+			if(int(*c)-33 < 15) failCtr+=1;
 		}
 		
 		if (failCtr < 10) ret += 2;
@@ -113,7 +114,7 @@ int ReadPair::qualPass() {
 		int failCtr = 0;
 		for(string::iterator c = fQual.begin(); c != fQual.end(); ++c) {
 			qual = int(*c)-33;
-			if(qual < 15) failCtr+=1;
+			if(int(*c)-33 < 15) failCtr+=1;
 		}
 		
 		if (failCtr < 10) return 3;
@@ -486,118 +487,70 @@ int ReadPair::aRemove() {
 
 void ReadPair::passOutFile() {
 	if(fRead.compare("") == 0) {
-		/*char fileName1[15];  //STOP USING SPRINTF. THIS IS WHAT NOT TO DO.
-		sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum); 
+		char fileName1[15];
+		sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum); //TODO STOP USING SPRINTF
 		ofstream oFile1;
 		oFile1.open(fileName1, ios::app);
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-		oFile1.close();*/
-		stringstream ofr1pn;  //This is the correct way to do it.
-		ofr1pn << "./results/curjob/read1Pass_" << tNum << ".fastq";
-		ofstream ofr1ps;
-		ofr1ps.open(ofr1pn.str(), ios::app);
-		ofr1ps << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-		ofr1ps.close();
+		oFile1.close();
 
-		/*char fileName2[15];
-		sprintf(fileName2, "./results/read2Pass_%i.fastq", tNum);
+		char fileName2[15];
+		sprintf(fileName2, "./results/read2Pass_%i.fastq", tNum); //TODO STOP USING SPRINTF
 		ofstream oFile2;
 		oFile2.open(fileName2, ios::app);
 		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-		oFile2.close();*/
-		stringstream ofr2pn;
-		ofr2pn << "./results/curjob/read2Pass_" << tNum << ".fastq";
-		ofstream ofr2ps;
-		ofr2ps.open(ofr2pn.str(), ios::app);
-		ofr2ps << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-		ofr2ps.close();
+		oFile2.close();
 		
 	} else {
-		/*char fileName[15];
-		sprintf(fileName, "./results/singleReadPass_%i.fastq", tNum);
+		char fileName[15];
+		sprintf(fileName, "./results/singleReadPass_%i.fastq", tNum); //TODO STOP USING SPRINTF
 		ofstream oFile;
 		oFile.open(fileName, ios::app);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
-		oFile.close();*/
-		stringstream ofsrpn;
-		ofsrpn << "./results/curjob/singleReadPass_" << tNum << ".fastq";
-		ofstream ofsrps;
-		ofsrps.open(ofsrpn.str(), ios::app);
-		ofsrps << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
-		ofsrps.close();
+		oFile.close();
 		
 		if (badSide == 2) {
-			/*char fileName2[15];
-			sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum);
+			char fileName2[15];
+			sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum); //TODO STOP USING SPRINTF
 			ofstream oFile2;
 			oFile2.open(fileName2, ios::app);
 			oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-			oFile2.close();*/
-			stringstream ofr2fn;
-			ofr2fn << "./results/curjob/read2Fail_" << tNum << ".fastq";
-			ofstream ofr2fs;
-			ofr2fs.open(ofr2fn.str(), ios::app);
-			ofr2fs << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-			ofr2fs.close();
+			oFile2.close();
 			
 		} else if (badSide == 1) {
-			/*char fileName2[15];
-			sprintf(fileName2, "./results/read1Fail_%i.fastq", tNum);
+			char fileName2[15];
+			sprintf(fileName2, "./results/read1Fail_%i.fastq", tNum); //TODO STOP USING SPRINTF
 			ofstream oFile2;
 			oFile2.open(fileName2, ios::app);
 			oFile2 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-			oFile2.close();*/
-			stringstream ofr1fn;
-			ofr1fn << "./results/curjob/read1Fail_" << tNum << ".fastq";
-			ofstream ofr1fs;
-			ofr1fs.open(ofr1fn.str(), ios::app);
-			ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-			ofr1fs.close();
+			oFile2.close();
 		}
 	}
 }
 
 void ReadPair::failOutFile() {
 	if(fRead.compare("") == 0) {
-		/*char fileName1[15];
-		sprintf(fileName1, "./results/read1Fail_%i.fastq", tNum);
+		char fileName1[15];
+		sprintf(fileName1, "./results/read1Fail_%i.fastq", tNum); //TODO STOP USING SPRINTF
 		ofstream oFile1;
 		oFile1.open(fileName1, ios::app);
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-		oFile1.close();*/
-		stringstream ofr1fn;
-		ofr1fn << "./results/curjob/read1Fail_" << tNum << ".fastq";
-		ofstream ofr1fs;
-		ofr1fs.open(ofr1fn.str(), ios::app);
-		ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-		ofr1fs.close();
+		oFile1.close();
 
-		/*char fileName2[15];
-		sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum);
+		char fileName2[15];
+		sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum); //TODO STOP USING SPRINTF
 		ofstream oFile2;
 		oFile2.open(fileName2, ios::app);
 		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-		oFile2.close();*/
-		stringstream ofr2fn;
-		ofr2fn << "./results/curjob/read2Fail_" << tNum << ".fastq";
-		ofstream ofr2fs;
-		ofr2fs.open(ofr2fn.str(), ios::app);
-		ofr2fs << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-		ofr2fs.close();
-
+		oFile2.close();
+		
 	} else {
-		/*char fileName[15];
-		sprintf(fileName, "./results/singleReadFail_%i.fastq", tNum);
+		char fileName[15];
+		sprintf(fileName, "./results/singleReadFail_%i.fastq", tNum); //TODO STOP USING SPRINTF
 		ofstream oFile;
 		oFile.open(fileName, ios::app);
 		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
-		oFile.close();*/
-		stringstream ofsrfn;
-		ofsrfn << "./results/curjob/singleReadFail_" << tNum << ".fastq";
-		ofstream ofsrfs;
-		ofsrfs.open(ofsrfn.str(), ios::app);
-		ofsrfs << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
-		ofsrfs.close();
+		oFile.close();
 	}
 }
 

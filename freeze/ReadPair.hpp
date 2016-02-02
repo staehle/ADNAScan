@@ -1,4 +1,4 @@
-#include <sstream>
+#include <string>
 #include <vector>
 
 class ReadPair {
