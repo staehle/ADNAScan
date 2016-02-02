@@ -12,19 +12,16 @@ NCFLGS=-lcurses
 SINT=init.cpp
 SMPI=mpiworld.cpp ReadPair.cpp
 SCHK=checker.cpp
-SFIN=finish.cpp
 
 TINT=adna-init
 TMPI=adna-gompi
 TCHK=adna-check
-TFIN=adna-finish
 
 all:
 	$(MAKE) clean
 	$(GCC) $(STD) $(CFLAGS) $(SINT) -o ./bin/$(TINT) $(LFLAGS) 
 	$(MCC) $(STD) $(CFLAGS) $(SMPI) -o ./bin/$(TMPI) $(LFLAGS) 
 	$(GCC) $(STD) $(CFLAGS) $(SCHK) -o ./bin/$(TCHK) $(LFLAGS) $(NCFLGS)
-	$(GCC) $(STD) $(CFLAGS) $(SFIN) -o ./bin/$(TFIN) $(LFLAGS)
 
 bart:
 	$(MAKE) clean

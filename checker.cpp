@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <ctime>
 #include <chrono>
+#include <signal.h>
 using namespace std;
 
 int main() {
@@ -21,7 +22,7 @@ int main() {
 	int fdj = shm_open(JOBKEY, O_RDWR, 0666);
 	void* mapptrj = mmap(NULL, jobsize, PROT_READ, MAP_SHARED, fdj, 0);
 	if (mapptrj==MAP_FAILED) {
-		cerr << "Finish Error: Unable to find job shared memory" << endl;
+		cerr << "Checker Error: Unable to find job shared memory. Did you initialize a new job?" << endl;
 		exit(1);
 	}
 	_job* myJob = static_cast<_job*>(mapptrj);
@@ -30,7 +31,7 @@ int main() {
 	int fdt = shm_open(TABKEY, O_RDWR, 0666);
 	void* mapptrt = mmap(NULL, statsize, PROT_READ, MAP_SHARED, fdt, 0);
 	if (mapptrt==MAP_FAILED) {
-		cerr << "Finish Error: Unable to find stat shared memory" << endl;
+		cerr << "Checker Error: Unable to find stat shared memory. Did you initialize a new job?" << endl;
 		exit(1);
 	}
 	_stat* myStat = static_cast<_stat*>(mapptrt);
@@ -74,15 +75,18 @@ int main() {
 	wrefresh(stdscr);
 	
 	WINDOW * statscr = newwin(LINES-10, COLS-4, 7, 2);
-	timeout(5000);
+	timeout(1000);
+	
+	int clear = 0;
 	
 	while(1) {
 		wclear(statscr);
 		wmove(statscr, 0, 0);
 		time_t curtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
-		string timestr = "Updating every 5 seconds. Last checked: "+string(ctime(&curtime));
+		string timestr = "Last checked: "+string(ctime(&curtime));
 		waddstr(statscr, (char*)timestr.c_str());
 		
+		clear = myJob->numProcs;
 		int line = 1;
 		for (int i=0; i<myJob->numProcs; i++) {
 			wmove(statscr, line, 0);
@@ -92,30 +96,62 @@ int main() {
 			if (myStat[i].section == 0) {
 				procstat << "Initialized and ready to start";
 			} else if (myStat[i].section == 1) {
-				procstat << "Assigning reads from read ONE. Currently has " << myStat[i].readsAssigned << " assigned reads";
+				procstat << "Crawling read ONE. Assigned " << myStat[i].readsAssigned << " reads";
 			} else if (myStat[i].section == 2) {
-				double progressdbl = myStat[i].readsComplete / (double)myStat[i].readsAssigned;
-				procstat << setprecision(2) << "Comparing with read TWO data: " << progressdbl << "% (" << myStat[i].readsComplete << " / " << myStat[i].readsAssigned << ")";
+				double progressdbl = (myStat[i].readsComplete / (double)myStat[i].readsAssigned) * 100;
+				procstat << setprecision(2) << "Comparing with read TWO: " << myStat[i].readsComplete << " / " << myStat[i].readsAssigned << " (" << progressdbl << "%)";
+			} else if (myStat[i].section == 3) {
+				procstat << "Compiling metrics";
+			} else if (myStat[i].section == 99) {
+				clear--;
+				procstat << "Completed " << myStat[i].readsComplete << " reads (assigned " << myStat[i].readsAssigned << ")";
+			} else {
+				procstat << "ERROR Unknown state: " << myStat[i].section;
 			}
-			
 			waddstr(statscr, (char*)procstat.str().c_str());
 		}
 		
 		wrefresh(statscr);
 		
-		ch = getch();
-		
-		if (ch == 'q' || ch == 'Q') {
+		if (ch == 'k' || ch == 'K' || ch == 'q' || ch == 'Q') break;
+		if (clear == 0) { //all procs have status 99
+			wmove(stdscr, LINES-2, 2);
+			wclrtoeol(stdscr);
+			waddstr(stdscr, (char*)"adna has completed the job! Press any key to exit.");
+			timeout(-1);
+			getch();
 			break;
 		}
+		ch = getch();
 	}
-	
-	/*while((ch = wgetch(stdscr))) {
-		if (ch == 'q') break;
-	}*/
 	
 	endwin();
 	
+	if (clear==0) {
+		stringstream cmd;
+		const auto now = chrono::system_clock::now();
+		const auto epoch = now.time_since_epoch();
+		const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(epoch);
+		cmd << "mv ./results/curjob ./results/" << myJob->jobname << "-" << seconds.count();
+		//cerr << "Executing: " << cmd.str() << endl;
+		system(cmd.str().c_str());
+		if (shm_unlink(JOBKEY)!=0) cerr << "Cleaner error: Unable to unlink job shared memory with: " << JOBKEY << endl;
+		if (shm_unlink(TABKEY)!=0) cerr << "Cleaner error: Unable to unlink stat shared memory with: " << TABKEY << endl;
+		cerr << "Exited adna-check with job completion. adna is NOT running and job info has been cleaned." << endl;
+	}
+	if (ch == 'q' || ch == 'Q') {
+		cerr << "Exited adna-check without killing the adna job. adna is still running." << endl;
+		
+	} else if (ch == 'k' || ch == 'K') {
+		for (int i=0; i<myJob->numProcs; i++) {
+			if (myStat[i].PID > 0) {
+				kill(myStat[i].PID, SIGTERM);
+			}
+		}
+		if (shm_unlink(JOBKEY)!=0) cerr << "Cleaner error: Unable to unlink job shared memory with: " << JOBKEY << endl;
+		if (shm_unlink(TABKEY)!=0) cerr << "Cleaner error: Unable to unlink stat shared memory with: " << TABKEY << endl;
+		cerr << "Exited adna-check AND killed the adna job. adna is NOT running and job info has been cleaned." << endl;
+	}
 	
 	return 0;
 }

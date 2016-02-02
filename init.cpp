@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include "adnashm.hpp"
+#include <sstream>
 
 using namespace std;
 
