@@ -18,9 +18,9 @@ struct _stat {
 	int section;
 };
 struct _job {
-	char jobname[64];
-	char fq1n[64];
-	char fq2n[64];
+	char jobname[256];
+	char fq1n[256];
+	char fq2n[256];
 	int numProcs;
 };
 
