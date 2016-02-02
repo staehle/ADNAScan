@@ -42,17 +42,15 @@ int main(int argc, char **argv) {
 	void* mapptrj = mmap(NULL, jobsize, PROT_READ|PROT_WRITE, MAP_SHARED, fdj, 0);
 	if (mapptrj==MAP_FAILED) {
 		stringstream error;
-		error << "MPI Proc "<< my_rank << " Error: Unable to set job shared memory" << endl;
-		cerr << error.str();
-		exit(1);
+		error << "MPI Proc "<< my_rank << " Error: Unable to set job shared memory";
+		throw std::runtime_error(error.str().c_str());
 	}
 	int fdt = shm_open(TABKEY, O_RDWR, 0666);
 	void* mapptrt = mmap(NULL, statsize, PROT_READ|PROT_WRITE, MAP_SHARED, fdt, 0);
 	if (mapptrt==MAP_FAILED) {
 		stringstream error;
-		error << "MPI Proc "<< my_rank << " Error: Unable to set stat shared memory" << endl;
-		cerr << error.str();
-		exit(1);
+		error << "MPI Proc "<< my_rank << " Error: Unable to set stat shared memory";
+		throw std::runtime_error(error.str().c_str());
 	}
 	_job* myJob = static_cast<_job*>(mapptrj);
 	_stat* myStat = static_cast<_stat*>(mapptrt);
@@ -60,9 +58,8 @@ int main(int argc, char **argv) {
 	if ((my_rank==0) and (comm_sz != myJob->numProcs)) {
 		stringstream error;
 		error << "MPI Proc "<< my_rank << " Error: Job Process Number (" << myJob->numProcs;
-		error << ") does not match number of running MPI Processes (" << comm_sz << ")" << endl;
-		cerr << error.str();
-		exit(1);
+		error << ") does not match number of running MPI Processes (" << comm_sz << ")";
+		throw std::runtime_error(error.str().c_str());
 	}
 	
 	myStat[my_rank].PID = getpid();
@@ -72,14 +69,18 @@ int main(int argc, char **argv) {
 	ifstream readOne;
 	readOne.open(myJob->fq1n, ios::in);
 	if (!readOne.is_open()) {
-		cerr << "Error: Cannot open file " << myJob->fq1n << endl;
-		exit(1); 
+		stringstream error;
+		error << "Error: Cannot open file " << myJob->fq1n;
+		throw std::runtime_error(error.str().c_str());
 	} 
 	while(!readOne.eof()) { 
 		getline(readOne, line); //must be a header line
-		if (line.length() < 4) break; //somethings wrong, this is not a header line
+		if (line.length() < 4) { //somethings wrong, this is not a header line
+			stringstream error;
+			error << "Read two attempting to use header: " << line;
+			throw std::runtime_error(error.str().c_str());
+		}
 		string header = line.substr(5,37);
-		
 		size_t header_hash = hashfn(header);
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readOne, line);
@@ -104,12 +105,17 @@ int main(int argc, char **argv) {
 	ifstream readTwo;
 	readTwo.open(myJob->fq2n, ios::in);
 	if (!readTwo.is_open()) {
-		cerr << "Error: Cannot open file " << myJob->fq2n << endl;
-		exit(1);
+		stringstream error;
+		error << "Error: Cannot open file " << myJob->fq2n;
+		throw std::runtime_error(error.str().c_str());
 	}
 	while(!readTwo.eof()) { 
 		getline(readTwo, line); //must be a header line
-		if (line.length() < 4) break; //somethings wrong, this is not a header line
+		if (line.length() < 4) { //somethings wrong, this is not a header line
+			stringstream error;
+			error << "Read two attempting to use header: " << line;
+			throw std::runtime_error(error.str().c_str());
+		}
 		string header = line.substr(5,37);
 		size_t header_hash = hashfn(header);
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
@@ -130,7 +136,9 @@ int main(int argc, char **argv) {
 				readdb.emplace(header, temp);
 				myStat[my_rank].readsComplete++;
 			} catch(const std::out_of_range& oor) {
-				throw std::runtime_error("Cannot find read for header in read two.");
+				stringstream error;
+				error << "Cannot find read for header in read two: " << header;
+				throw std::runtime_error(error.str().c_str());
 			}
 			
 		} else { // this process will not use this header
