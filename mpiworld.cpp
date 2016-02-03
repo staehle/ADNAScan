@@ -81,7 +81,7 @@ int main(int argc, char **argv) {
 	while(!readOne.eof()) { 
 		if (line.length() < 4) { //somethings wrong, this is not a header line
 			stringstream error;
-			error << "Read two attempting to use header: " << line;
+			error << "Read two attempting to use header \"" << line << "\"";
 			myStat[my_rank].section = -11;
 			throw std::runtime_error(error.str().c_str());
 		}
@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
 	while(!readTwo.eof()) {
 		if (line.length() < 4) { //somethings wrong, this is not a header line
 			stringstream error;
-			error << "Read two attempting to use header: " << line;
+			error << "Read two attempting to use header \"" << line << "\"";
 			myStat[my_rank].section = -21;
 			throw std::runtime_error(error.str().c_str());
 		}

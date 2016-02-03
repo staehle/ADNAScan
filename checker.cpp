@@ -78,6 +78,7 @@ int main() {
 	timeout(1000);
 	
 	int clear = 0;
+	int error = 0;
 	
 	while(1) {
 		wclear(statscr);
@@ -105,6 +106,19 @@ int main() {
 			} else if (myStat[i].section == 99) {
 				clear--;
 				procstat << "Completed " << myStat[i].readsComplete << " reads (assigned " << myStat[i].readsAssigned << ")";
+			} else if (myStat[i].section < 0) {
+				procstat << "ERROR: ";
+				if (myStat[i].section == -1) procstat<<"Unable to set job shared memory";
+				else if (myStat[i].section == -2) procstat<<"Unable to set stat shared memory";
+				else if (myStat[i].section == -3) procstat<<"Process number mismatch. See log.";
+				else if (myStat[i].section == -10) procstat<<"Cannot open file " << myJob->fq1n;
+				else if (myStat[i].section == -11) procstat<<"R1 Bad Header. See log.";
+				else if (myStat[i].section == -20) procstat<<"Cannot open file " << myJob->fq2n;
+				else if (myStat[i].section == -21) procstat<<"R2 Bad Header. See log.";
+				else if (myStat[i].section == -22) procstat<<"R2 Header did not find R1 match. See log.";
+				else procstat << "Code " << myStat[i].section;
+				clear--;
+				error++;
 			} else {
 				procstat << "ERROR Unknown state: " << myStat[i].section;
 			}
@@ -117,7 +131,8 @@ int main() {
 		if (clear == 0) { //all procs have status 99
 			wmove(stdscr, LINES-2, 2);
 			wclrtoeol(stdscr);
-			waddstr(stdscr, (char*)"adna has completed the job! Press any key to exit.");
+			if (error<1) waddstr(stdscr, (char*)"adna has completed the job! Press any key to exit.");
+			else waddstr(stdscr, (char*)"ERROR! adna has encountered a problem. Press any key to exit.");
 			timeout(-1);
 			getch();
 			break;
@@ -137,7 +152,9 @@ int main() {
 		system(cmd.str().c_str());
 		if (shm_unlink(JOBKEY)!=0) cerr << "Cleaner error: Unable to unlink job shared memory with: " << JOBKEY << endl;
 		if (shm_unlink(TABKEY)!=0) cerr << "Cleaner error: Unable to unlink stat shared memory with: " << TABKEY << endl;
-		cerr << "Exited adna-check with job completion. adna is NOT running and job info has been cleaned." << endl;
+		if (error<1) cerr << "Exited adna-check with job completion.";
+		else cerr << "Exited adna-check with job ERRORS.";
+		cerr << " adna is NOT running and job info has been cleaned." << endl;
 	}
 	if (ch == 'q' || ch == 'Q') {
 		cerr << "Exited adna-check without killing the adna job. adna is still running." << endl;
