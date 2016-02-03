@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -ne 1] ; then
+if [ $# -ne 1 ] ; then
   echo Must have argument of path to results folder to fix
   exit
 fi
