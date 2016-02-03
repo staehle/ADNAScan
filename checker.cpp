@@ -146,6 +146,10 @@ int main() {
 		int adaps[27][70] = {0};
 		string resdir = "./results/curjob/";
 		string line;
+		int gTotal = 0;
+		int bTotal = 0;
+		int mTotal = 0;
+		int tTotal = 0;
 		
 		// removed adapters stream
 		ifstream ifarems[myJob->numProcs];
@@ -164,9 +168,7 @@ int main() {
 		}
 		
 		// good/bad file compiling
-		/*ifstream ifgbs[myJob->numProcs];
-		int gTotal = 0;
-		int bTotal = 0;
+		ifstream ifgbs[myJob->numProcs];
 		for (int i=0; i<myJob->numProcs; i++) {
 			stringstream ifgbn;
 			ifgbn << resdir << "badReads_" << i << ".txt";
@@ -174,28 +176,59 @@ int main() {
 			
 			while (getline(ifgbs[i], line)) {
 				stringstream ssgb(line);
-				int a, b, c;
-				if (!(ssarem >> a >> b >> c)) { break; } // error
-				adaps[a][b] += c;
+				int a, b;
+				if (!(iss >> a >> b)) { break; } // error
+				gTotal += a;
+				bTotal += b;
 			}
-			ifarems[i].close();
+			ifgbs[i].close();
 		}
 		
-		ifstream gBFile;
-		gBFile.open(gBFileName);
-		//line;
-		gTotal = 0;
-		bTotal = 0;
-		while (getline(gBFile, line)) {
-			istringstream iss(line);
-			int a, b;
-			if (!(iss >> a >> b)) { break; } // error
-			gTotal += a;
-			bTotal += b;
+		// merge file compiling
+		ifstream ifmcs[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifmcn;
+			ifmcn << resdir << "merges_" << i << ".txt";
+			ifmcs[i].open(ifmcn.str(), ios::in);
+			
+			while (getline(ifmcs[i], line)) {
+				mTotal += atoi(line.c_str());
+			}
+			ifmcs[i].close();
 		}
-		gBFile.close();
 		
-		*/
+		// t removal count
+		ifstream iftrs[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream iftrn;
+			iftrn << resdir << "tRem_" << i << ".txt";
+			iftrs[i].open(iftrn.str(), ios::in);
+			
+			while (getline(iftrs[i], line)) {
+				tTotal += atoi(line.c_str());
+			}
+			iftrs[i].close();
+		}
+		
+		// last results
+		stringstream ofrn;
+		ofrn << "./results/curjob/results.txt";
+		ofstream ofrs;
+		ofrs.open(ofrn.str(), ios::out);
+		for(int i =0; i < 27; i++) {
+			ofrs << "Adapter " << i << ":\n";
+			for(int j=0;j<70;j++) {
+				if(adaps[i][j] > 0) {
+					ofrs << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
+				}
+			}
+		}
+		ofrs << "\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
+		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
+		ofrs << "\n\nT Removal Count (Total Pairs): " << tTotal << "\n";
+		ofrs.close();
+		
+		
 		// move files and complete job
 		stringstream cmd;
 		const auto now = chrono::system_clock::now();
