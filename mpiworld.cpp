@@ -73,14 +73,15 @@ int main(int argc, char **argv) {
 		error << "Error: Cannot open file " << myJob->fq1n;
 		throw std::runtime_error(error.str().c_str());
 	} 
+	getline(readOne, line); //must be a header line
 	while(!readOne.eof()) { 
-		getline(readOne, line); //must be a header line
 		if (line.length() < 4) { //somethings wrong, this is not a header line
 			stringstream error;
 			error << "Read two attempting to use header: " << line;
 			throw std::runtime_error(error.str().c_str());
 		}
-		string header = line.substr(5,37);
+		string headerf = line;
+		string header = line.substr(0,line.find(' '));
 		size_t header_hash = hashfn(header);
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readOne, line);
@@ -89,7 +90,7 @@ int main(int argc, char **argv) {
 			getline(readOne, line);
 			string lineQual = line;
 			
-			ReadPair readData = ReadPair(header, lineRead, lineQual, my_rank);
+			ReadPair readData = ReadPair(headerf, lineRead, lineQual, my_rank);
 			readdb.emplace(header, readData);
 			myStat[my_rank].readsAssigned++;
 		} else { // this process will not use this header
@@ -97,6 +98,7 @@ int main(int argc, char **argv) {
 				readOne.ignore(numeric_limits<streamsize>::max(),'\n');
 			}
 		}
+		getline(readOne, line); //must be a header line
 	}
 	readOne.close();
 	
@@ -109,14 +111,15 @@ int main(int argc, char **argv) {
 		error << "Error: Cannot open file " << myJob->fq2n;
 		throw std::runtime_error(error.str().c_str());
 	}
-	while(!readTwo.eof()) { 
-		getline(readTwo, line); //must be a header line
+	getline(readTwo, line); //must be a header line
+	while(!readTwo.eof()) {
 		if (line.length() < 4) { //somethings wrong, this is not a header line
 			stringstream error;
 			error << "Read two attempting to use header: " << line;
 			throw std::runtime_error(error.str().c_str());
 		}
-		string header = line.substr(5,37);
+		string headerf = line;
+		string header = line.substr(0,line.find(' '));
 		size_t header_hash = hashfn(header);
 		if ((header_hash % comm_sz) == (size_t)my_rank) { // this process will use this header
 			getline(readTwo, line);
@@ -127,7 +130,7 @@ int main(int argc, char **argv) {
 			try {
 				ReadPair temp = readdb.at(header);
 				readdb.erase(header);
-				temp.addR2(header, lineRead, lineQual);
+				temp.addR2(headerf, lineRead, lineQual);
 				temp.Compile();
 				fillAdapters(temp.getLeftA(), temp.getLeftAL(), temp.getRightA(), temp.getRightAL());
 				badReads += temp.getBad();
@@ -146,6 +149,7 @@ int main(int argc, char **argv) {
 				readTwo.ignore(numeric_limits<streamsize>::max(),'\n');
 			}
 		}
+		getline(readTwo, line); //must be a header line
 	}
 	readTwo.close();
 	
