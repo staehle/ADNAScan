@@ -11,6 +11,7 @@
 #include <ctime>
 #include <chrono>
 #include <signal.h>
+#include <fstream>
 using namespace std;
 
 int main() {
@@ -177,7 +178,7 @@ int main() {
 			while (getline(ifgbs[i], line)) {
 				stringstream ssgb(line);
 				int a, b;
-				if (!(iss >> a >> b)) { break; } // error
+				if (!(ssgb >> a >> b)) { break; } // error
 				gTotal += a;
 				bTotal += b;
 			}
