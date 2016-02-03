@@ -8,7 +8,7 @@ fi
 curD=`pwd`
 idDir=$1
 
-cd idDir
+cd $idDir
 
 ctr=0
 
