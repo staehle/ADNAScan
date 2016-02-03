@@ -43,6 +43,7 @@ int main(int argc, char **argv) {
 	if (mapptrj==MAP_FAILED) {
 		stringstream error;
 		error << "MPI Proc "<< my_rank << " Error: Unable to set job shared memory";
+		myStat[my_rank].section = -1;
 		throw std::runtime_error(error.str().c_str());
 	}
 	int fdt = shm_open(TABKEY, O_RDWR, 0666);
@@ -50,6 +51,7 @@ int main(int argc, char **argv) {
 	if (mapptrt==MAP_FAILED) {
 		stringstream error;
 		error << "MPI Proc "<< my_rank << " Error: Unable to set stat shared memory";
+		myStat[my_rank].section = -2;
 		throw std::runtime_error(error.str().c_str());
 	}
 	_job* myJob = static_cast<_job*>(mapptrj);
@@ -59,6 +61,7 @@ int main(int argc, char **argv) {
 		stringstream error;
 		error << "MPI Proc "<< my_rank << " Error: Job Process Number (" << myJob->numProcs;
 		error << ") does not match number of running MPI Processes (" << comm_sz << ")";
+		myStat[my_rank].section = -3;
 		throw std::runtime_error(error.str().c_str());
 	}
 	
@@ -71,6 +74,7 @@ int main(int argc, char **argv) {
 	if (!readOne.is_open()) {
 		stringstream error;
 		error << "Error: Cannot open file " << myJob->fq1n;
+		myStat[my_rank].section = -10;
 		throw std::runtime_error(error.str().c_str());
 	} 
 	getline(readOne, line); //must be a header line
@@ -78,6 +82,7 @@ int main(int argc, char **argv) {
 		if (line.length() < 4) { //somethings wrong, this is not a header line
 			stringstream error;
 			error << "Read two attempting to use header: " << line;
+			myStat[my_rank].section = -11;
 			throw std::runtime_error(error.str().c_str());
 		}
 		string headerf = line;
@@ -109,6 +114,7 @@ int main(int argc, char **argv) {
 	if (!readTwo.is_open()) {
 		stringstream error;
 		error << "Error: Cannot open file " << myJob->fq2n;
+		myStat[my_rank].section = -20;
 		throw std::runtime_error(error.str().c_str());
 	}
 	getline(readTwo, line); //must be a header line
@@ -116,6 +122,7 @@ int main(int argc, char **argv) {
 		if (line.length() < 4) { //somethings wrong, this is not a header line
 			stringstream error;
 			error << "Read two attempting to use header: " << line;
+			myStat[my_rank].section = -21;
 			throw std::runtime_error(error.str().c_str());
 		}
 		string headerf = line;
@@ -141,6 +148,7 @@ int main(int argc, char **argv) {
 			} catch(const std::out_of_range& oor) {
 				stringstream error;
 				error << "Cannot find read for header in read two: " << header;
+				myStat[my_rank].section = -22;
 				throw std::runtime_error(error.str().c_str());
 			}
 			
