@@ -17,7 +17,7 @@ while read line ; do
     line="@"$line
   fi
   echo $line >> temp_UD.fastq
-  ctr=$ctr + 1
+  ctr=$ctr+1
 done <mergeCount.temp
 
 cd $curD
