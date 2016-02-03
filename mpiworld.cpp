@@ -36,18 +36,23 @@ int main(int argc, char **argv) {
 	int tRems = 0;
 	int badReads = 0;
 
+
 	int statsize = sizeof(_stat)*comm_sz;
 	int jobsize = sizeof(_job);
 	int fdj = shm_open(JOBKEY, O_RDWR, 0666);
 	void* mapptrj = mmap(NULL, jobsize, PROT_READ|PROT_WRITE, MAP_SHARED, fdj, 0);
+	
+	int fdt = shm_open(TABKEY, O_RDWR, 0666);
+	void* mapptrt = mmap(NULL, statsize, PROT_READ|PROT_WRITE, MAP_SHARED, fdt, 0);
+	_stat* myStat = static_cast<_stat*>(mapptrt);
+	
 	if (mapptrj==MAP_FAILED) {
 		stringstream error;
 		error << "MPI Proc "<< my_rank << " Error: Unable to set job shared memory";
 		myStat[my_rank].section = -1;
 		throw std::runtime_error(error.str().c_str());
 	}
-	int fdt = shm_open(TABKEY, O_RDWR, 0666);
-	void* mapptrt = mmap(NULL, statsize, PROT_READ|PROT_WRITE, MAP_SHARED, fdt, 0);
+
 	if (mapptrt==MAP_FAILED) {
 		stringstream error;
 		error << "MPI Proc "<< my_rank << " Error: Unable to set stat shared memory";
@@ -55,7 +60,7 @@ int main(int argc, char **argv) {
 		throw std::runtime_error(error.str().c_str());
 	}
 	_job* myJob = static_cast<_job*>(mapptrj);
-	_stat* myStat = static_cast<_stat*>(mapptrt);
+
 	
 	if ((my_rank==0) and (comm_sz != myJob->numProcs)) {
 		stringstream error;
