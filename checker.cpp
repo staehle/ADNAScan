@@ -143,6 +143,60 @@ int main() {
 	endwin();
 	
 	if (clear==0) {
+		int adaps[27][70] = {0};
+		string resdir = "./results/curjob/";
+		string line;
+		
+		// removed adapters stream
+		ifstream ifarems[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifaremn;
+			ifaremn << resdir << "aRem_" << i << ".txt";
+			ifarems[i].open(ifaremn.str(), ios::in);
+			
+			while (getline(ifarems[i], line)) {
+				stringstream ssarem(line);
+				int a, b, c;
+				if (!(ssarem >> a >> b >> c)) { break; } // error
+				adaps[a][b] += c;
+			}
+			ifarems[i].close();
+		}
+		
+		// good/bad file compiling
+		/*ifstream ifgbs[myJob->numProcs];
+		int gTotal = 0;
+		int bTotal = 0;
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifgbn;
+			ifgbn << resdir << "badReads_" << i << ".txt";
+			ifgbs[i].open(ifgbn.str(), ios::in);
+			
+			while (getline(ifgbs[i], line)) {
+				stringstream ssgb(line);
+				int a, b, c;
+				if (!(ssarem >> a >> b >> c)) { break; } // error
+				adaps[a][b] += c;
+			}
+			ifarems[i].close();
+		}
+		
+		ifstream gBFile;
+		gBFile.open(gBFileName);
+		//line;
+		gTotal = 0;
+		bTotal = 0;
+		while (getline(gBFile, line)) {
+			istringstream iss(line);
+			int a, b;
+			if (!(iss >> a >> b)) { break; } // error
+			gTotal += a;
+			bTotal += b;
+		}
+		gBFile.close();
+		
+		*/
+		// move files and complete job
 		stringstream cmd;
 		const auto now = chrono::system_clock::now();
 		const auto epoch = now.time_since_epoch();
