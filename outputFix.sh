@@ -21,21 +21,21 @@ done <r1Pass.fastq
 
 
 ctr=0
-while read line ; do
+while read line2 ; do
   if (( $ctr % 4 == 0 )) ; then
-    line="@"$line
+    line2="@"$line2
   fi
-  echo $line >> r2Pass_UD.fastq
+  echo $line2 >> r2Pass_UD.fastq
   ctr=$((ctr+1))
 done <r2Pass.fastq
 
 
 ctr=0
-while read line ; do
+while read line3 ; do
   if (( $ctr % 4 == 0 )) ; then
-    line="@"$line
+    line3="@"$line3
   fi
-  echo $line >> singleReadPass_UD.fastq
+  echo $line3 >> singleReadPass_UD.fastq
   ctr=$((ctr+1))
 done <singleReadPass.fastq
 
