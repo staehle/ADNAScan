@@ -496,8 +496,7 @@ void ReadPair::passOutFile() {
 		ofr1pn << "./results/curjob/read1Pass_" << tNum << ".fastq";
 		ofstream ofr1ps;
 		ofr1ps.open(ofr1pn.str(), ios::app);
-		
-		ofr1ps << "@" << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
+		ofr1ps << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		ofr1ps.close();
 
 		/*char fileName2[15];
@@ -510,7 +509,7 @@ void ReadPair::passOutFile() {
 		ofr2pn << "./results/curjob/read2Pass_" << tNum << ".fastq";
 		ofstream ofr2ps;
 		ofr2ps.open(ofr2pn.str(), ios::app);
-		ofr2ps << "@" << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
+		ofr2ps << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		ofr2ps.close();
 		
 	} else {
@@ -524,7 +523,7 @@ void ReadPair::passOutFile() {
 		ofsrpn << "./results/curjob/singleReadPass_" << tNum << ".fastq";
 		ofstream ofsrps;
 		ofsrps.open(ofsrpn.str(), ios::app);
-		ofsrps << "@" << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
+		ofsrps << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		ofsrps.close();
 		
 		if (badSide == 2) {
@@ -538,7 +537,7 @@ void ReadPair::passOutFile() {
 			ofr2fn << "./results/curjob/read2Fail_" << tNum << ".fastq";
 			ofstream ofr2fs;
 			ofr2fs.open(ofr2fn.str(), ios::app);
-			ofr2fs << "@" << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
+			ofr2fs << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 			ofr2fs.close();
 			
 		} else if (badSide == 1) {
@@ -552,7 +551,7 @@ void ReadPair::passOutFile() {
 			ofr1fn << "./results/curjob/read1Fail_" << tNum << ".fastq";
 			ofstream ofr1fs;
 			ofr1fs.open(ofr1fn.str(), ios::app);
-			ofr1fs << "@" << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
+			ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 			ofr1fs.close();
 		}
 	}
@@ -570,7 +569,7 @@ void ReadPair::failOutFile() {
 		ofr1fn << "./results/curjob/read1Fail_" << tNum << ".fastq";
 		ofstream ofr1fs;
 		ofr1fs.open(ofr1fn.str(), ios::app);
-		ofr1fs << "@" << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
+		ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		ofr1fs.close();
 
 		/*char fileName2[15];
@@ -583,7 +582,7 @@ void ReadPair::failOutFile() {
 		ofr2fn << "./results/curjob/read2Fail_" << tNum << ".fastq";
 		ofstream ofr2fs;
 		ofr2fs.open(ofr2fn.str(), ios::app);
-		ofr2fs << "@" << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
+		ofr2fs << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		ofr2fs.close();
 
 	} else {
@@ -597,7 +596,7 @@ void ReadPair::failOutFile() {
 		ofsrfn << "./results/curjob/singleReadFail_" << tNum << ".fastq";
 		ofstream ofsrfs;
 		ofsrfs.open(ofsrfn.str(), ios::app);
-		ofsrfs << "@" << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
+		ofsrfs << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		ofsrfs.close();
 	}
 }
