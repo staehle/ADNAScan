@@ -217,18 +217,23 @@ int main() {
 		ofrs << "\nfastq read 1 file: " << myJob->fq1n;
 		ofrs << "\nfastq read 2 file: " << myJob->fq2n;
 		time_t curtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
-		ofrs << "\njob completed: " << ctime(&curtime) << "\n";
-		for(int i =0; i < 27; i++) {
-			ofrs << "Adapter " << i << ":\n";
+		ofrs << "\njob completed: " << ctime(&curtime);
+		ofrs << "\n\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
+		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
+		ofrs << "\n\nT Removal Count (Total Pairs): " << tTotal;
+		ofrs << "\n\nAdapter Removal Stats:\n";
+		for(int i=0; i < 27; i++) {
+			stringstream temp;
+			int doPrint = 0;
+			temp << "Adapter " << i << ":\n";
 			for(int j=0;j<70;j++) {
 				if(adaps[i][j] > 0) {
-					ofrs << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
+					temp << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
+					doPrint = 1;
 				}
 			}
+			if (doPrint==1) ofrs << temp.str();
 		}
-		ofrs << "\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
-		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
-		ofrs << "\n\nT Removal Count (Total Pairs): " << tTotal << "\n";
 		ofrs.close();
 		
 		// output results html
@@ -236,17 +241,39 @@ int main() {
 		ofrhn << "./results/curjob/results.html";
 		ofstream ofrhs;
 		ofrhs.open(ofrhn.str(), ios::out);
-		for(int i =0; i < 27; i++) {
-			ofrhs << "Adapter " << i << ":\n";
+		ofrhs << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
+		ofrhs << "<title>adna: " << myJob->jobname << "</title>\n";
+		ofrhs << "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css\" />\n";
+		ofrhs << "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js\"></script>\n";
+		ofrhs << "<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js\"></script>\n";
+		ofrhs << "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js\"></script>\n";
+		ofrhs << "</head><body><div class=\"container\">\n";
+		ofrhs << "<h1>adna <small>the Asynchronous-process DNA fastq checker and trimmer</small></h1>\n";
+		ofrhs << "<h2>job name: <small>" << myJob->jobname;
+		ofrhs << "</h2>\n<h3>fastq read 1 file: <small>" << myJob->fq1n;
+		ofrhs << "</small></h3>\n<h3>fastq read 2 file: <small>" << myJob->fq2n;
+		ofrhs << "</small></h3>\n<h3>job completed: <small>" << ctime(&curtime) << "</small></h3>\n";
+		ofrhs << "<br><h2>Job data stats</h2>\n<table>\n";
+		ofrhs << "<tr><td>Passing Read Count</td><td>" << gTotal;
+		ofrhs << "</td></tr><tr><td>Failing Read Count</td><td>" << bTotal;
+		ofrhs << "</td></tr><tr><td>Merged Read Pair Count</td><td>" << mTotal;
+		ofrhs << "</td></tr><tr><td>T Removal Count (Total Pairs)</td><td>" << tTotal;
+		ofrhs << "</td></tr></table>\n<br><h2>Adapter removal stats</h2>\n";
+		for(int i=0; i < 27; i++) {
+			stringstream temp;
+			int doPrint = 0;
+			temp << "<h3>Adapter " << i << ":</h3>\n<table>\n";
+			temp << "<tr><th>Length</th><th>Count</th></tr>\n";
 			for(int j=0;j<70;j++) {
 				if(adaps[i][j] > 0) {
-					ofrhs << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
+					temp << "<tr><td>" << j << "</td><td>" << adaps[i][j] << "</td>\n";
+					doPrint = 1;
 				}
 			}
+			temp << "</table>\n";
+			if (doPrint==1) ofrhs << temp.str();
 		}
-		ofrhs << "\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
-		ofrhs << "\n\nMerged Read Pair Count: " << mTotal;
-		ofrhs << "\n\nT Removal Count (Total Pairs): " << tTotal << "\n";
+		ofrhs << "</div></body>\n</html>\n";
 		ofrhs.close();
 		
 		
