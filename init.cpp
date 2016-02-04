@@ -1,5 +1,5 @@
-/* ADNA
- * Job Initialization
+/* adna - the Asynchronous-process DNA fastq checker and trimmer
+ * Job Initialization Program
  */
 
 #include <iostream>
@@ -10,9 +10,7 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-	cout << "-------------------------------------------" << endl;
-	cout << "- adna -- Asynchronous DNA fastq trimmer  -" << endl;
-	cout << "-------------------------------------------" << endl;
+	cout << "adna - the Asynchronous-process DNA fastq checker and trimmer" << endl << endl;
 	if (argc < 4) {
 		cerr << "Error: Not enough arguments" << endl;
 		cerr << "Usage: " << argv[0] << " <num_processes> <input_fastq_file_1> <input_fastq_file_2> (output_name)" << endl;
@@ -82,9 +80,10 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	
-	cout << "-------------------------------------------" << endl;
-	cout << "- adna -- initialization successful       -" << endl;
-	cout << "-------------------------------------------" << endl << endl;
+	cout << "Init: Success!" << endl;
+	cout << "Next, run `nohup mpirun -np <numProcs> ./bin/adna-gompi &`" << endl;
+	cout << "   where numProcs is what you assigned here" << endl;
+	cout << "After that, run `adna-check` to view job progress and perform tasks" << endl;
 	return 0;
 }
 

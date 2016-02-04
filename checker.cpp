@@ -1,4 +1,4 @@
-/* ADNA
+/* adna - the Asynchronous-process DNA fastq checker and trimmer
  * Checker application
  */
 
@@ -15,10 +15,6 @@
 using namespace std;
 
 int main() {
-	/*cout << "-------------------------------------------" << endl;
-	cout << "- adna -- current process checker         -" << endl;
-	cout << "-------------------------------------------" << endl;*/
-
 	int jobsize = sizeof(_job);
 	int fdj = shm_open(JOBKEY, O_RDWR, 0666);
 	void* mapptrj = mmap(NULL, jobsize, PROT_READ, MAP_SHARED, fdj, 0);
@@ -48,7 +44,7 @@ int main() {
 	wclear(stdscr);
 	wborder(stdscr, 0, 0, 0, 0, 0, 0, 0, 0);
 	wmove(stdscr, 1, 2);
-	waddstr(stdscr, (char*)"adna -- current job checker");
+	waddstr(stdscr, (char*)"adna - the Asynchronous-process DNA fastq checker and trimmer");
 	wmove(stdscr, 2, 1);
 	whline(stdscr, ACS_HLINE, COLS-2);
 	//wmove(stdscr, 3, 1);
@@ -211,11 +207,17 @@ int main() {
 			iftrs[i].close();
 		}
 		
-		// last results
+		// output results text
 		stringstream ofrn;
 		ofrn << "./results/curjob/results.txt";
 		ofstream ofrs;
 		ofrs.open(ofrn.str(), ios::out);
+		ofrs << "adna - the Asynchronous-process DNA fastq checker and trimmer\n";
+		ofrs << "job name: " << myJob->jobname;
+		ofrs << "\nfastq read 1 file: " << myJob->fq1n;
+		ofrs << "\nfastq read 2 file: " << myJob->fq2n;
+		time_t curtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
+		ofrs << "\njob completed: " << ctime(&curtime) << "\n";
 		for(int i =0; i < 27; i++) {
 			ofrs << "Adapter " << i << ":\n";
 			for(int j=0;j<70;j++) {
@@ -228,6 +230,24 @@ int main() {
 		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
 		ofrs << "\n\nT Removal Count (Total Pairs): " << tTotal << "\n";
 		ofrs.close();
+		
+		// output results html
+		stringstream ofrhn;
+		ofrhn << "./results/curjob/results.html";
+		ofstream ofrhs;
+		ofrhs.open(ofrhn.str(), ios::out);
+		for(int i =0; i < 27; i++) {
+			ofrhs << "Adapter " << i << ":\n";
+			for(int j=0;j<70;j++) {
+				if(adaps[i][j] > 0) {
+					ofrhs << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
+				}
+			}
+		}
+		ofrhs << "\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
+		ofrhs << "\n\nMerged Read Pair Count: " << mTotal;
+		ofrhs << "\n\nT Removal Count (Total Pairs): " << tTotal << "\n";
+		ofrhs.close();
 		
 		
 		// move files and complete job

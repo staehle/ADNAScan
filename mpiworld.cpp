@@ -1,5 +1,5 @@
-/* ADNA
- * Main driver
+/* adna - the Asynchronous-process DNA fastq checker and trimmer
+ * MPI heavy processing section
  */
  
 #include <mpi.h>

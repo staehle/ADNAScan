@@ -1,6 +1,6 @@
 adna
 ====
-**adna** is an asynchronous-multi-process DNA fastq trimmer. 
+**adna** is the Asynchronous-process DNA fastq checker and trimmer
 
 This project was built as a senior project by these computer science students at the University of North Dakota:
 
