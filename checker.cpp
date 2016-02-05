@@ -253,16 +253,17 @@ int main() {
 		ofrhs << "</h2>\n<h3>fastq read 1 file: <small>" << myJob->fq1n;
 		ofrhs << "</small></h3>\n<h3>fastq read 2 file: <small>" << myJob->fq2n;
 		ofrhs << "</small></h3>\n<h3>job completed: <small>" << ctime(&curtime) << "</small></h3>\n";
-		ofrhs << "<br><h2>Job data stats</h2>\n<table>\n";
+		ofrhs << "<br><h2>Job data stats</h2>\n<table class=\"table table-striped table-bordered\">\n";
 		ofrhs << "<tr><td>Passing Read Count</td><td>" << gTotal;
 		ofrhs << "</td></tr><tr><td>Failing Read Count</td><td>" << bTotal;
 		ofrhs << "</td></tr><tr><td>Merged Read Pair Count</td><td>" << mTotal;
 		ofrhs << "</td></tr><tr><td>T Removal Count (Total Pairs)</td><td>" << tTotal;
-		ofrhs << "</td></tr></table>\n<br><h2>Adapter removal stats</h2>\n";
+		ofrhs << "</td></tr></table>\n<br><h2>Adapter removal stats</h2>\n<div class=\"row\">";
+		int tablecount = 0;
 		for(int i=0; i < 27; i++) {
 			stringstream temp;
 			int doPrint = 0;
-			temp << "<h3>Adapter " << i << ":</h3>\n<table>\n";
+			temp << "<div class=\"col-md-3 col-sm-6\"><h3>Adapter " << i << ":</h3>\n<table class=\"table table-striped table-bordered\">\n";
 			temp << "<tr><th>Length</th><th>Count</th></tr>\n";
 			for(int j=0;j<70;j++) {
 				if(adaps[i][j] > 0) {
@@ -270,10 +271,17 @@ int main() {
 					doPrint = 1;
 				}
 			}
-			temp << "</table>\n";
-			if (doPrint==1) ofrhs << temp.str();
+			temp << "</table></div>\n";
+			if (doPrint==1) { 
+				if (tablecount>3) {
+					tablecount = 0;
+					ofrhs << "\n</div>\n<div class=\"row\">";
+				}
+				ofrhs << temp.str();
+				tablecount++;
+			}
 		}
-		ofrhs << "</div></body>\n</html>\n";
+		ofrhs << "</div></div></body>\n</html>\n";
 		ofrhs.close();
 		
 		
