@@ -329,13 +329,6 @@ int ReadPair::aRemove() {
 
 		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
 		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
-
-		/*
-		ofstream oFile;
-		oFile.open("./results/adaptersRemoved", std::ios::app);
-		oFile << "LA" << RemoveAdapter + 1 << " : " << Adapters[RemoveAdapter] << "  length " << FirstLength << "\n" <<  "RA" << RemoveAdapter2 + 1 << " : " << Adapters[RemoveAdapter2] << "  length " << SecondLength << "\n";
-		oFile.close();
-		*/
 		
 		lAdap = RemoveAdapter;
 		lAdapLength = FirstLength;
@@ -445,12 +438,6 @@ int ReadPair::aRemove() {
 		int SecondLength = LongestAdapter2.length();
 		PrintLongestAdapter = Adapters[RemoveAdapter];
 		PrintLongestAdapter2 = Adapters[RemoveAdapter2];
-    	/*
-		ofstream oFile;
-		oFile.open("./results/adaptersRemoved", std::ios::app);
-		oFile << "LA" << RemoveAdapter + 1 << " : " << Adapters[RemoveAdapter] << "  length " << FirstLength << "\n" <<  "RA" << RemoveAdapter2 + 1 << " : " << Adapters[RemoveAdapter2] << "  length " << SecondLength << "\n";
-		oFile.close();
-    	*/
     		
 		lAdap = RemoveAdapter;
 		lAdapLength = FirstLength;
@@ -492,63 +479,40 @@ void ReadPair::passOutFile() {
 		oFile1.open(fileName1, ios::app);
 		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		oFile1.close();*/
+		
 		stringstream ofr1pn;  //This is the correct way to do it.
-		ofr1pn << "./results/curjob/read1Pass_" << tNum << ".fastq";
+		ofr1pn << "./results/curjob/ind/read1Pass_p" << tNum << ".fastq";
 		ofstream ofr1ps;
 		ofr1ps.open(ofr1pn.str(), ios::app);
 		ofr1ps << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		ofr1ps.close();
 
-		/*char fileName2[15];
-		sprintf(fileName2, "./results/read2Pass_%i.fastq", tNum);
-		ofstream oFile2;
-		oFile2.open(fileName2, ios::app);
-		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-		oFile2.close();*/
 		stringstream ofr2pn;
-		ofr2pn << "./results/curjob/read2Pass_" << tNum << ".fastq";
+		ofr2pn << "./results/curjob/ind/read2Pass_p" << tNum << ".fastq";
 		ofstream ofr2ps;
 		ofr2ps.open(ofr2pn.str(), ios::app);
 		ofr2ps << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		ofr2ps.close();
 		
 	} else {
-		/*char fileName[15];
-		sprintf(fileName, "./results/singleReadPass_%i.fastq", tNum);
-		ofstream oFile;
-		oFile.open(fileName, ios::app);
-		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
-		oFile.close();*/
 		stringstream ofsrpn;
-		ofsrpn << "./results/curjob/singleReadPass_" << tNum << ".fastq";
+		ofsrpn << "./results/curjob/ind/singleReadPass_p" << tNum << ".fastq";
 		ofstream ofsrps;
 		ofsrps.open(ofsrpn.str(), ios::app);
 		ofsrps << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
 		ofsrps.close();
 		
 		if (badSide == 2) {
-			/*char fileName2[15];
-			sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum);
-			ofstream oFile2;
-			oFile2.open(fileName2, ios::app);
-			oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-			oFile2.close();*/
 			stringstream ofr2fn;
-			ofr2fn << "./results/curjob/read2Fail_" << tNum << ".fastq";
+			ofr2fn << "./results/curjob/ind/read2Fail_p" << tNum << ".fastq";
 			ofstream ofr2fs;
 			ofr2fs.open(ofr2fn.str(), ios::app);
 			ofr2fs << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 			ofr2fs.close();
 			
 		} else if (badSide == 1) {
-			/*char fileName2[15];
-			sprintf(fileName2, "./results/read1Fail_%i.fastq", tNum);
-			ofstream oFile2;
-			oFile2.open(fileName2, ios::app);
-			oFile2 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-			oFile2.close();*/
 			stringstream ofr1fn;
-			ofr1fn << "./results/curjob/read1Fail_" << tNum << ".fastq";
+			ofr1fn << "./results/curjob/ind/read1Fail_p" << tNum << ".fastq";
 			ofstream ofr1fs;
 			ofr1fs.open(ofr1fn.str(), ios::app);
 			ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
@@ -559,41 +523,23 @@ void ReadPair::passOutFile() {
 
 void ReadPair::failOutFile() {
 	if(fRead.compare("") == 0) {
-		/*char fileName1[15];
-		sprintf(fileName1, "./results/read1Fail_%i.fastq", tNum);
-		ofstream oFile1;
-		oFile1.open(fileName1, ios::app);
-		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-		oFile1.close();*/
 		stringstream ofr1fn;
-		ofr1fn << "./results/curjob/read1Fail_" << tNum << ".fastq";
+		ofr1fn << "./results/curjob/ind/read1Fail_p" << tNum << ".fastq";
 		ofstream ofr1fs;
 		ofr1fs.open(ofr1fn.str(), ios::app);
 		ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		ofr1fs.close();
 
-		/*char fileName2[15];
-		sprintf(fileName2, "./results/read2Fail_%i.fastq", tNum);
-		ofstream oFile2;
-		oFile2.open(fileName2, ios::app);
-		oFile2 << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
-		oFile2.close();*/
 		stringstream ofr2fn;
-		ofr2fn << "./results/curjob/read2Fail_" << tNum << ".fastq";
+		ofr2fn << "./results/curjob/ind/read2Fail_p" << tNum << ".fastq";
 		ofstream ofr2fs;
 		ofr2fs.open(ofr2fn.str(), ios::app);
 		ofr2fs << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
 		ofr2fs.close();
 
 	} else {
-		/*char fileName[15];
-		sprintf(fileName, "./results/singleReadFail_%i.fastq", tNum);
-		ofstream oFile;
-		oFile.open(fileName, ios::app);
-		oFile << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
-		oFile.close();*/
 		stringstream ofsrfn;
-		ofsrfn << "./results/curjob/singleReadFail_" << tNum << ".fastq";
+		ofsrfn << "./results/curjob/ind/singleReadFail_p" << tNum << ".fastq";
 		ofstream ofsrfs;
 		ofsrfs.open(ofsrfn.str(), ios::app);
 		ofsrfs << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";

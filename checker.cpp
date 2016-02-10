@@ -148,13 +148,104 @@ int main() {
 		int mTotal = 0;
 		int tTotal = 0;
 		
+		// combine fastq files
+		ofstream ofr1ps;
+		stringstream ofr1pn;
+		ofr1pn << resdir << myJob->jobname << "_pass_1.fastq";
+		ofr1ps.open(ofr1pn.str(), ios_base::binary);
+		ifstream ifr1ps[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifr1pn;
+			ifr1pn << resdir << "ind/read1Pass_p" << i << ".fastq";
+			ifr1ps[i].open(ifr1pn.str(), ios_base::binary);
+			ofr1ps << ifr1ps[i].rdbuf();
+			ifr1ps[i].close();
+		}
+		ofr1ps.close();
+		
+		ofstream ofr2ps;
+		stringstream ofr2pn;
+		ofr2pn << resdir << myJob->jobname << "_pass_2.fastq";
+		ofr2ps.open(ofr2pn.str(), ios_base::binary);
+		ifstream ifr2ps[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifr2pn;
+			ifr2pn << resdir << "ind/read2Pass_p" << i << ".fastq";
+			ifr2ps[i].open(ifr2pn.str(), ios_base::binary);
+			ofr2ps << ifr2ps[i].rdbuf();
+			ifr2ps[i].close();
+		}
+		ofr2ps.close();
+		
+		ofstream ofr1fs;
+		stringstream ofr1fn;
+		ofr1fn << resdir << myJob->jobname << "_fail_1.fastq";
+		ofr1fs.open(ofr1fn.str(), ios_base::binary);
+		ifstream ifr1fs[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifr1fn;
+			ifr1fn << resdir << "ind/read1Fail_p" << i << ".fastq";
+			ifr1fs[i].open(ifr1fn.str(), ios_base::binary);
+			ofr1fs << ifr1fs[i].rdbuf();
+			ifr1fs[i].close();
+		}
+		ofr1fs.close();
+		
+		ofstream ofr2fs;
+		stringstream ofr2fn;
+		ofr2fn << resdir << myJob->jobname << "_fail_2.fastq";
+		ofr2fs.open(ofr2fn.str(), ios_base::binary);
+		ifstream ifr2fs[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifr2fn;
+			ifr2fn << resdir << "ind/read2Fail_p" << i << ".fastq";
+			ifr2fs[i].open(ifr2fn.str(), ios_base::binary);
+			ofr2fs << ifr2fs[i].rdbuf();
+			ifr2fs[i].close();
+		}
+		ofr2fs.close();
+		
+		ofstream ofrsps;
+		stringstream ofrspn;
+		ofrspn << resdir << myJob->jobname << "_pass_single.fastq";
+		ofrsps.open(ofrspn.str(), ios_base::binary);
+		ifstream ifrsps[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifrspn;
+			ifrspn << resdir << "ind/singleReadFail_p" << i << ".fastq";
+			ifrsps[i].open(ifrspn.str(), ios_base::binary);
+			ofrsps << ifrsps[i].rdbuf();
+			ifrsps[i].close();
+		}
+		ofrsps.close();
+		
+		ofstream ofrsfs;
+		stringstream ofrsfn;
+		ofrsfn << resdir << myJob->jobname << "_fail_single.fastq";
+		ofrsfs.open(ofrsfn.str(), ios_base::binary);
+		ifstream ifrsfs[myJob->numProcs];
+		for (int i=0; i<myJob->numProcs; i++) {
+			stringstream ifrsfn;
+			ifrsfn << resdir << "ind/singleReadPass_p" << i << ".fastq";
+			ifrsfs[i].open(ifrsfn.str(), ios_base::binary);
+			ofrsfs << ifrsfs[i].rdbuf();
+			ifrsfs[i].close();
+		}
+		ofrsfs.close();
+		
 		// removed adapters stream
+		ofstream ofarems;
+		stringstream ofaremn;
+		ofaremn << resdir << "adaptersRemoved.txt";
+		ofarems.open(ofaremn.str(), ios_base::binary);
 		ifstream ifarems[myJob->numProcs];
 		for (int i=0; i<myJob->numProcs; i++) {
 			stringstream ifaremn;
-			ifaremn << resdir << "aRem_" << i << ".txt";
+			ifaremn << resdir << "ind/adaptersRemoved_p" << i << ".txt";
+			ifarems[i].open(ifaremn.str(), ios_base::binary);
+			ofarems << ifarems[i].rdbuf();
+			ifarems[i].close();
 			ifarems[i].open(ifaremn.str(), ios::in);
-			
 			while (getline(ifarems[i], line)) {
 				stringstream ssarem(line);
 				int a, b, c;
@@ -163,14 +254,21 @@ int main() {
 			}
 			ifarems[i].close();
 		}
+		ofarems.close();
 		
 		// good/bad file compiling
+		ofstream ofgbs;
+		stringstream ofgbn;
+		ofgbn << resdir << "goodBadReadsCount.txt";
+		ofgbs.open(ofgbn.str(), ios_base::binary);
 		ifstream ifgbs[myJob->numProcs];
 		for (int i=0; i<myJob->numProcs; i++) {
 			stringstream ifgbn;
-			ifgbn << resdir << "badReads_" << i << ".txt";
+			ifgbn << resdir << "ind/goodBadReadsCount_p" << i << ".txt";
+			ifgbs[i].open(ifgbn.str(), ios_base::binary);
+			ofgbs << ifgbs[i].rdbuf();
+			ifgbs[i].close();
 			ifgbs[i].open(ifgbn.str(), ios::in);
-			
 			while (getline(ifgbs[i], line)) {
 				stringstream ssgb(line);
 				int a, b;
@@ -180,36 +278,51 @@ int main() {
 			}
 			ifgbs[i].close();
 		}
+		ofgbs.close();
 		
 		// merge file compiling
+		ofstream ofmcs;
+		stringstream ofmcn;
+		ofmcn << resdir << "mergeCount.txt";
+		ofmcs.open(ofmcn.str(), ios_base::binary);
 		ifstream ifmcs[myJob->numProcs];
 		for (int i=0; i<myJob->numProcs; i++) {
 			stringstream ifmcn;
-			ifmcn << resdir << "merges_" << i << ".txt";
+			ifmcn << resdir << "ind/mergeCount_p" << i << ".txt";
+			ifmcs[i].open(ifmcn.str(), ios_base::binary);
+			ofmcs << ifmcs[i].rdbuf();
+			ifmcs[i].close();
 			ifmcs[i].open(ifmcn.str(), ios::in);
-			
 			while (getline(ifmcs[i], line)) {
 				mTotal += atoi(line.c_str());
 			}
 			ifmcs[i].close();
 		}
+		ofmcs.close();
 		
 		// t removal count
+		ofstream oftrs;
+		stringstream oftrn;
+		oftrn << resdir << "tRemoveCount.txt";
+		oftrs.open(oftrn.str(), ios_base::binary);
 		ifstream iftrs[myJob->numProcs];
 		for (int i=0; i<myJob->numProcs; i++) {
 			stringstream iftrn;
-			iftrn << resdir << "tRem_" << i << ".txt";
+			iftrn << resdir << "tRemoveCount_p" << i << ".txt";
+			iftrs[i].open(iftrn.str(), ios_base::binary);
+			oftrs << iftrs[i].rdbuf();
+			iftrs[i].close();
 			iftrs[i].open(iftrn.str(), ios::in);
-			
 			while (getline(iftrs[i], line)) {
 				tTotal += atoi(line.c_str());
 			}
 			iftrs[i].close();
 		}
+		oftrs.close();
 		
 		// output results text
 		stringstream ofrn;
-		ofrn << "./results/curjob/results.txt";
+		ofrn << resdir << "results.txt";
 		ofstream ofrs;
 		ofrs.open(ofrn.str(), ios::out);
 		ofrs << "adna - the Asynchronous-process DNA fastq checker and trimmer\n";
@@ -238,7 +351,7 @@ int main() {
 		
 		// output results html
 		stringstream ofrhn;
-		ofrhn << "./results/curjob/results.html";
+		ofrhn << resdir << "results.html";
 		ofstream ofrhs;
 		ofrhs.open(ofrhn.str(), ios::out);
 		ofrhs << "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
@@ -284,12 +397,11 @@ int main() {
 		ofrhs << "</div></div></body>\n</html>\n";
 		ofrhs.close();
 		
-		
 		// move files and complete job
 		stringstream cmd;
 		const auto now = chrono::system_clock::now();
 		const auto epoch = now.time_since_epoch();
-		const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(epoch);
+		const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(epoch); //TODO
 		cmd << "mv ./results/curjob ./results/" << myJob->jobname << "-" << seconds.count();
 		//cerr << "Executing: " << cmd.str() << endl;
 		system(cmd.str().c_str());

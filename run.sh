@@ -8,6 +8,7 @@ fi
 mkdir -p results
 mkdir -p results/curjob
 rm -rf ./results/curjob/*
+mkdir -p results/curjob/ind
 
 if [ "$4" == "" ]; then
 	./bin/adna-init $1 $2 $3

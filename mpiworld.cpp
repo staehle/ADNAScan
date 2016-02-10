@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
 	myStat[my_rank].section = 3;
 	
 	stringstream ofna;
-	ofna << "./results/curjob/aRem_" << my_rank << ".txt";
+	ofna << "./results/curjob/ind/adaptersRemoved_p" << my_rank << ".txt";
 	ofstream ofsa;
 	ofsa.open(ofna.str(), ios::out);
 	for (int i=0; i<27; i++) {
@@ -182,21 +182,21 @@ int main(int argc, char **argv) {
 	ofsa.close();
 	
 	stringstream ofnt;
-	ofnt << "./results/curjob/tRem_" << my_rank << ".txt";
+	ofnt << "./results/curjob/ind/tRemoveCount_p" << my_rank << ".txt";
 	ofstream ofst;
 	ofst.open(ofnt.str(), ios::out);
 	ofst << tRems << endl;
 	ofst.close();
 	
 	stringstream ofnm;
-	ofnm << "./results/curjob/merges_" << my_rank << ".txt";
+	ofnm << "./results/curjob/ind/mergeCount_p" << my_rank << ".txt";
 	ofstream ofsm;
 	ofsm.open(ofnm.str(), ios::out);
 	ofsm << merges << endl;
 	ofsm.close();
 	
 	stringstream ofnb;
-	ofnb << "./results/curjob/badReads_" << my_rank << ".txt";
+	ofnb << "./results/curjob/ind/goodBadReadsCount_p" << my_rank << ".txt";
 	ofstream ofsb;
 	ofsb.open(ofnb.str(), ios::out);
 	ofsb << (2 * myStat[my_rank].readsAssigned - badReads) << " " << badReads << endl;
