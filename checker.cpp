@@ -147,6 +147,8 @@ int main() {
 		int bTotal = 0;
 		int mTotal = 0;
 		int tTotal = 0;
+		time_t curtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
+		tm *loctime = localtime(&curtime);
 		
 		// combine fastq files
 		ofstream ofr1ps;
@@ -329,7 +331,6 @@ int main() {
 		ofrs << "job name: " << myJob->jobname;
 		ofrs << "\nfastq read 1 file: " << myJob->fq1n;
 		ofrs << "\nfastq read 2 file: " << myJob->fq2n;
-		time_t curtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
 		ofrs << "\njob completed: " << ctime(&curtime);
 		ofrs << "\n\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
 		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
@@ -399,10 +400,9 @@ int main() {
 		
 		// move files and complete job
 		stringstream cmd;
-		const auto now = chrono::system_clock::now();
-		const auto epoch = now.time_since_epoch();
-		const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(epoch); //TODO
-		cmd << "mv ./results/curjob ./results/" << myJob->jobname << "-" << seconds.count();
+		cmd << "mv ./results/curjob ./results/" << myJob->jobname << ".";
+		cmd << (1900+loctime->tm_year) << "-" << (1+loctime->tm_mon) << "-" << loctime->tm_mday;
+		cmd << "-" << (1+loctime->tm_hour) << "h" << (1+loctime->tm_min) << "m";
 		//cerr << "Executing: " << cmd.str() << endl;
 		system(cmd.str().c_str());
 		if (shm_unlink(JOBKEY)!=0) cerr << "Cleaner error: Unable to unlink job shared memory with: " << JOBKEY << endl;
