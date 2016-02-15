@@ -230,6 +230,9 @@ int ReadPair::aRemove() {
 	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGGCCTTATCTCGTATGCCGTCTTCTGCTTG"
 	};
 	// If fRead(Overlap) occured
+	
+	//Commenting out this entire Overlap / No Overlap part for testing
+	/*
     if (!fRead.empty()) {
 		string str = fRead;
 		// (this is the String from Sequence)
@@ -338,8 +341,16 @@ int ReadPair::aRemove() {
 		//For testing purpose, not replacing the original string, just creating a new
 		fRead = str.substr(FirstLength, (str.length() - FirstLength - SecondLength));
 		
+	
+		
 	} else {
-        string str1 = read1;
+		
+		// Comment out all of this before <-
+		
+	*/	
+		//Changed this to Read2, to read from opposite side of what we have done already
+		
+        string str1 = read2;
 		// (this is the String from Sequence)
 
 		string LongestAdapter = ""; // Longest Adapter Found. - This is what SHOULD be Removed
@@ -392,7 +403,9 @@ int ReadPair::aRemove() {
 		// Since it is now checking the last part of the sequence, going in a different direction
 
 		//Second
-		string str2 = read2;
+		
+		//Changed this to Read1 (To read from opposite side of what we have done already)
+		string str2 = read1;
 		counter = 0; // Counter for Adapters
 		string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 		int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array)
@@ -444,8 +457,10 @@ int ReadPair::aRemove() {
 		rAdap = RemoveAdapter2;
 		rAdapLength = SecondLength;
 
-		read1 = str1.substr(FirstLength, (str1.length() - FirstLength));
-		read2 = str2.substr(0, (str2.length() - SecondLength));
+		//Changed sides to look for in both read 1 and read 2. Now looking at opposite ends
+
+		read1 = str2.substr(FirstLength, (str2.length() - FirstLength));
+		read2 = str1.substr(0, (str1.length() - SecondLength));
     }
 
 	if ((AdapterFound == true) && (AdapterFound2 == true)) {
