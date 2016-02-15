@@ -461,7 +461,7 @@ int ReadPair::aRemove() {
 
 		read1 = str2.substr(FirstLength, (str2.length() - FirstLength));
 		read2 = str1.substr(0, (str1.length() - SecondLength));
-    }
+    //}
 
 	if ((AdapterFound == true) && (AdapterFound2 == true)) {
 		PrintLongestArray.push_back(PrintLongestAdapter);
