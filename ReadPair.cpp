@@ -271,7 +271,7 @@ int ReadPair::aPrint(string a1, string a2)
 	for(int i = 0; i < (sizeof(adapters)/sizeof(adapters[0])); ++i)
 	{
 		i1 = 0;
-		i2 = (int)adapters[i].length() - (int)a2.length();
+		i2 = (int)adapters[i].length() - (int)a2.length() -1;
 		match = 0;
 		while(i1 < (int)a2.length())
 		{
