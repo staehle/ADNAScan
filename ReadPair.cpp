@@ -242,9 +242,8 @@ int ReadPair::aPrint(string a1, string a2)
 	int i2 = 0;
 	int match = 0;
 	int maxMatch = 0;
-	int adap = -1;
 	//read1 adapter find
-	for(int i = 0; i < (sizeof(adapters)/sizeof(adapters[0])); ++i)
+	for(int i = 0; i < 27 ; ++i) //(sizeof(adapters)/sizeof(adapters[0])); ++i)
 	{
 		i1 = 0;
 		i2 = 0;
