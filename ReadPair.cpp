@@ -176,7 +176,7 @@ int ReadPair::oCheck()
 				if(read1[i1] != read2[i2Temp])
 				{
 					++missCtr;
-					if(missCtr == 3)
+					if(missCtr == 15)
 					{
 						break;
 					}
