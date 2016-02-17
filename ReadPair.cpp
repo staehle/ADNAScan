@@ -267,7 +267,7 @@ int ReadPair::aPrint(string a1, string a2)
 	lAdapLength = (int)a1.length();
 	//read 2 adapter find
 	maxMatch = 0;
-	for(int i = 0; i < (sizeof(adapters)/sizeof(adapters[0])); ++i)
+	for(int i = 0; i < 27 ; ++i) //(sizeof(adapters)/sizeof(adapters[0])); ++i)
 	{
 		i1 = 0;
 		i2 = (int)adapters[i].length() - (int)a2.length() -1;
