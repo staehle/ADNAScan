@@ -389,6 +389,7 @@ int ReadPair::aRemove() {
 						break;
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter.length()) { // If longer than previous (Currently >= !!)
+							std::printf("Current Sequence : Matching Adapter \n %s \n %s", CurrSeq, CurrAdap);
 							LongestAdapter.assign(FoundString);
 							RemoveAdapter = counter;
 							break;
@@ -435,6 +436,7 @@ int ReadPair::aRemove() {
 						break;
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter2.length()) {
+							std::printf("Current Sequence : Matching Adapter \n %s \n %s", CurrSeq, CurrAdap);
 							LongestAdapter2.assign(FoundString);
 							RemoveAdapter2 = counter;
 							break;
