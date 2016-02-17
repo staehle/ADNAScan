@@ -248,9 +248,10 @@ int ReadPair::aPrint(string a1, string a2)
 		i1 = 0;
 		i2 = 0;
 		match = 0;
+		string adap  = adapters[i];
 		while(i1 < (int)a1.length())
 		{
-			if(a1[i1] == adapters[i][i2])
+			if(a1[i1] == adap[i2])
 			{
 				++match;
 			}
@@ -272,9 +273,10 @@ int ReadPair::aPrint(string a1, string a2)
 		i1 = 0;
 		i2 = (int)adapters[i].length() - (int)a2.length();
 		match = 0;
+		string adap  = adapters[i];
 		while(i1 < (int)a2.length())
 		{
-			if(a2[i1] == adapters[i][i2])
+			if(a2[i1] == adap[i2])
 			{
 				++match;
 			}
