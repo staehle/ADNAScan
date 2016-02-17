@@ -161,7 +161,8 @@ int ReadPair::oCheck()
 	//oCtr will be an overlap counter, counting up for each continual match.
 	int i2Temp = 0;//, oCtr;
 	//while (i1 < (int)read1.length()) {
-	while(i2 < (int)read2.length())
+	//-15 to accept only matches of length 15 or greater
+	while(i2 < (int)read2.length() - 15)
 	{
 		if (read1[0] == read2[i2]) 
 		{
@@ -174,8 +175,12 @@ int ReadPair::oCheck()
 				{
 					//i2 += 1;
 					fRead = read1.substr(0, i1) + read2.substr(i2, (int)read2.length() -1);
-					fQual = qual1.substr(0,i1) + qual2;
+					fQual = qual1.substr(0, i1) + qual2.substr(i2, (int)read2.length() -1);
 					merged = 1;
+					if(i2 != 0)
+					{
+						aPrint(read1.substr((int)read1.length() - i2, (int)read1.length()), read2.substr(0, i2 - 1));
+					}
 					return 1;
 				}
 				++i2Temp;
@@ -225,12 +230,56 @@ int ReadPair::aPrint(string a1, string a2)
 	};
 	int i1 = 0;
 	int i2 = 0;
+	int match = 0;
+	int maxMatch = 0;
+	//read1 adapter find
 	for(int i = 0; i < (sizeof(adapters)/sizeof(adapters[0])); ++i)
 	{
 		i1 = 0;
 		i2 = 0;
+		match = 0;
+		while(i1 < (int)a1.length())
+		{
+			if(a1[i1] == adapters[i][i2])
+			{
+				++match;
+			}
+			++i1;
+			++i2;
+		}
+		if(match > maxMatch)
+		{
+			maxMatch = match;
+		}
 		
 	}
+	lAdap = i+1;
+	lAdapLength = (int)a1.length();
+	//read 2 adapter find
+	maxMatch = 0;
+	for(int i = 0; i < (sizeof(adapters)/sizeof(adapters[0])); ++i)
+	{
+		i1 = 0;
+		i2 = (int)adapters[i].length() - (int)a2.length();
+		match = 0;
+		while(i1 < (int)a2.length())
+		{
+			if(a2[i1] == adapters[i][i2])
+			{
+				++match;
+			}
+			++i1;
+			++i2;
+		}
+		if(match > maxMatch)
+		{
+			maxMatch = match;
+		}
+		
+	}
+	rAdap = i+1;
+	rAdapLength = (int)a2.length();
+
 }
 
 int ReadPair::aRemove() {
