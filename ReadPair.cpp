@@ -159,7 +159,7 @@ int ReadPair::oCheck()
 
 	//i1Temp will act as temporary i1 to iterate up the string, searching for continual matches (overlap)
 	//oCtr will be an overlap counter, counting up for each continual match.
-	int i2temp = 0;//, oCtr;
+	int i2Temp = 0;//, oCtr;
 	//while (i1 < (int)read1.length()) {
 	while(i2 < (int)read2.length())
 	{
@@ -167,10 +167,10 @@ int ReadPair::oCheck()
 		{
 			i2Temp = i2;
 			i1 = 0;
-			while (i2temp < (int)read2.length()  && read1[i1] == read2[i2temp]) 
+			while (i2Temp < (int)read2.length()  && read1[i1] == read2[i2Temp]) 
 			{
 				//++oCtr;
-				if (i2temp == (int)read2.length() -1) 
+				if (i2Temp == (int)read2.length() -1) 
 				{
 					//i2 += 1;
 					fRead = read1.substr(0, i1) + read2.substr(i2, (int)read2.length() -1);
@@ -178,7 +178,7 @@ int ReadPair::oCheck()
 					merged = 1;
 					return 1;
 				}
-				++i2temp;
+				++i2Temp;
 				++i1;
 			}
 			//oCtr = 0;
