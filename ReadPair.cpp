@@ -184,12 +184,12 @@ int ReadPair::oCheck()
 				if (i2Temp == (int)read2.length() -1) 
 				{
 					//i2 += 1;
-					fRead = read1.substr(0, i1) + read2.substr(i2 + 1, (int)read2.length() -1);
-					fQual = qual1.substr(0, i1) + qual2.substr(i2 + 1, (int)read2.length() -1);
+					fRead = read1.substr(0, i1 + 1) + read2.substr(i2 + 1, (int)read2.length() - i2 - 2);
+					fQual = qual1.substr(0, i1 + 1) + qual2.substr(i2 + 1, (int)read2.length() - i2 - 2);
 					merged = 1;
 					if(i2 != 0)
 					{
-						aPrint(read1.substr((int)read1.length() - i2 - 1, (int)read1.length() - 1), read2.substr(0, i2 - 1));
+						aPrint(read1.substr((int)read1.length() - i2 - 1, i2 + 1), read2.substr(0, i2 + 1));
 					}
 					return 1;
 				}
@@ -289,7 +289,7 @@ int ReadPair::aPrint(string a1, string a2)
 		rAdap=i + 1;
 	}
 	rAdapLength = (int)a2.length();
-
+return 0;
 }
 
 int ReadPair::aRemove() {
