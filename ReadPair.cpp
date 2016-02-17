@@ -350,7 +350,7 @@ int ReadPair::aRemove() {
 	*/	
 		//Changed this to Read2, to read from opposite side of what we have done already
 		
-        string str1 = read2;
+        string str1 = read1;
 		// (this is the String from Sequence)
 
 		string LongestAdapter = ""; // Longest Adapter Found. - This is what SHOULD be Removed
@@ -405,7 +405,7 @@ int ReadPair::aRemove() {
 		//Second
 		
 		//Changed this to Read1 (To read from opposite side of what we have done already)
-		string str2 = read1;
+		string str2 = read2;
 		counter = 0; // Counter for Adapters
 		string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 		int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array)
