@@ -394,8 +394,8 @@ int ReadPair::aRemove() {
 						break;
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter.length()) { // If longer than previous (Currently >= !!)
-							testtesttest1.open(testtesttest.str(), ios::out);
-							testtesttest1 << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
+							testtesttest1.open(testtesttest.str(), ios::app);
+							testtesttest1 << "Full Sequence : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
 							testtesttest1.close();
 							LongestAdapter.assign(FoundString);
 							RemoveAdapter = counter;
@@ -443,8 +443,8 @@ int ReadPair::aRemove() {
 						break;
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter2.length()) {
-							testtesttest1.open(testtesttest.str(), ios::out);
-							testtesttest1 << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
+							testtesttest1.open(testtesttest.str(), ios::app);
+							testtesttest1 << "Full Sequence : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
 							testtesttest1.close();
 							LongestAdapter2.assign(FoundString);
 							RemoveAdapter2 = counter;
