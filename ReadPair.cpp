@@ -197,6 +197,11 @@ int ReadPair::aRemove() {
 
     string PrintLongestAdapter;
     string PrintLongestAdapter2;
+    
+    stringstream testtesttest;
+    testtesttest << "./results/testtesttest.txt";
+    ofstream testtesttest;
+    
 
 	string Adapters[] =
 	{
@@ -389,7 +394,9 @@ int ReadPair::aRemove() {
 						break;
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter.length()) { // If longer than previous (Currently >= !!)
-							std::printf("Current Sequence : Matching Adapter \n %s \n %s", CurrSeq, CurrAdap);
+							testtesttest.open(testtesttest.str(), ios::out);
+							testtesttest << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
+							testtesttest.close();
 							LongestAdapter.assign(FoundString);
 							RemoveAdapter = counter;
 							break;
@@ -436,7 +443,9 @@ int ReadPair::aRemove() {
 						break;
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter2.length()) {
-							std::printf("Current Sequence : Matching Adapter \n %s \n %s", CurrSeq, CurrAdap);
+							testtesttest.open(testtesttest.str(), ios::out);
+							testtesttest << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
+							testtesttest.close();
 							LongestAdapter2.assign(FoundString);
 							RemoveAdapter2 = counter;
 							break;
@@ -485,6 +494,7 @@ int ReadPair::aRemove() {
     // Returns 1 if only First Half Removed
     // Returns 2 if only Second Half Removed
     // Returns 3 if both Removed
+    
 	return AdapterRemoved;
 }
 
