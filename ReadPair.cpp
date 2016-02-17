@@ -176,7 +176,7 @@ int ReadPair::oCheck()
 				if(read1[i1] != read2[i2Temp])
 				{
 					++missCtr;
-					if(missCtr > (int)((int)read2.length() - i2 - 1) / 10)
+					if(missCtr > (int)((int)read2.length() - i2 - 1) / 8)
 					{
 						break;
 					}
@@ -184,8 +184,8 @@ int ReadPair::oCheck()
 				if (i2Temp == (int)read2.length() -1) 
 				{
 					//i2 += 1;
-					fRead = read1.substr(0, i1 + 1) + read2.substr(i2 + 1, (int)read2.length() - i2 - 2);
-					fQual = qual1.substr(0, i1 + 1) + qual2.substr(i2 + 1, (int)read2.length() - i2 - 2);
+					fRead = read1.substr(0, i1 + 1) + read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+					fQual = qual1.substr(0, i1 + 1) + qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 					merged = 1;
 					if(i2 != 0)
 					{
