@@ -178,7 +178,7 @@ int ReadPair::oCheck()
 					merged = 1;
 					return 1;
 				}
-				++i2Temp;
+				++i2temp;
 				++i1;
 			}
 			//oCtr = 0;
