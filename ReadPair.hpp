@@ -13,6 +13,7 @@ class ReadPair {
 		int qualPass();
 		void tStrip();
 		int oCheck();
+		int aPrint(std::string, std::string);
 		int aRemove();
 		int getLeftA();
 		int getLeftAL();
