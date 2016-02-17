@@ -270,7 +270,7 @@ int ReadPair::aPrint(string a1, string a2)
 	for(int i = 0; i < 27 ; ++i) //(sizeof(adapters)/sizeof(adapters[0])); ++i)
 	{
 		i1 = 0;
-		i2 = (int)adapters[i].length() - (int)a2.length() -1;
+		i2 = (int)adapters[i].length() - (int)a2.length();
 		match = 0;
 		while(i1 < (int)a2.length())
 		{
@@ -284,8 +284,9 @@ int ReadPair::aPrint(string a1, string a2)
 		if(match > maxMatch)
 		{
 			maxMatch = match;
+			rAdap=i + 1;
 		}
-		rAdap=i + 1;
+
 	}
 	rAdapLength = (int)a2.length();
 return 0;
