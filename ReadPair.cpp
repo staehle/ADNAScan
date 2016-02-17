@@ -200,7 +200,7 @@ int ReadPair::aRemove() {
     
     stringstream testtesttest;
     testtesttest << "./results/testtesttest.txt";
-    ofstream testtesttest;
+    ofstream testtesttest1;
     
 
 	string Adapters[] =
@@ -394,9 +394,9 @@ int ReadPair::aRemove() {
 						break;
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter.length()) { // If longer than previous (Currently >= !!)
-							testtesttest.open(testtesttest.str(), ios::out);
-							testtesttest << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
-							testtesttest.close();
+							testtesttest1.open(testtesttest.str(), ios::out);
+							testtesttest1 << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
+							testtesttest1.close();
 							LongestAdapter.assign(FoundString);
 							RemoveAdapter = counter;
 							break;
@@ -443,9 +443,9 @@ int ReadPair::aRemove() {
 						break;
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter2.length()) {
-							testtesttest.open(testtesttest.str(), ios::out);
-							testtesttest << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
-							testtesttest.close();
+							testtesttest1.open(testtesttest.str(), ios::out);
+							testtesttest1 << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
+							testtesttest1.close();
 							LongestAdapter2.assign(FoundString);
 							RemoveAdapter2 = counter;
 							break;
