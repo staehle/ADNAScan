@@ -355,7 +355,7 @@ int ReadPair::aRemove() {
 	*/	
 		//Changed this to Read2, to read from opposite side of what we have done already
 		
-        string str1 = read2;
+        string str2 = read2;
 		// (this is the String from Sequence)
 
 		string LongestAdapter = ""; // Longest Adapter Found. - This is what SHOULD be Removed
@@ -377,7 +377,7 @@ int ReadPair::aRemove() {
 			// Reducing the chance for random matches
 			for (int startIndex = 0; startIndex <= (endIndex - MinLengthAdapters); startIndex = startIndex + 1) {
 				// Creating Temp Strings for match - Printing
-				string CurrSeq = str1.substr(0, (endIndex - startIndex));
+				string CurrSeq = str2.substr(0, (endIndex - startIndex));
 				string CurrAdap = AdapterSearch.substr(startIndex, (endIndex)); // Looking at LAST part of the sequence
 
 				//Adapter Found
@@ -395,7 +395,7 @@ int ReadPair::aRemove() {
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter.length()) { // If longer than previous (Currently >= !!)
 							testtesttest1.open(testtesttest.str(), ios::app);
-							testtesttest1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
+							testtesttest1 << "Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
 							testtesttest1.close();
 							LongestAdapter.assign(FoundString);
 							RemoveAdapter = counter;
@@ -413,7 +413,7 @@ int ReadPair::aRemove() {
 		//Second
 		
 		//Changed this to Read1 (To read from opposite side of what we have done already)
-		string str2 = read1;
+		string str1 = read1;
 		counter = 0; // Counter for Adapters
 		string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 		int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array)
@@ -428,8 +428,8 @@ int ReadPair::aRemove() {
 			int CurrentIncrementer = 0; // Incrementer for the substring Current Adapter
 
 			// from last character minus the length of the adapter. to the last character minus MinLengthAdapters
-			for (int startIndex = ((int)str2.length()- endIndex); startIndex <= ((int)str2.length()-MinLengthAdapters); startIndex = startIndex + 1) {
-				string CurrSeq = str2.substr(startIndex, (startIndex - endIndex));
+			for (int startIndex = ((int)str1.length()- endIndex); startIndex <= ((int)str1.length()-MinLengthAdapters); startIndex = startIndex + 1) {
+				string CurrSeq = str1.substr(startIndex, (startIndex - endIndex));
 				string CurrAdap = AdapterSearch.substr(0, (endIndex - CurrentIncrementer)); //Looking at FIRST part of Sequence
 				size_t found = CurrSeq.find(CurrAdap);
 				
@@ -444,7 +444,7 @@ int ReadPair::aRemove() {
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter2.length()) {
 							testtesttest1.open(testtesttest.str(), ios::app);
-							testtesttest1 << "Full Sequence Read 2: \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
+							testtesttest1 << "Full Sequence Read 1: \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\n";
 							testtesttest1.close();
 							LongestAdapter2.assign(FoundString);
 							RemoveAdapter2 = counter;
@@ -470,8 +470,8 @@ int ReadPair::aRemove() {
 
 		//Changed sides to look for in both read 1 and read 2. Now looking at opposite ends
 
-		read2 = str1.substr(FirstLength, (str1.length() - FirstLength));
-		read1 = str2.substr(0, (str2.length() - SecondLength));
+		read2 = str2.substr(FirstLength, (str2.length() - FirstLength));
+		read1 = str1.substr(0, (str1.length() - SecondLength));
     //}
 
 	if ((AdapterFound == true) && (AdapterFound2 == true)) {
