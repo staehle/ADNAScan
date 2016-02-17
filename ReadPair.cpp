@@ -232,6 +232,7 @@ int ReadPair::aPrint(string a1, string a2)
 	int i2 = 0;
 	int match = 0;
 	int maxMatch = 0;
+	int adap = -1;
 	//read1 adapter find
 	for(int i = 0; i < (sizeof(adapters)/sizeof(adapters[0])); ++i)
 	{
@@ -250,10 +251,10 @@ int ReadPair::aPrint(string a1, string a2)
 		if(match > maxMatch)
 		{
 			maxMatch = match;
+			//+1 to for easier indexing of adapters
+			lAdap=i + 1;
 		}
-		
 	}
-	lAdap = i+1;
 	lAdapLength = (int)a1.length();
 	//read 2 adapter find
 	maxMatch = 0;
@@ -275,9 +276,8 @@ int ReadPair::aPrint(string a1, string a2)
 		{
 			maxMatch = match;
 		}
-		
+		rAdap=i + 1;
 	}
-	rAdap = i+1;
 	rAdapLength = (int)a2.length();
 
 }
