@@ -147,7 +147,8 @@ void ReadPair::tStrip() {
 }
 
 // Look for 11 overlapping nucleotides. Returns max overlap over 10
-int ReadPair::oCheck() {
+int ReadPair::oCheck() 
+{
 	int i1 = 0; //looks at read1
 	int i2 = 0; //looks at read2
 	//longestOLap will keep the largest number of overlapping base matches found. Since there could
@@ -160,28 +161,31 @@ int ReadPair::oCheck() {
 	//oCtr will be an overlap counter, counting up for each continual match.
 	int i2Temp = 0;//, oCtr;
 	//while (i1 < (int)read1.length()) {
-		while(i2 < (int)read2.length())
+	while(i2 < (int)read2.length())
+	{
+		if (read1[0] == read2[i2]) 
 		{
-			if (read1[0] == read2[i2]) {
-				i2Temp = i2;
-				i1 = 0;
-				while (i2Temp < (int)read2.length()  && read1[i1] == read2[i2temp]) {
-					//++oCtr;
-					if (i2temp == (int)read2.length() -1) {
-						//i2 += 1;
-						fRead = read1.substr(0, i1) + read2.substr(i2, (int)read2.length -1);
-						fQual = qual1.substr(0,i1) + qual2;
-						merged = 1;
-						return 1;
-					}
-					++i2Temp;
-					++i1;
+			i2Temp = i2;
+			i1 = 0;
+			while (i2temp < (int)read2.length()  && read1[i1] == read2[i2temp]) 
+			{
+				//++oCtr;
+				if (i2temp == (int)read2.length() -1) 
+				{
+					//i2 += 1;
+					fRead = read1.substr(0, i1) + read2.substr(i2, (int)read2.length() -1);
+					fQual = qual1.substr(0,i1) + qual2;
+					merged = 1;
+					return 1;
 				}
-				//oCtr = 0;
-				//i2 = 0;
+				++i2Temp;
+				++i1;
 			}
-			++i2	
+			//oCtr = 0;
+			//i2 = 0;
 		}
+		++i2;	
+	}
 	//	++i1;
 	//}
 	return 0;
