@@ -586,8 +586,8 @@ int ReadPair::tStripped() {
 
 void ReadPair::Compile() {
 	tStrip();
-	oCheck();
 	aRemove();
+	oCheck();
 	int p = qualPass();
 	if(p == 3) passOutFile();
 	else failOutFile();
