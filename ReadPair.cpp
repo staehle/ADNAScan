@@ -225,7 +225,7 @@ int ReadPair::aPrint(string a1, string a2)
 	};
 	int i1 = 0;
 	int i2 = 0;
-	for(int i = 0; i < adapters.length())
+	for(int i = 0; i < (sizeof(adapters)/sizeof(adapters[0])); ++i)
 	{
 		i1 = 0;
 		i2 = 0;
