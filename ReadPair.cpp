@@ -585,8 +585,8 @@ int ReadPair::aRemove() {
 
 		//Changed sides to look for in both read 1 and read 2. Now looking at opposite ends
 
-		read2 = str2.substr(FirstLength, (str2.length() - FirstLength));
-		read1 = str1.substr(0, (str1.length() - SecondLength));
+		//read2 = str2.substr(FirstLength, (str2.length() - FirstLength));
+		//read1 = str1.substr(0, (str1.length() - SecondLength));
     //}
 
 	if ((AdapterFound == true) && (AdapterFound2 == true)) {
