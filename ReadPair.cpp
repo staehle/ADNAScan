@@ -264,8 +264,7 @@ int ReadPair::aPrint(string a1, string a2)
 			if(match > maxMatch)
 			{
 				maxMatch = match;
-				//+1 for easier identification of adapters. ie the first adapter in the fasta file would be adapter 1
-				lAdap=i + 1;
+				lAdap=i;
 			}
 		}
 	}
@@ -292,7 +291,7 @@ int ReadPair::aPrint(string a1, string a2)
 			if(match > maxMatch)
 			{
 				maxMatch = match;
-				rAdap=i + 1;
+				rAdap=i;
 			}
 		}
 
