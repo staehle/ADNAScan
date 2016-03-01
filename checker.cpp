@@ -214,7 +214,7 @@ int main() {
 		ifstream ifrsps[myJob->numProcs];
 		for (int i=0; i<myJob->numProcs; i++) {
 			stringstream ifrspn;
-			ifrspn << resdir << "ind/singleReadFail_p" << i << ".fastq";
+			ifrspn << resdir << "ind/singleReadPass_p" << i << ".fastq";
 			ifrsps[i].open(ifrspn.str(), ios_base::binary);
 			ofrsps << ifrsps[i].rdbuf();
 			ifrsps[i].close();
@@ -228,7 +228,7 @@ int main() {
 		ifstream ifrsfs[myJob->numProcs];
 		for (int i=0; i<myJob->numProcs; i++) {
 			stringstream ifrsfn;
-			ifrsfn << resdir << "ind/singleReadPass_p" << i << ".fastq";
+			ifrsfn << resdir << "ind/singleReadFail_p" << i << ".fastq";
 			ifrsfs[i].open(ifrsfn.str(), ios_base::binary);
 			ofrsfs << ifrsfs[i].rdbuf();
 			ifrsfs[i].close();
