@@ -106,6 +106,7 @@ int ReadPair::qualPass() {
 			badSide = 1;
 			badRead = 1;
 		}
+		if(ret != 0) ret=1;
 		return ret;
 		
 	} else { // if reads were combined
@@ -116,7 +117,7 @@ int ReadPair::qualPass() {
 			if(qual < 15) failCtr+=1;
 		}
 		
-		if (failCtr < 10) return 3;
+		if (failCtr < 10) return 1;
 		else {
 			badRead = 2;
 			return 0;
@@ -184,12 +185,12 @@ int ReadPair::oCheck()
 				if (i2Temp == (int)read2.length() -1) 
 				{
 					//i2 += 1;
-					fRead = read1.substr(0, i1 + 1) + read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-					fQual = qual1.substr(0, i1 + 1) + qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+					fRead = read1.substr(0, i1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+					fQual = qual1.substr(0, i1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 					merged = 1;
 					if(i2 != 0)
 					{
-						aPrint(read1.substr((int)read1.length() - i2 - 1, i2 + 1), read2.substr(0, i2 + 1));
+						aPrint(read1.substr((int)read1.length() - i2, i2), read2.substr(0, i2));
 					}
 					return 1;
 				}
@@ -249,20 +250,23 @@ int ReadPair::aPrint(string a1, string a2)
 		i2 = 0;
 		match = 0;
 		string adap  = adapters[i];
-		while(i1 < (int)a1.length())
+		if((int)a1.length() <= (int)adap.length())
 		{
-			if(a1[i1] == adap[i2])
+			while(i1 < (int)a1.length())
 			{
-				++match;
+				if(a1[i1] == adap[i2])
+				{
+					++match;
+				}
+				++i1;
+				++i2;
 			}
-			++i1;
-			++i2;
-		}
-		if(match > maxMatch)
-		{
-			maxMatch = match;
-			//+1 to for easier indexing of adapters
-			lAdap=i + 1;
+			if(match > maxMatch)
+			{
+				maxMatch = match;
+				//+1 for easier identification of adapters. ie the first adapter in the fasta file would be adapter 1
+				lAdap=i + 1;
+			}
 		}
 	}
 	lAdapLength = (int)a1.length();
@@ -274,19 +278,22 @@ int ReadPair::aPrint(string a1, string a2)
 		i2 = (int)adapters[i].length() - (int)a2.length();
 		match = 0;
 		string adap  = adapters[i];
-		while(i1 < (int)a2.length())
+		if((int)a1.length() <= (int)adap.length())
 		{
-			if(a2[i1] == adap[i2])
+			while(i1 < (int)a2.length())
 			{
-				++match;
+				if(a2[i1] == adap[i2])
+				{
+					++match;
+				}
+				++i1;
+				++i2;
 			}
-			++i1;
-			++i2;
-		}
-		if(match > maxMatch)
-		{
-			maxMatch = match;
-			rAdap=i + 1;
+			if(match > maxMatch)
+			{
+				maxMatch = match;
+				rAdap=i + 1;
+			}
 		}
 
 	}
@@ -709,7 +716,7 @@ void ReadPair::Compile() {
 	//aRemove();
 	oCheck();
 	int p = qualPass();
-	if(p == 3) passOutFile();
+	if(p == 1) passOutFile();
 	else failOutFile();
 }
 
