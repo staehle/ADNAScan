@@ -275,7 +275,7 @@ int ReadPair::oCheck()
 
 int ReadPair::lUniversalTest()
 {
-	string uAdap = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+	string uAdap = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT";
 	int iR = 0;
 	int iA = 0;
 	int iATemp = 0;
@@ -310,7 +310,7 @@ int ReadPair::lUniversalTest()
 
 int ReadPair::rUniversalTest()
 {
-	string uAdap = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+	string uAdap = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT";
 	int iR = (int)read1.length() - (int)uAdap.length)();
 	int iRTemp = iR;
 	int iA = 0;
