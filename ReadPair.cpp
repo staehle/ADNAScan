@@ -182,7 +182,7 @@ int ReadPair::ToCheck()
 				if(read1[i1] != read2[i2Temp])
 				{
 					++missCtr;
-					if(i1 > 4 && missCtr > i1 / 6)
+					if(missCtr > (i2 +1) / 6)
 					{
 						break;
 					}
@@ -193,7 +193,7 @@ int ReadPair::ToCheck()
 					fRead = read1.substr(0, i1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 					fQual = qual1.substr(0, i1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 					merged = 1;
-					if(i1 < (int)read1.length() - 1)
+					if(i1 != (int)read1.length() - 1)
 					{
 						aPrint(read1.substr(i1 + 1, (int)read1.length() - i1), read2.substr(i2 + 1,(int)read2.length() - i2));
 					}
@@ -238,40 +238,35 @@ int ReadPair::oCheck()
 	//-15 to accept only matches of length 15 or greater
 	while(i2 < (int)read2.length() - 15)
 	{
-		//if (read1[0] == read2[i2]) 
-		//{
-			missCtr = 0;
-			i2Temp = i2;
-			i1 = 0;
-			while (i2Temp < (int)read2.length())//  && read1[i1] == read2[i2Temp]) 
+		missCtr = 0;
+		i2Temp = i2;
+		i1 = 0;
+		while (i2Temp < (int)read2.length())//  && read1[i1] == read2[i2Temp]) 
+		{
+			//++oCtr;
+			if(read1[i1] != read2[i2Temp])
 			{
-				//++oCtr;
-				if(read1[i1] != read2[i2Temp])
+				++missCtr;
+				if(missCtr > ((int)read2.length() - i2) / 6)
 				{
-					++missCtr;
-					if(i1 > 15 && missCtr > i1 / 5)
-					{
-						break;
-					}
+					break;
 				}
-				if (i2Temp == (int)read2.length() -1) 
-				{
-					//i2 += 1;
-					fRead = read1.substr(0, i1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-					fQual = qual1.substr(0, i1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-					merged = 1;
-					if(i1 != (int)read1.length()-1)
-					{
-						aPrint(read1.substr((int)read1.length() - i2, i2), read2.substr(0, i2));
-					}
-					return 1;
-				}
-				++i2Temp;
-				++i1;
 			}
-			//oCtr = 0;
-			//i2 = 0;
-		//}
+			if (i2Temp == (int)read2.length() -1) 
+			{
+				//i2 += 1;
+				fRead = read1.substr(0, i1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				fQual = qual1.substr(0, i1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				merged = 1;
+				if(i1 != (int)read1.length()-1)
+				{
+					aPrint(read1.substr(i1 + 1,(int)read1.length() - i1), read2.substr(0, i2));
+				}
+				return 1;
+			}
+			++i2Temp;
+			++i1;
+		}
 		++i2;	
 	}
 	//	++i1;
