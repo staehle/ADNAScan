@@ -187,7 +187,7 @@ int ReadPair::ToCheck()
 						break;
 					}
 				}
-				if (i2Temp == 0 && i1 > 13) 
+				if (i2Temp == 0) 
 				{
 					//i2 += 1;
 					fRead = read1.substr(0, i1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -254,7 +254,7 @@ int ReadPair::oCheck()
 						break;
 					}
 				}
-				if (i2Temp == (int)read2.length() -1 && i1 > 13) 
+				if (i2Temp == (int)read2.length() -1) 
 				{
 					//i2 += 1;
 					fRead = read1.substr(0, i1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
