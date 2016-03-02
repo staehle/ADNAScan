@@ -12,6 +12,7 @@ class ReadPair {
 		void addR2(std::string, std::string, std::string);
 		int qualPass();
 		void tStrip();
+		int ToCheck();
 		int oCheck();
 		int aPrint(std::string, std::string);
 		int aRemove();
