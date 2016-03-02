@@ -299,6 +299,7 @@ int ReadPair::lUniversalTest()
 			if(iATemp == (int)uAdap.length()-1)
 			{
 				read2 = read2.substr((int)uAdap.length() - iA, (int)read2.length() - (int)uAdap.length() - iA);
+				qual2 = qual2.substr((int)uAdap.length() - iA, (int)qual2.length() - (int)uAdap.length() - iA);
 				return 1;
 			}
 			++iATemp;
@@ -334,6 +335,7 @@ int ReadPair::rUniversalTest()
 			if(iRTemp == (int)read1.length()-1)
 			{
 				read1 = read1.substr(0, (int)read1.length() - iR);
+				qual1 = qual1.substr(0, (int)qual1.length() - iR);
 				return 1;
 			}
 			++iRTemp;
