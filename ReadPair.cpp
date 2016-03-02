@@ -784,7 +784,7 @@ int ReadPair::tStripped() {
 
 void ReadPair::Compile() {
 	tStrip();
-	aRemove();
+	aRemove(read1,read2);
 	ToCheck();
 	int p = qualPass();
 	if(p == 1) passOutFile();
