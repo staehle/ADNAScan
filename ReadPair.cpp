@@ -585,7 +585,7 @@ int ReadPair::aRemove() {
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter.length()) { // If longer than previous (Currently >= !!)
 							testtesttest2.open(testtesttestt.str(), ios::app); //For Testing Prints
-							testtesttest2 << "Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(FirstLength, (str2.length() - FirstLength))) <<"\n";
+							testtesttest2 << "Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(LongestAdapter2.length(), (str2.length() - LongestAdapter2.length()))) <<"\n";
 							testtesttest2.close();
 							LongestAdapter.assign(FoundString); //assigning longest found string
 							RemoveAdapter = counter;	    //assigning adapter to remove
@@ -634,7 +634,7 @@ int ReadPair::aRemove() {
 					} else { // If another adapter is found
 						if(FoundString.length() >= LongestAdapter2.length()) {
 							testtesttest1.open(testtesttest.str(), ios::app);
-							testtesttest1 << "Full Sequence Read 1: \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\nNew Full Sequence Read 1: \n" << (str1.substr(0, (str1.length() - SecondLength))) <<"\n";
+							testtesttest1 << "Full Sequence Read 1: \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\nNew Full Sequence Read 1: \n" << (str1.substr(0, (str1.length() - LongestAdapter.length()))) <<"\n";
 							testtesttest1.close();
 							LongestAdapter2.assign(FoundString);
 							RemoveAdapter2 = counter;
