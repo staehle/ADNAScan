@@ -853,9 +853,9 @@ int ReadPair::tStripped() {
 void ReadPair::Compile() {
 	tStrip();
 	//aRemove();
-	//oCheck();
-	lUniversalTest();
-	rUniversalTest();
+	oCheck();
+	//lUniversalTest();
+	//rUniversalTest();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
