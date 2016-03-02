@@ -169,7 +169,7 @@ int ReadPair::ToCheck()
 	int missCtr = 0;
 	//while (i1 < (int)read1.length()) {
 	//-15 to accept only matches of length 15 or greater
-	while(i2 >= 0)
+	while(i2 >= 15)
 	{
 		//if (read1[0] == read2[i2]) 
 		//{
