@@ -182,7 +182,7 @@ int ReadPair::ToCheck()
 				if(read1[i1] != read2[i2Temp])
 				{
 					++missCtr;
-					if(missCtr > (i2 +1) / 6)
+					if(missCtr > (i2 +1) / 8)
 					{
 						break;
 					}
