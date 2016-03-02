@@ -106,7 +106,10 @@ int ReadPair::qualPass() {
 			badSide = 1;
 			badRead = 1;
 		}
-		if(ret != 0) ret=1;
+		if(ret != 0)
+		{
+			ret=1;
+		}
 		return ret;
 		
 	} else { // if reads were combined
@@ -782,7 +785,7 @@ int ReadPair::tStripped() {
 void ReadPair::Compile() {
 	tStrip();
 	//aRemove();
-	oCheck();
+	ToCheck();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
