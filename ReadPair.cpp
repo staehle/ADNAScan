@@ -247,7 +247,7 @@ int ReadPair::oCheck()
 			if(read1[i1] != read2[i2Temp])
 			{
 				++missCtr;
-				if(missCtr > ((int)read2.length() - i2) / 6)
+				if(missCtr > ((int)read2.length() - i2) / 8)
 				{
 					break;
 				}
@@ -780,7 +780,7 @@ int ReadPair::tStripped() {
 void ReadPair::Compile() {
 	tStrip();
 	//aRemove();
-	oCheck();
+	ToCheck();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
