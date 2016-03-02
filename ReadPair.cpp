@@ -65,8 +65,7 @@ void ReadPair::addR2(string d2, string r2, string q2) {
 	//Compile(); //call after
 }
 
-// Quality test for the two parts of this read. Since we aren't yet sure what will be done after finding the
-// bad pairs, and because many of the reads look to be failing, I currently just have a failure/pass print
+// Quality test for the two parts of this read. Returns 0 if no passing reads, otherwise returns 1 and records which read failed to be used in output mehtod
 int ReadPair::qualPass() {
 	if(fRead.compare("") == 0) {
 		//test first half
@@ -247,7 +246,7 @@ int ReadPair::oCheck()
 			if(read1[i1] != read2[i2Temp])
 			{
 				++missCtr;
-				if(missCtr > ((int)read2.length() - i2) / 8)
+				if(missCtr > (int)((int)read2.length() - i2) / 8)
 				{
 					break;
 				}
