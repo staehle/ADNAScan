@@ -154,6 +154,9 @@ void ReadPair::tStrip() {
 // Look for 11 overlapping nucleotides. Returns max overlap over 10
 int ReadPair::oCheck() 
 {
+	int maxScore = 0;
+	int bestI1 = 0;
+	int bestI2 = 0;
 	int i1 = 0; //looks at read1
 	int i2 = 0; //looks at read2
 	//longestOLap will keep the largest number of overlapping base matches found. Since there could
@@ -165,12 +168,12 @@ int ReadPair::oCheck()
 	//i1Temp will act as temporary i1 to iterate up the string, searching for continual matches (overlap)
 	//oCtr will be an overlap counter, counting up for each continual match.
 	int i2Temp = 0;//, oCtr;
-	int missCtr = 0;
+	int score = 0;
 	//while (i1 < (int)read1.length()) {
 	//-15 to accept only matches of length 15 or greater
 	while(i2 < (int)read2.length() - 15)
 	{
-		missCtr = 0;
+		score = 0;
 		i2Temp = i2;
 		i1 = 0;
 		while (i2Temp < (int)read2.length())//  && read1[i1] == read2[i2Temp]) 
@@ -178,32 +181,44 @@ int ReadPair::oCheck()
 			//++oCtr;
 			if(read1[i1] != read2[i2Temp])
 			{
-				++missCtr;
-				if(missCtr > (int)((int)read2.length() - i2) / 3)
-				{
-					break;
-				}
+				score -= 2;
+				//if(missCtr > (int)((int)read2.length() - i2) / 3)
+				//{
+				//	break;
+				//}
+			}
+			else
+			{
+				score += 1;
 			}
 			if (i2Temp == (int)read2.length() -1 )//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
 				//i2 += 1;
-				fRead = read1.substr(0, i1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				fQual = qual1.substr(0, i1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				merged = 1;
-				if(i1 != (int)read1.length()-1)
+				if(score > maxScore)
 				{
-					aPrint(read1.substr(i1 + 1,(int)read1.length() - i1), read2.substr(0, i2));
+					maxScore = score;
+					bestI1 = i1;
+					bestI2 = i2;
 				}
-				return 1;
 			}
 			++i2Temp;
 			++i1;
 		}
 		++i2;	
 	}
+	if(maxScore > 0)
+	{
+		fRead = read1.substr(0, bestI1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		fQual = qual1.substr(0, bestI1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		merged = 1;
+		if(bestI1 != (int)read1.length()-1)
+		{
+			aPrint(read1.substr(bestI1 + 1,(int)read1.length() - bestI1), read2.substr(0, bestI2));
+		}
+	}
 	//	++i1;
 	//}
-	return 0;
+	return 1;
 }
 
 int ReadPair::lUniversalTest()
