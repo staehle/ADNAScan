@@ -372,7 +372,7 @@ int ReadPair::aPrint(string a1, string a2)
 return 0;
 }
 
-int ReadPair::aRemove(string a1, string a2) {
+int ReadPair::aRemove() {
     const int MinLengthAdapters = 6; // Min Length for accepted Adapters
     const int NumberOfAdapters = 27; // Amount of Adapters we are using // I use this instead of length, for more flexibility
 
@@ -546,7 +546,7 @@ int ReadPair::aRemove(string a1, string a2) {
 	*/	
 		//Changed this to Read2, to read from opposite side of what we have done already
 		
-        string str2 = a2;
+        string str2 = read2;
 		// (this is the String from Sequence)
 
 		string LongestAdapter = ""; // Longest Adapter Found. - This is what SHOULD be Removed
@@ -603,7 +603,7 @@ int ReadPair::aRemove(string a1, string a2) {
 		//Second
 		
 		//Changed this to Read1 (To read from opposite side of what we have done already)
-		string str1 = a1;
+		string str1 = read1;
 		counter = 0; // Counter for Adapters
 		string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 		int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array)
@@ -784,7 +784,7 @@ int ReadPair::tStripped() {
 
 void ReadPair::Compile() {
 	tStrip();
-	aRemove(read1,read2);
+	aRemove();
 	ToCheck();
 	int p = qualPass();
 	if(p == 1) passOutFile();
