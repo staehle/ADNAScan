@@ -273,6 +273,76 @@ int ReadPair::oCheck()
 	return 0;
 }
 
+int lUniversalTest()
+{
+	string uAdap = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+	int iR = 0;
+	int iA = 0;
+	int iATemp = 0;
+	int missCtr = 0;
+	while(iA < (int)uAdapt.length() - 5)
+	{
+		missCtr = 0;
+		iATemp = iA;
+		iR = 0;
+		while (iATemp < (int)uAdap.length())//  && read1[i1] == read2[i2Temp]) 
+		{
+			//++oCtr;
+			if(read2[iR] != uAdapt[iATemp])
+			{
+				++missCtr;
+				if(missCtr > (int)((int)uAdap.length() - iA) / 5)
+				{
+					break;
+				}
+			}
+			if(iATemp == (int)uAdap.length()-1)
+			{
+				read2 = read2.substr((int)uAdap.length() - iA, (int)read2.length() - (int)uAdap.length() - iA);
+				return 1;
+			}
+			++iATemp;
+			++iR;
+		}
+		++iA;
+	}
+}
+
+int rUniversalTest()
+{
+	string uAdap = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
+	int iR = (int)read1.length() - (int)uAdap.length)();
+	int iRTemp = iR;
+	int iA = 0;
+	int missCtr = 0;
+	while(iR < (int)read1.length() - 5)
+	{
+		missCtr = 0;
+		iRTemp = iR;
+		iA = 0;
+		while (iRTemp < (int)read1.length())//  && read1[i1] == read2[i2Temp]) 
+		{
+			//++oCtr;
+			if(read1[iRTemp] != uAdapt[iA])
+			{
+				++missCtr;
+				if(missCtr > (int)((int)read1.length() - iR) / 5)
+				{
+					break;
+				}
+			}
+			if(iRTemp == (int)read1.length()-1)
+			{
+				read1 = read1.substr(0, (int)read1.length() - iR);
+				return 1;
+			}
+			++iRTemp;
+			++iA;
+		}
+		++iR;
+	}
+}
+
 int ReadPair::aPrint(string a1, string a2)
 {
 	string adapters[] =
@@ -779,7 +849,9 @@ int ReadPair::tStripped() {
 void ReadPair::Compile() {
 	tStrip();
 	//aRemove();
-	oCheck();
+	//oCheck();
+	lUniversalTest();
+	rUniversalTest();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
