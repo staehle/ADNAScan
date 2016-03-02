@@ -273,7 +273,7 @@ int ReadPair::oCheck()
 	return 0;
 }
 
-int lUniversalTest()
+int ReadPair::lUniversalTest()
 {
 	string uAdap = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
 	int iR = 0;
@@ -308,7 +308,7 @@ int lUniversalTest()
 	}
 }
 
-int rUniversalTest()
+int ReadPair::rUniversalTest()
 {
 	string uAdap = "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT"
 	int iR = (int)read1.length() - (int)uAdap.length)();
