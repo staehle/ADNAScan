@@ -166,8 +166,8 @@ int ReadPair::oCheck()
 	//-15 to accept only matches of length 15 or greater
 	while(i2 < (int)read2.length() - 15)
 	{
-		if (read1[0] == read2[i2]) 
-		{
+		//if (read1[0] == read2[i2]) 
+		//{
 			missCtr = 0;
 			i2Temp = i2;
 			i1 = 0;
@@ -177,7 +177,7 @@ int ReadPair::oCheck()
 				if(read1[i1] != read2[i2Temp])
 				{
 					++missCtr;
-					if(missCtr > (int)((int)read2.length() - i2 - 1) / 5)
+					if(missCtr > (int)((int)read2.length() - i2 - 1) / 6)
 					{
 						break;
 					}
@@ -199,7 +199,7 @@ int ReadPair::oCheck()
 			}
 			//oCtr = 0;
 			//i2 = 0;
-		}
+		//}
 		++i2;	
 	}
 	//	++i1;
