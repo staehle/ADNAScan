@@ -280,7 +280,7 @@ int ReadPair::lUniversalTest()
 	int iA = 0;
 	int iATemp = 0;
 	int missCtr = 0;
-	while(iA < (int)uAdapt.length() - 5)
+	while(iA < (int)uAdap.length() - 5)
 	{
 		missCtr = 0;
 		iATemp = iA;
@@ -288,7 +288,7 @@ int ReadPair::lUniversalTest()
 		while (iATemp < (int)uAdap.length())//  && read1[i1] == read2[i2Temp]) 
 		{
 			//++oCtr;
-			if(read2[iR] != uAdapt[iATemp])
+			if(read2[iR] != uAdap[iATemp])
 			{
 				++missCtr;
 				if(missCtr > (int)((int)uAdap.length() - iA) / 5)
@@ -323,7 +323,7 @@ int ReadPair::rUniversalTest()
 		while (iRTemp < (int)read1.length())//  && read1[i1] == read2[i2Temp]) 
 		{
 			//++oCtr;
-			if(read1[iRTemp] != uAdapt[iA])
+			if(read1[iRTemp] != uAdap[iA])
 			{
 				++missCtr;
 				if(missCtr > (int)((int)read1.length() - iR) / 5)
