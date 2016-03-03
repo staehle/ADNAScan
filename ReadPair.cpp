@@ -522,7 +522,7 @@ int ReadPair::aRemove() {
 
 		while (counter2 < NumberOfAdapters){ // While loop to get every Adapter.
 			string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
-			AdapterSearch.assign(Adapters[counter]);
+			AdapterSearch.assign(Adapters[counter2]);
 			int endIndex = AdapterSearch.length(); // The length of the adapter
 			string FoundString = ""; // Temp value for current string
 
