@@ -389,7 +389,7 @@ return 0;
 }
 
 int ReadPair::aRemove() {
-    const int MinLengthAdapters = 6; // Min Length for accepted Adapters
+    const int MinLengthAdapters = 12; // Min Length for accepted Adapters
     const int NumberOfAdapters = 27; // Amount of Adapters we are using // I use this instead of length, for more flexibility
 
     // These are for Return
@@ -402,12 +402,12 @@ int ReadPair::aRemove() {
     bool AdapterFound2 = false;
 
     
-    stringstream testtesttest;
-    testtesttest << "./results/testtesttest.txt";
-    ofstream testtesttest1;
-    stringstream testtesttestt;
-    testtesttestt << "./results/testtesttestt.txt";
-    ofstream testtesttest2;
+    stringstream testr1;
+    testr1 << "./results/testr1.txt";
+    ofstream test1;
+    stringstream testr2;
+    testr2 << "./results/testr2t.txt";
+    ofstream test2;
     
 
 	string Adapters[] =
@@ -441,172 +441,63 @@ int ReadPair::aRemove() {
 	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGAAACGATCTCGTATGCCGTCTTCTGCTTG",
 	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGGCCTTATCTCGTATGCCGTCTTCTGCTTG"
 	};
-	// If fRead(Overlap) occured
-	
-	//This will be used if we only for Overlapped strings
-	/*
-    if (!fRead.empty()) {
-		string str = fRead;
-		// (this is the String from Sequence)
-		
-		string LongestAdapter = ""; // Longest Adapter Found. - This is what SHOULD be Removed
-		int counter = 0; // Counter for Adapters
-		int RemoveAdapter = 0; // Longest Adapter that is found in sequence (The number in my array) ETC Adapter Number 4
-		vector<int> NumbOfArrays; //Array for all the adapters found - For testing
-		AdapterFound = false; // If Adapter Found
-		
-		while (counter < NumberOfAdapters) { // While loop to get every Adapter.
-			string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
-			AdapterSearch.assign(Adapters[counter]);
-			int endIndex = AdapterSearch.length(); // Again not needed, could use AdapterSearch.length() in the for loop
 
-			string FoundString = "";
-			// For loop, From the first Character, to the length of the Adapter - Minimum characters matching (6) in our case
-			// (We don't want to look for matching 1/2/3/4/5 adapter matches, since these couldve matched randomly.)
-			// (C T G A The chances of one of our etc 30 adapters to have a matching any 2 character start is 2/30, but 6 matching randomly is 0.007/30)
-			// Reducing the chance for random matches
-			for (int startIndex = 0; startIndex <= (endIndex - MinLengthAdapters); startIndex = startIndex + 1) {
-				// Creating Temp Strings for match - Printing
-				string CurrSeq = str.substr(0, (endIndex - startIndex));
-				string CurrAdap = AdapterSearch.substr(startIndex, (endIndex)); // Looking at LAST part of the sequence
 
-				//Adapter Found
-				size_t found = CurrSeq.find(CurrAdap);
-				if (found != string::npos) {
-					FoundString.assign(CurrSeq);
-					NumbOfArrays.push_back(counter);
-
-					//If First Adapter Found
-					if (AdapterFound == false) {
-						LongestAdapter.assign(FoundString);
-						AdapterFound = true;
-						RemoveAdapter = counter; // assigning adapter to remove
-						break;
-					} else { // If another adapter is found
-						if(FoundString.length() >= LongestAdapter.length()) { // If longer than previous (Currently >= !!)
-							LongestAdapter.assign(FoundString);
-							RemoveAdapter = counter;
-							break;
-						} else break;
-					} // For the else
-				} // If Found
-			} // For Loop
-			counter ++;
-		}
-		
-		// Basically the same as first Half, the only thing different is the For loop
-		// Since it is now checking the last part of the sequence, going in a different direction
-
-		counter = 0; // Counter for Adapters
-		string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
-		int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array)
-		vector<int> NumbOfArrays2; //Array for all the adapters found - For testing
-		AdapterFound2 = false; // If Adapter Found
-
-		// str.length to avoid too small sequences
-		while (counter < NumberOfAdapters) { //
-			string AdapterSearch = "";
-			AdapterSearch.assign(Adapters[counter]);
-			int endIndex = AdapterSearch.length();
-			string FoundString = "";
-			int CurrentIncrementer = 0; // Incrementer for the substring Current Adapter
-			// from last character minus the length of the adapter. to the last character minus MinLengthAdapters
-
-			for (int startIndex = ((int)str.length()- endIndex); startIndex <= ((int)str.length()-MinLengthAdapters); startIndex = startIndex + 1) {
-				string CurrSeq = str.substr(startIndex, (startIndex - endIndex));
-				string CurrAdap = AdapterSearch.substr(0, (endIndex - CurrentIncrementer)); //Looking at FIRST part of Sequence
-
-				std::size_t found = CurrSeq.find(CurrAdap);
-				if (found != string::npos) {
-					FoundString.assign(CurrSeq);
-					NumbOfArrays2.push_back(counter);
-
-					if (AdapterFound2 == false) { // If first Adapter Found
-						LongestAdapter2.assign(FoundString);
-						AdapterFound2 = true;
-						RemoveAdapter2 = counter; // assigning adapter to remove
-						break;
-					} else { // If another adapter is found
-						if(FoundString.length() >= LongestAdapter2.length()) {
-							LongestAdapter2.assign(FoundString);
-							RemoveAdapter2 = counter;
-							break;
-						} else break;
-					}
-				}
-				CurrentIncrementer++;
-			}
-			counter++;
-		}
-
-		int FirstLength = LongestAdapter.length();
-		int SecondLength = LongestAdapter2.length();
-
-		PrintLongestAdapter.assign(Adapters[RemoveAdapter]);
-		PrintLongestAdapter2.assign(Adapters[RemoveAdapter2]);
-		
-		lAdap = RemoveAdapter;
-		lAdapLength = FirstLength;
-		rAdap = RemoveAdapter2;
-		rAdapLength = SecondLength;
-
-		//For testing purpose, not replacing the original string, just creating a new
-		fRead = str.substr(FirstLength, (str.length() - FirstLength - SecondLength));
-		
-	
-		
-	} else {
-		
-		// Comment out all of this before <-
-		
-	*/	
-		//Changed this to Read2, to read from opposite side of what we have done already
-		
-        string str2 = read2;
+        string str1 = read1;
 		// (this is the String from Sequence)
 
 		string LongestAdapter = ""; // Longest Adapter Found. - This is what SHOULD be Removed
 		int counter = 0; // Counter for Adapters
 		int RemoveAdapter = 0; // Longest Adapter that is found in sequence (The number in my array) ETC Adapter Number 4
-		vector<int> NumbOfArrays; //Array for all the adapters found - For testing
 		AdapterFound = false; // If Adapter Found
 
 		while (counter < NumberOfAdapters){ // While loop to get every Adapter.
 			string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
 			AdapterSearch.assign(Adapters[counter]);
-			int endIndex = AdapterSearch.length(); // The length of the adapter
 			string FoundString = ""; // Temp value for current string
 
 			// For loop, From the first Character, to the length of the Adapter - Minimum characters matching (6) in our case
 			// (We don't want to look for matching 1/2/3/4/5 adapter matches, since these couldve matched randomly.)
 			// (C T G A The chances of one of our etc 30 adapters to have a matching any 2 character start is 2/30, but 6 matching randomly is 0.007/30)
 			// Reducing the chance for random matches
-			for (int startIndex = 0; startIndex <= (endIndex - MinLengthAdapters); startIndex = startIndex + 1) {
+			for (int startIndex = 0; startIndex <= (str1.length() - MinLengthAdapters); startIndex = startIndex + 1) {
 				// Creating Temp Strings for match - Printing
-				string CurrSeq = str2.substr(0, (endIndex - startIndex));
-				string CurrAdap = AdapterSearch.substr(startIndex, (endIndex)); // Looking at LAST part of the sequence
+				
+				int endIndex = AdapterSearch.length(); // The length of the adapter
+				
+				while (endIndex >= MinLengthAdapters){
+					string CurrSeq = str2.substr(startIndex, (endIndex));
+					string CurrAdap = AdapterSearch.substr(startIndex, (endIndex)); // Looking at LAST part of the sequence
 
 				//Adapter Found
-				size_t found = CurrSeq.find(CurrAdap); // Search String for Adapter
-				if (found != string::npos) {		// If Found
-					FoundString.assign(CurrSeq);	//Setting temp string to found adapter string
-					NumbOfArrays.push_back(counter); // Adding adapter (Counter) to found adapters(For mult finds)
+					size_t found = CurrSeq.find(CurrAdap); // Search String for Adapter
+					if (found != string::npos) {		// If Found
+						FoundString.assign(CurrSeq);	//Setting temp string to found adapter string
 
 					//If First Adapter Found
-					if (AdapterFound == false) {
-						LongestAdapter.assign(FoundString); // assigning longest found string
-						AdapterFound = true;
-						RemoveAdapter = counter; // assigning adapter to remove
-						break;
-					} else { // If another adapter is found
-						if(FoundString.length() >= LongestAdapter.length()) { // If longer than previous (Currently >= !!)
-							testtesttest2.open(testtesttestt.str(), ios::app); //For Testing Prints
-							testtesttest2 << "Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(LongestAdapter.length(), (str2.length() - LongestAdapter.length()))) <<"\n";
-							testtesttest2.close();
-							LongestAdapter.assign(FoundString); //assigning longest found string
-							RemoveAdapter = counter;	    //assigning adapter to remove
+						if (AdapterFound == false) {
+							LongestAdapter.assign(FoundString); // assigning longest found string
+							AdapterFound = true;
+							RemoveAdapter = startIndex;
+						
+		
+							test1.open(testr1.str(), ios::app); //For Testing Prints
+							test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+							test1.close();
+						
 							break;
-						} else break;
+						} else { // If another adapter is found
+							if(RemoveAdapter < startIndex) { // If longer than previous (Currently >= !!)
+								LongestAdapter.assign(FoundString); //assigning longest found string
+								RemoveAdapter = startIndex;	    //assigning adapter to remove
+							
+							
+								test1.open(testr1.str(), ios::app); //For Testing Prints
+								test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+								test1.close();
+								break;
+							} else break;
+						}
 					}
 				}
 			}
@@ -618,66 +509,75 @@ int ReadPair::aRemove() {
 
 		//Second
 		
-		//Changed this to Read1 (To read from opposite side of what we have done already)
-		string str1 = read1;
-		counter = 0; // Counter for Adapters
-		string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
-		int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array)
-		std::vector< int > NumbOfArrays2; //Array for all the adapters found - For testing
-		AdapterFound2 = false; // If Adapter Found
-		// str.length to avoid too small sequences
-		while (counter < NumberOfAdapters) {
-			string AdapterSearch = "";
-			AdapterSearch.assign(Adapters[counter]);
-			int endIndex = AdapterSearch.length();
-			string FoundString = "";
-			int CurrentIncrementer = 0; // Incrementer for the substring Current Adapter
+		
+		//WORK HERE
+		
+		        string str2 = read2;
+		// (this is the String from Sequence)
 
-			// from last character minus the length of the adapter. to the last character minus MinLengthAdapters
-			for (int startIndex = ((int)str1.length()- endIndex); startIndex <= ((int)str1.length()-MinLengthAdapters); startIndex = startIndex + 1) {
-				string CurrSeq = str1.substr(startIndex, (startIndex - endIndex));
-				string CurrAdap = AdapterSearch.substr(0, (endIndex - CurrentIncrementer)); //Looking at FIRST part of Sequence
-				size_t found = CurrSeq.find(CurrAdap);
+		string LongestAdapter2 = ""; // Longest Adapter Found. - This is what SHOULD be Removed
+		int counter = 0; // Counter for Adapters
+		int RemoveAdapter = 0; // Longest Adapter that is found in sequence (The number in my array) ETC Adapter Number 4
+		AdapterFound = false; // If Adapter Found
+
+		while (counter < NumberOfAdapters){ // While loop to get every Adapter.
+			string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
+			AdapterSearch.assign(Adapters[counter]);
+			string FoundString = ""; // Temp value for current string
+
+			// For loop, From the first Character, to the length of the Adapter - Minimum characters matching (6) in our case
+			// (We don't want to look for matching 1/2/3/4/5 adapter matches, since these couldve matched randomly.)
+			// (C T G A The chances of one of our etc 30 adapters to have a matching any 2 character start is 2/30, but 6 matching randomly is 0.007/30)
+			// Reducing the chance for random matches
+			for (int startIndex = 0; startIndex <= (str1.length() - MinLengthAdapters); startIndex = startIndex + 1) {
+				// Creating Temp Strings for match - Printing
 				
-				if (found != string::npos) {
-					FoundString.assign(CurrSeq);
-					NumbOfArrays2.push_back(counter);
-					if (AdapterFound2 == false) { // If first Adapter Found
-						LongestAdapter2.assign(FoundString);
-						AdapterFound2 = true;
-						RemoveAdapter2 = counter; // assigning adapter to remove
-						break;
-					} else { // If another adapter is found
-						if(FoundString.length() >= LongestAdapter2.length()) {
-							testtesttest1.open(testtesttest.str(), ios::app);
-							testtesttest1 << "Full Sequence Read 1: \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap << "\nNew Full Sequence Read 1: \n" << (str1.substr(0, (str1.length() - LongestAdapter2.length()))) <<"\n";
-							testtesttest1.close();
-							LongestAdapter2.assign(FoundString);
-							RemoveAdapter2 = counter;
+				int endIndex = AdapterSearch.length(); // The length of the adapter
+				
+				while (endIndex >= MinLengthAdapters){
+					string CurrSeq = str2.substr(startIndex, (endIndex));
+					string CurrAdap = AdapterSearch.substr(startIndex, (endIndex)); // Looking at LAST part of the sequence
+
+				//Adapter Found
+					size_t found = CurrSeq.find(CurrAdap); // Search String for Adapter
+					if (found != string::npos) {		// If Found
+						FoundString.assign(CurrSeq);	//Setting temp string to found adapter string
+
+					//If First Adapter Found
+						if (AdapterFound == false) {
+							LongestAdapter.assign(FoundString); // assigning longest found string
+							AdapterFound = true;
+							RemoveAdapter = startIndex;
+						
+		
+							test1.open(testr1.str(), ios::app); //For Testing Prints
+							test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+							test1.close();
+						
 							break;
-						} else break;
+						} else { // If another adapter is found
+							if(RemoveAdapter < startIndex) { // If longer than previous (Currently >= !!)
+								LongestAdapter.assign(FoundString); //assigning longest found string
+								RemoveAdapter = startIndex;	    //assigning adapter to remove
+							
+							
+								test1.open(testr1.str(), ios::app); //For Testing Prints
+								test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+								test1.close();
+								break;
+							} else break;
+						}
 					}
 				}
-				CurrentIncrementer++;
 			}
 			counter ++;
 		}
 
-		// Adapter Removal
-		int FirstLength = LongestAdapter2.length(); // Length of the adapter to remove
-		int SecondLength = LongestAdapter.length(); // Length of the adapter to remove
-
-    		
-    		rAdap = RemoveAdapter;
-		rAdapLength = FirstLength;
-		lAdap = RemoveAdapter2; // The Adapter number in the array
-		lAdapLength = SecondLength; // The length of the adapter found
-
-
 		//Use these if replacing the actual Reads
 
+
+		//read1 = str1.substr(0, RemoveAdapter);
 		//read2 = str2.substr(FirstLength, (str2.length() - FirstLength));
-		//read1 = str1.substr(0, (str1.length() - SecondLength));
     //}
 
 	if ((AdapterFound == true) && (AdapterFound2 == true)) {
