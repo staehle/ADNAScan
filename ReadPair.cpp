@@ -406,7 +406,7 @@ int ReadPair::aRemove() {
     testr1 << "./results/testr1.txt";
     ofstream test1;
     stringstream testr2;
-    testr2 << "./results/testr2t.txt";
+    testr2 << "./results/testr2.txt";
     ofstream test2;
     
 
@@ -484,7 +484,7 @@ int ReadPair::aRemove() {
 						
 		
 							test1.open(testr1.str(), ios::app); //For Testing Prints
-							test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+							test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
 							test1.close();
 						
 							break;
@@ -494,7 +494,7 @@ int ReadPair::aRemove() {
 							
 							
 								test1.open(testr1.str(), ios::app); //For Testing Prints
-								test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+								test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
 								test1.close();
 								break;
 							} else break;
@@ -579,7 +579,13 @@ int ReadPair::aRemove() {
 
 
 		//read1 = str1.substr(0, RemoveAdapter);
+		test1.open(testr1.str(), ios::app); //For Testing Prints
+		test1 << "\n\n**********************************\nOld Read 1: "<< str1 << "\n**********************************\nNew Read 1: " << (str1.substr(0, RemoveAdapter)) << "\n**********************************\n" <<"\n";
+		test1.close();
 		//read2 = str2.substr(RemoveAdapter2, str2.length());
+		test2.open(testr2.str(), ios::app); //For Testing Prints
+		test2 << "\n\n**********************************\nOld Read 2: "<< str2 << "\n**********************************\nNew Read 2: " << (str2.substr(RemoveAdapter2, str2.length())) << "\n**********************************\n" <<"\n";
+		test2.close();
     //}
 
 	if ((AdapterFound == true) && (AdapterFound2 == true)) {
