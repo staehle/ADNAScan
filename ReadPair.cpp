@@ -484,7 +484,7 @@ int ReadPair::aRemove() {
 						
 		
 							test1.open(testr1.str(), ios::app); //For Testing Prints
-							test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+							test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
 							test1.close();
 						
 							break;
@@ -494,7 +494,7 @@ int ReadPair::aRemove() {
 							
 							
 								test1.open(testr1.str(), ios::app); //For Testing Prints
-								test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+								test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
 								test1.close();
 								break;
 							} else break;
@@ -510,6 +510,7 @@ int ReadPair::aRemove() {
 
 		//Second
 		
+		//Not Working atm
 		
 		
 		string str2 = read2;
@@ -552,7 +553,7 @@ int ReadPair::aRemove() {
 						
 		
 							test2.open(testr2.str(), ios::app); //For Testing Prints
-							test2 << "Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(RemoveAdapter2, str2.length())) <<"\n";
+							test2 << "Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(RemoveAdapter2, str2.length())) <<"\n";
 							test2.close();
 						
 							break;
@@ -562,7 +563,7 @@ int ReadPair::aRemove() {
 							
 							
 								test2.open(testr2.str(), ios::app); //For Testing Prints
-								test2 << "Found Bigger : Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< CurrAdap <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(RemoveAdapter2, str2.length())) <<"\n";
+								test2 << "Found Bigger : Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(RemoveAdapter2, str2.length())) <<"\n";
 								test2.close();
 								break;
 							} else break;
