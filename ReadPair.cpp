@@ -489,7 +489,7 @@ int ReadPair::aRemove() {
 						
 							break;
 						} else { // If another adapter is found
-							if(RemoveAdapter < startIndex) { // If longer than previous (Currently < )
+							if(RemoveAdapter > startIndex) { // If longer than previous (Currently < )
 								RemoveAdapter = startIndex;	    //assigning adapter to remove
 							
 							
@@ -537,6 +537,8 @@ int ReadPair::aRemove() {
 				while (whilecounter >= MinLengthAdapters){
 					
 					//This is to match the last part of string, with first part of adapter
+					
+					// CURRENTLY NOT WORKING PROPERLY
 					
 					string CurrSeq = str2.substr((startIndex + positivewhilecounter), (whilecounter));
 					string CurrAdap = AdapterSearch.substr(0, (whilecounter)); // Looking at FIRST part of the sequence
