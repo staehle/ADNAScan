@@ -448,12 +448,12 @@ int ReadPair::aRemove() {
 
 		int counter = 0; // Counter for Adapters
 		int RemoveAdapter = 0; // Longest Adapter that is found in sequence (The number in my array) ETC Adapter Number 4
-		int endIndex = AdapterSearch.length(); // The length of the adapter
 		AdapterFound = false; // If Adapter Found
 
 		while (counter < NumberOfAdapters){ // While loop to get every Adapter.
 			string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
 			AdapterSearch.assign(Adapters[counter]);
+			int endIndex = AdapterSearch.length(); // The length of the adapter
 			string FoundString = ""; // Temp value for current string
 
 			// From 0 -> Str.length - AdapterLength. Searching from 0 to end
@@ -515,18 +515,18 @@ int ReadPair::aRemove() {
 		string str2 = read2;
 		// (this is the String from Sequence)
 
-		int counter = 0; // Counter for Adapters
+		int counter2 = 0; // Counter for Adapters
 		int RemoveAdapter2 = 0; // Longest Adapter that is found in sequence (The number in my array) ETC Adapter Number 4
-		int endIndex = AdapterSearch.length(); // The length of the adapter
-		AdapterFound = false; // If Adapter Found
+		AdapterFound2 = false; // If Adapter Found
 
-		while (counter < NumberOfAdapters){ // While loop to get every Adapter.
+		while (counter2 < NumberOfAdapters){ // While loop to get every Adapter.
 			string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
 			AdapterSearch.assign(Adapters[counter]);
+			int endIndex = AdapterSearch.length(); // The length of the adapter
 			string FoundString = ""; // Temp value for current string
 
 			// From length - length of adapter ->   12(minLength). Search from back to front
-			for (int startIndex = (str.length() - endIndex); startIndex <= 0; startIndex = startIndex - 1) {
+			for (int startIndex = (str2.length() - endIndex); startIndex <= 0; startIndex = startIndex - 1) {
 				// Creating Temp Strings for match - Printing
 				
 				int whilecounter = endIndex;
@@ -546,8 +546,8 @@ int ReadPair::aRemove() {
 						FoundString.assign(CurrSeq);	//Setting temp string to found adapter string
 
 					//If First Adapter Found
-						if (AdapterFound == false) {
-							AdapterFound = true;
+						if (AdapterFound2 == false) {
+							AdapterFound2 = true;
 							RemoveAdapter2 = startIndex;
 						
 		
@@ -572,7 +572,7 @@ int ReadPair::aRemove() {
 					whilecounter = whilecounter - 1;
 				}
 			}
-			counter ++;
+			counter2 ++;
 		}
 
 		//Use these if replacing the actual Reads
