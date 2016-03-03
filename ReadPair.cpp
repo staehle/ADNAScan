@@ -483,9 +483,9 @@ int ReadPair::aRemove() {
 							RemoveAdapter = startIndex;
 						
 		
-							test1.open(testr1.str(), ios::app); //For Testing Prints
-							test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
-							test1.close();
+							//test1.open(testr1.str(), ios::app); //For Testing Prints
+							//test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+							//test1.close();
 						
 							break;
 						} else { // If another adapter is found
@@ -493,9 +493,9 @@ int ReadPair::aRemove() {
 								RemoveAdapter = startIndex;	    //assigning adapter to remove
 							
 							
-								test1.open(testr1.str(), ios::app); //For Testing Prints
-								test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
-								test1.close();
+								//test1.open(testr1.str(), ios::app); //For Testing Prints
+								//test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+								//test1.close();
 								break;
 							} else break;
 						}
