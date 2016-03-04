@@ -546,7 +546,7 @@ int ReadPair::aRemove() {
 					//If First Adapter Found
 						if (AdapterFound2 == false) {
 							AdapterFound2 = true;
-							RemoveAdapter2 = (startIndex + CurrSeq.length());
+							RemoveAdapter2 = (startIndex + CurrSeq.length() + positivewhilecounter);
 						
 		
 							test2.open(testr2.str(), ios::app); //For Testing Prints
