@@ -489,7 +489,7 @@ int ReadPair::aRemove() {
 						
 							break;
 						} else { // If another adapter is found
-							if(RemoveAdapter > startIndex) { // If longer than previous (Currently < )
+							if(RemoveAdapter < startIndex) { // If longer than previous (closer to start )
 								RemoveAdapter = startIndex;	    //assigning adapter to remove
 							
 							
@@ -559,12 +559,12 @@ int ReadPair::aRemove() {
 						
 							break;
 						} else { // If another adapter is found
-							if(RemoveAdapter2 > startIndex) { // If longer than previous (Currently >= !!)
+							if(RemoveAdapter2 < startIndex) { // If closer than last found
 								RemoveAdapter2 = startIndex;	    //assigning adapter to remove
 							
 							
 								test2.open(testr2.str(), ios::app); //For Testing Prints
-								test2 << "Found Bigger : Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter2] <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(RemoveAdapter2, str2.length())) <<"\n";
+								test2 << "Found Bigger : Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter2] <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(RemoveAdapter2, str2.length())) << "$$$$\n$$$$ Remove Adapter2 = " << RemoveAdapter2 << "\n";
 								test2.close();
 								break;
 							} else break;
