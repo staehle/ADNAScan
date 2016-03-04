@@ -483,9 +483,9 @@ int ReadPair::aRemove() {
 							RemoveAdapter = startIndex;
 						
 		
-							//test1.open(testr1.str(), ios::app); //For Testing Prints
-							//test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
-							//test1.close();
+							test1.open(testr1.str(), ios::app); //For Testing Prints
+							test1 << "Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+							test1.close();
 						
 							break;
 						} else { // If another adapter is found
@@ -493,9 +493,9 @@ int ReadPair::aRemove() {
 								RemoveAdapter = startIndex;	    //assigning adapter to remove
 							
 							
-								//test1.open(testr1.str(), ios::app); //For Testing Prints
-								//test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
-								//test1.close();
+								test1.open(testr1.str(), ios::app); //For Testing Prints
+								test1 << "Found Bigger : Full Sequence Read 1 : \n"<< str1 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter] <<  "\nNew Full Sequence Read 1: \n" << (str1.substr(0, RemoveAdapter)) <<"\n";
+								test1.close();
 								break;
 							} else break;
 						}
@@ -589,7 +589,7 @@ int ReadPair::aRemove() {
 			//read1 = str1.substr(0, RemoveAdapter);
 		}
 		
-		if (RemoveAdapter2 != str2.length()){
+		if (RemoveAdapter2 != 0){
 			test2.open(testr2.str(), ios::app); //For Testing Prints
 			test2 << "\n\n**********************************\nOld Read 2: "<< str2 << "\n**********************************\nNew Read 2: " << (str2.substr(RemoveAdapter2, str2.length())) << "\n**********************************\n" <<"\n";
 			test2.close();
