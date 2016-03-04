@@ -527,7 +527,7 @@ int ReadPair::aRemove() {
 			string FoundString = ""; // Temp value for current string
 
 			// From length - length of adapter ->   12(minLength). Search from back to front
-			for (int startIndex = (str2.length() - endIndex); startIndex <= 0; startIndex = startIndex - 1) {
+			for (int startIndex = (str2.length() - endIndex); startIndex >= 0; startIndex = startIndex - 1) {
 				// Creating Temp Strings for match - Printing
 				
 				int whilecounter = endIndex;
@@ -538,7 +538,6 @@ int ReadPair::aRemove() {
 					
 					//This is to match the last part of string, with first part of adapter
 					
-					// CURRENTLY NOT WORKING PROPERLY
 					
 					string CurrSeq = str2.substr((startIndex + positivewhilecounter), (whilecounter));
 					string CurrAdap = AdapterSearch.substr(0, (whilecounter)); // Looking at FIRST part of the sequence
