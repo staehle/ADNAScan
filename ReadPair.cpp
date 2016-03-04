@@ -454,7 +454,6 @@ int ReadPair::aRemove() {
 			string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
 			AdapterSearch.assign(Adapters[counter]);
 			int endIndex = AdapterSearch.length(); // The length of the adapter
-			string FoundString = ""; // Temp value for current string
 
 			// From 0 -> Str.length - AdapterLength. Searching from 0 to end
 			for (int startIndex = 0; startIndex <= (str1.length() - endIndex); startIndex = startIndex + 1) {
@@ -475,7 +474,6 @@ int ReadPair::aRemove() {
 				
 					size_t found = CurrSeq.find(CurrAdap);  // Search String for Adapter
 					if (found != string::npos) {		// If Found
-						FoundString.assign(CurrSeq);	//Setting temp string to found adapter string
 
 					//If First Adapter Found
 						if (AdapterFound == false) {
@@ -489,7 +487,7 @@ int ReadPair::aRemove() {
 						
 							break;
 						} else { // If another adapter is found
-							if(RemoveAdapter < startIndex) { // If longer than previous (closer to start )
+							if(RemoveAdapter > startIndex) { // If longer than previous (closer to start )
 								RemoveAdapter = startIndex;	    //assigning adapter to remove
 							
 							
@@ -524,7 +522,6 @@ int ReadPair::aRemove() {
 			string AdapterSearch = ""; // Assigning string AdapterSearch to the current Adapter we are searching through
 			AdapterSearch.assign(Adapters[counter2]);
 			int endIndex = AdapterSearch.length(); // The length of the adapter
-			string FoundString = ""; // Temp value for current string
 
 			// From length - length of adapter ->   12(minLength). Search from back to front
 			for (int startIndex = (str2.length() - endIndex); startIndex >= 0; startIndex = startIndex - 1) {
@@ -545,8 +542,7 @@ int ReadPair::aRemove() {
 				//Adapter Found
 					size_t found = CurrSeq.find(CurrAdap); // Search String for Adapter
 					if (found != string::npos) {		// If Found
-						FoundString.assign(CurrSeq);	//Setting temp string to found adapter string
-
+	
 					//If First Adapter Found
 						if (AdapterFound2 == false) {
 							AdapterFound2 = true;
@@ -560,7 +556,7 @@ int ReadPair::aRemove() {
 							break;
 						} else { // If another adapter is found
 							if(RemoveAdapter2 < startIndex) { // If closer than last found
-								RemoveAdapter2 = startIndex;	    //assigning adapter to remove
+								RemoveAdapter2 = (startIndex + CurrSeq.length());	    //assigning adapter to remove
 							
 							
 								test2.open(testr2.str(), ios::app); //For Testing Prints
