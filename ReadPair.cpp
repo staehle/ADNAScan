@@ -589,7 +589,7 @@ int ReadPair::aRemove() {
 			//read1 = str1.substr(0, RemoveAdapter);
 		}
 		
-		if (RemoveAdapter2 != str.length()){
+		if (RemoveAdapter2 != str2.length()){
 			test2.open(testr2.str(), ios::app); //For Testing Prints
 			test2 << "\n\n**********************************\nOld Read 2: "<< str2 << "\n**********************************\nNew Read 2: " << (str2.substr(RemoveAdapter2, str2.length())) << "\n**********************************\n" <<"\n";
 			test2.close();
