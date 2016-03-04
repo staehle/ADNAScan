@@ -457,7 +457,6 @@ int ReadPair::aRemove() {
 
 			// From 0 -> Str.length - AdapterLength. Searching from 0 to end
 			for (int startIndex = 0; startIndex <= (str1.length() - endIndex); startIndex = startIndex + 1) {
-				// Creating Temp Strings for match - Printing
 				
 				
 				int whilecounter = endIndex;
@@ -562,7 +561,7 @@ int ReadPair::aRemove() {
 							
 							
 								test2.open(testr2.str(), ios::app); //For Testing Prints
-								test2 << "Found Bigger : Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter2] <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(RemoveAdapter2, str2.length())) << "\n";
+								test2 << "\nFound Bigger : Full Sequence Read 2 : \n"<< str2 << "\n" << "Current Sequence : Matching Adapter \n" << CurrSeq <<"\n"<< Adapters[counter2] <<  "\nNew Full Sequence Read 2: \n" << (str2.substr(RemoveAdapter2, str2.length())) << "\n";
 								test2.close();
 								break;
 							} else break;
@@ -587,7 +586,7 @@ int ReadPair::aRemove() {
 			//read1 = str1.substr(0, RemoveAdapter);
 		}
 		
-		if (RemoveAdapter2 != str.length()){
+		if (RemoveAdapter2 != str2.length()){
 			test2.open(testr2.str(), ios::app); //For Testing Prints
 			test2 << "\n\n**********************************\nOld Read 2: "<< str2 << "\n**********************************\nNew Read 2: " << (str2.substr(RemoveAdapter2, str2.length())) << "\n**********************************\n" <<"\n";
 			test2.close();
