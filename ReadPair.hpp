@@ -14,8 +14,7 @@ class ReadPair {
 		void tStrip();
 		int ToCheck();
 		int oCheck();
-		int lUniversalTest();
-		int rUniversalTest();
+		int findUAdap();
 		int aPrint(std::string, std::string);
 		int aRemove();
 		int getLeftA();
