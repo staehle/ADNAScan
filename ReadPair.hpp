@@ -15,6 +15,7 @@ class ReadPair {
 		int ToCheck();
 		int oCheck();
 		int findUAdap();
+		int smithWatermanTrim();
 		int aPrint(std::string, std::string);
 		int aRemove();
 		int getLeftA();
