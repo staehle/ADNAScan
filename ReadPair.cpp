@@ -221,7 +221,140 @@ int ReadPair::oCheck()
 	return 1;
 }
 
-int ReadPair::findUAdap()
+int ReadPair::findUAdapQuick()
+{
+	
+	string universalAdapter "AGATCGGAAGAG";
+	/*
+	Illumina Small RNA Adapter	ATGGAATTCTCG
+	Nextera Transpose Sequence	CTGTCTCTTATA
+	*/
+	int i= 0; //looks at reads
+	int a = 0; //looks at adapter
+
+	//will act to iterate up the string, searching for continual matches
+	int iTemp = 0;
+	while(i < (int)read1.length() - 5)
+	{
+		iTemp = i;
+		a = 0;
+		while (iTemp < (int)read1.length()  && read1[i] == universalAdapter[a]) 
+		{
+			if (iTemp == (int)read1.length() -1 || a == universalAdapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				lAdap = 4;
+				lAdapLength = a + 1;
+				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+			}
+			++iTemp;
+			++a;
+		}
+		if (lAdap != 0)
+		{
+			break
+		}
+		++i;	
+	}
+	i = 0;
+	a = 0;
+	iTemp = read2.length() - 1;;
+	while(i >= 0)
+	{
+		iTemp = i;
+		a = universalAdapter.length() - 1;
+		while (read2[iTemp] == universalAdapter[a]) 
+		{
+			if (iTemp == 0 && i > 5 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				read2 = read2.substr(i + 1, read2.length() - i - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				qual2 = qual2.substr(i + 1, read2.length() - i - 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				rAdap = 4;
+				rAdapLength = universalAdapter.length() - a - 1;
+				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+			}
+			--iTemp;
+			--a;
+		}
+		--i;	
+	}
+	return 1;
+}
+
+int ReadPair::findUAdapSlow()
+{
+	/*
+	Illumina Universal Adapter	AGATCGGAAGAG
+	Illumina Small RNA Adapter	ATGGAATTCTCG
+	Nextera Transpose Sequence	CTGTCTCTTATA
+	*/
+	int maxScore = 0;
+	int bestI1 = 0;
+	int bestI2 = 0;
+	int i1 = 0; //looks at read1
+	int i2 = 0; //looks at read2
+	//longestOLap will keep the largest number of overlapping base matches found. Since there could
+	//POTENTIALLY be a section of overlap past the first instance of a match, we will test the whole read
+	//just to be certain we found the full overlap
+
+
+
+	//i1Temp will act as temporary i1 to iterate up the string, searching for continual matches (overlap)
+	//oCtr will be an overlap counter, counting up for each continual match.
+	int i2Temp = 0;//, oCtr;
+	int score = 0;
+	//while (i1 < (int)read1.length()) {
+	//-15 to accept only matches of length 15 or greater
+	while(i2 < (int)read2.length() - 15)
+	{
+		score = 0;
+		i2Temp = i2;
+		i1 = 0;
+		while (i2Temp < (int)read2.length())//  && read1[i1] == read2[i2Temp]) 
+		{
+			//++oCtr;
+			if(read1[i1] != read2[i2Temp])
+			{
+				score -= 2;
+				//if(missCtr > (int)((int)read2.length() - i2) / 3)
+				//{
+				//	break;
+				//}
+			}
+			else
+			{
+				score += 1;
+			}
+			if (i2Temp == (int)read2.length() -1 )//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				//i2 += 1;
+				if(score > maxScore)
+				{
+					maxScore = score;
+					bestI1 = i1;
+					bestI2 = i2;
+				}
+			}
+			++i2Temp;
+			++i1;
+		}
+		++i2;	
+	}
+	if(maxScore > 0)
+	{
+		fRead = read1.substr(0, bestI1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		fQual = qual1.substr(0, bestI1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		merged = 1;
+		if(bestI1 != (int)read1.length()-1)
+		{
+			aPrint(read1.substr(bestI1 + 1,(int)read1.length() - bestI1), read2.substr(0, bestI2));
+		}
+	}
+	return 1;
+}
+
+int ReadPair::smithWatermanTrim()
 {
 	/*
 	Illumina Universal Adapter	AGATCGGAAGAG
@@ -651,8 +784,8 @@ int ReadPair::tStripped() {
 void ReadPair::Compile() {
 	tStrip();
 	aRemove();
-	oCheck();
-	//findUAdap();
+	//oCheck();
+	findUAdapQuick();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
