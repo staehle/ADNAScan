@@ -238,7 +238,7 @@ int ReadPair::findUAdapQuick()
 	{
 		iTemp = i;
 		a = 0;
-		while (iTemp < (int)read1.length()  && read1[i] == universalAdapter[a]) 
+		while (iTemp < (int)read1.length()  && read1[iTemp] == universalAdapter[a]) 
 		{
 			if (iTemp == (int)read1.length() -1 || a == universalAdapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
@@ -257,6 +257,95 @@ int ReadPair::findUAdapQuick()
 		}
 		++i;	
 	}
+	i = read2.length() - 6;
+	a = universalAdapter.length() - 1;
+	iTemp = i;
+	while(i >= 5)
+	{
+		iTemp = i;
+		a = universalAdapter.length() - 1;
+		while (iTemp >=0 && read2[iTemp] == universalAdapter[a]) 
+		{
+			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				read2 = read2.substr(i + 1, read2.length() - i - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				qual2 = qual2.substr(i + 1, read2.length() - i - 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				rAdap = 4;
+				rAdapLength = universalAdapter.length() - a - 1;
+				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+			}
+			--iTemp;
+			--a;
+		}
+		if (rAdap != 0)
+		{
+			break;
+		}
+		--i;	
+	}
+	return 1;
+}
+
+int ReadPair::findUAdapSlow()
+{
+	string universalAdapter = "AGATCGGAAGAG";
+	/*
+	Illumina Small RNA Adapter	ATGGAATTCTCG
+	Nextera Transpose Sequence	CTGTCTCTTATA
+	*/
+	int maxScore = 0;
+	int score = 0;
+	int iBest = 0;
+	int aBest = 0;
+	int i= 5; //looks at reads
+	int a = 0; //looks at adapter
+
+	//will act to iterate up the string, searching for continual matches
+	int iTemp = 0;
+	while(i < (int)read1.length() - 5)
+	{
+		iTemp = i;
+		a = 0;
+		score = 0;
+		while (iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
+		{
+			if(read1[iTemp] != universalAdapter[a])
+			{
+				score -= 3;
+			}
+			else
+			{
+				score += 5;
+			}
+			if ((iTemp == (int)read1.length() -1 || a == universalAdapter.length() - 1) && score > 40)//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				if(score > maxScore)
+				{
+					maxScore = score;
+					iBest = i;
+					aBest = a;
+				}
+				read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				lAdapLength = a + 1;
+				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+			}
+			++iTemp;
+			++a;
+		}
+		if (lAdap != 0)
+		{
+			break;
+		}
+		++i;	
+	}
+	if(maxScore > 0)
+	{
+		read1 = read1.substr(0, iBest); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual1 = qual1.substr(0, iBest); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		lAdapLength = aBest + 1;
+	}
+	
 	i = 0;
 	a = 0;
 	iTemp = read2.length() - 1;;
@@ -282,78 +371,6 @@ int ReadPair::findUAdapQuick()
 			break;
 		}
 		--i;	
-	}
-	return 1;
-}
-
-int ReadPair::findUAdapSlow()
-{
-	/*
-	Illumina Universal Adapter	AGATCGGAAGAG
-	Illumina Small RNA Adapter	ATGGAATTCTCG
-	Nextera Transpose Sequence	CTGTCTCTTATA
-	*/
-	int maxScore = 0;
-	int bestI1 = 0;
-	int bestI2 = 0;
-	int i1 = 0; //looks at read1
-	int i2 = 0; //looks at read2
-	//longestOLap will keep the largest number of overlapping base matches found. Since there could
-	//POTENTIALLY be a section of overlap past the first instance of a match, we will test the whole read
-	//just to be certain we found the full overlap
-
-
-
-	//i1Temp will act as temporary i1 to iterate up the string, searching for continual matches (overlap)
-	//oCtr will be an overlap counter, counting up for each continual match.
-	int i2Temp = 0;//, oCtr;
-	int score = 0;
-	//while (i1 < (int)read1.length()) {
-	//-15 to accept only matches of length 15 or greater
-	while(i2 < (int)read2.length() - 15)
-	{
-		score = 0;
-		i2Temp = i2;
-		i1 = 0;
-		while (i2Temp < (int)read2.length())//  && read1[i1] == read2[i2Temp]) 
-		{
-			//++oCtr;
-			if(read1[i1] != read2[i2Temp])
-			{
-				score -= 2;
-				//if(missCtr > (int)((int)read2.length() - i2) / 3)
-				//{
-				//	break;
-				//}
-			}
-			else
-			{
-				score += 1;
-			}
-			if (i2Temp == (int)read2.length() -1 )//&& missCtr < ((int)read2.length()-i2)/8) 
-			{
-				//i2 += 1;
-				if(score > maxScore)
-				{
-					maxScore = score;
-					bestI1 = i1;
-					bestI2 = i2;
-				}
-			}
-			++i2Temp;
-			++i1;
-		}
-		++i2;	
-	}
-	if(maxScore > 0)
-	{
-		fRead = read1.substr(0, bestI1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		fQual = qual1.substr(0, bestI1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		merged = 1;
-		if(bestI1 != (int)read1.length()-1)
-		{
-			aPrint(read1.substr(bestI1 + 1,(int)read1.length() - bestI1), read2.substr(0, bestI2));
-		}
 	}
 	return 1;
 }
