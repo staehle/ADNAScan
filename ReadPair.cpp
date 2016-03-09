@@ -804,7 +804,7 @@ int ReadPair::tStripped() {
 
 void ReadPair::Compile() {
 	tStrip();
-	aRemove();
+	//aRemove();
 	//oCheck();
 	findUAdapQuick();
 	int p = qualPass();
