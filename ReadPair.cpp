@@ -77,7 +77,8 @@ int ReadPair::qualPass() {
 			//if(int(*c)-33 < 15) {
 			if(qual < 15) failCtr+=1;
 		}
-		if (failCtr < 10) ret += 1;
+		if (failCtr < 10 && read1.length() > 10) ret += 1;
+
 
 		//test second half
 		qual = -1;
@@ -87,7 +88,7 @@ int ReadPair::qualPass() {
 			if(qual < 15) failCtr+=1;
 		}
 		
-		if (failCtr < 10) ret += 2;
+		if (failCtr < 10 && read2.length() > 10) ret += 2;
 		
 		if(ret == 0) {
 			badSide = 3;
@@ -229,7 +230,7 @@ int ReadPair::findUAdapQuick()
 	Illumina Small RNA Adapter	ATGGAATTCTCG
 	Nextera Transpose Sequence	CTGTCTCTTATA
 	*/
-	int i= 15; //looks at reads
+	int i= 0; //looks at reads
 	int a = 0; //looks at adapter
 
 	//will act to iterate up the string, searching for continual matches
@@ -257,7 +258,7 @@ int ReadPair::findUAdapQuick()
 		}
 		++i;	
 	}
-	i = read2.length() - 15;
+	i = read2.length() - 1;
 	a = universalAdapter.length() - 1;
 	iTemp = i;
 	while(i >= 5)
