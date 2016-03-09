@@ -14,7 +14,8 @@ class ReadPair {
 		void tStrip();
 		int ToCheck();
 		int oCheck();
-		int findUAdap();
+		int findUAdapQuick();
+		int findUAdaptSlow();
 		int smithWatermanTrim();
 		int aPrint(std::string, std::string);
 		int aRemove();
