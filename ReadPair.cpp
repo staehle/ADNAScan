@@ -229,7 +229,7 @@ int ReadPair::findUAdapQuick()
 	Illumina Small RNA Adapter	ATGGAATTCTCG
 	Nextera Transpose Sequence	CTGTCTCTTATA
 	*/
-	int i= 20; //looks at reads
+	int i= 15; //looks at reads
 	int a = 0; //looks at adapter
 
 	//will act to iterate up the string, searching for continual matches
@@ -257,7 +257,7 @@ int ReadPair::findUAdapQuick()
 		}
 		++i;	
 	}
-	i = read2.length() - 20;
+	i = read2.length() - 15;
 	a = universalAdapter.length() - 1;
 	iTemp = i;
 	while(i >= 5)
