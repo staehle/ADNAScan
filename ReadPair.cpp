@@ -224,7 +224,7 @@ int ReadPair::oCheck()
 int ReadPair::findUAdapQuick()
 {
 	
-	string universalAdapter "AGATCGGAAGAG";
+	string universalAdapter = "AGATCGGAAGAG";
 	/*
 	Illumina Small RNA Adapter	ATGGAATTCTCG
 	Nextera Transpose Sequence	CTGTCTCTTATA
@@ -253,7 +253,7 @@ int ReadPair::findUAdapQuick()
 		}
 		if (lAdap != 0)
 		{
-			break
+			break;
 		}
 		++i;	
 	}
@@ -276,6 +276,10 @@ int ReadPair::findUAdapQuick()
 			}
 			--iTemp;
 			--a;
+		}
+		if (rAdap != 0)
+		{
+			break;
 		}
 		--i;	
 	}
