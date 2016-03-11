@@ -225,7 +225,8 @@ int ReadPair::oCheck()
 int ReadPair::findUAdapQuick()
 {
 	
-	//string universalAdapter = "AGATCGGAAGAG";
+	string universalAdapter = "AGATCGGAAGAG";
+	/*
 	string adapters[] =
 	{
 	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
@@ -265,19 +266,19 @@ int ReadPair::findUAdapQuick()
 
 	//will act to iterate up the string, searching for continual matches
 	int iTemp = 0;
-	for (int x = 0; x < 27; x++){
+	//for (int x = 0; x < 27; x++){
 	
 	while(i < (int)read1.length() - 5)
 	{
 		iTemp = i;
 		a = 0;
-		while (iTemp < (int)read1.length()  && read1[iTemp] == adapters[x][a]) 
+		while (iTemp < (int)read1.length()  && read1[iTemp] == universalAdapter[a]) 
 		{
-			if (iTemp == (int)read1.length() -1 || a == adapters[x].length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
+			if (iTemp == (int)read1.length() -1 || a == universalAdapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
 				read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 				qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				lAdap = x + 1;
+				lAdap = 4;
 				lAdapLength = a + 1;
 				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
 			}
@@ -291,26 +292,26 @@ int ReadPair::findUAdapQuick()
 		++i;	
 	}
 	
-	} //end r1 adapter array search
+	//} //end r1 adapter array search
 	
 	
-	for (int x = 0; x < 27; x++){
+	//for (int x = 0; x < 27; x++){
 	
 	i = read2.length() - 1;
-	a = adapters[x].length() - 1;
+	a = universalAdapter.length() - 1;
 	iTemp = i;
 	while(i >= 5)
 	{
 		iTemp = i;
-		a = adapters[x].length() - 1;
-		while (iTemp >=0 && read2[iTemp] == adapters[x][a]) 
+		a = universalAdapter.length() - 1;
+		while (iTemp >=0 && read2[iTemp] == universalAdapter[a]) 
 		{
 			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
 				read2 = read2.substr(i + 1, read2.length() - i - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 				qual2 = qual2.substr(i + 1, read2.length() - i - 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				rAdap = x+1;
-				rAdapLength = adapters[x].length() - a - 1;
+				rAdap = 4;
+				rAdapLength = universalAdapter.length() - a - 1;
 				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
 			}
 			--iTemp;
@@ -323,7 +324,7 @@ int ReadPair::findUAdapQuick()
 		--i;	
 	}
 	
-	} // end r2 adapter array search
+	//} // end r2 adapter array search
 	
 	return 1;
 }
@@ -875,8 +876,8 @@ void ReadPair::Compile() {
 	tStrip();
 	//aRemove();
 	//oCheck();
-	//findUAdapQuick();
-	findUAdapSlow();
+	findUAdapQuick();
+	//findUAdapSlow();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
