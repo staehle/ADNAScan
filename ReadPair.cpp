@@ -389,7 +389,7 @@ int ReadPair::findUAdapSlow()
 		lAdapLength = aBest + 1;
 	}
 	
-	bestScore = 0;
+	maxScore = 0;
 	score = 0;
 	i = read2.length() - 1;
 	a = 0;
