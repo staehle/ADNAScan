@@ -265,7 +265,7 @@ int ReadPair::findUAdapQuick()
 
 	//will act to iterate up the string, searching for continual matches
 	int iTemp = 0;
-	for (int x = 0; x < adapters.length(); x++){
+	for (int x = 0; x < 27; x++){
 	
 	while(i < (int)read1.length() - 5)
 	{
@@ -294,7 +294,7 @@ int ReadPair::findUAdapQuick()
 	} //end r1 adapter array search
 	
 	
-	for (int x = 0; x < adapters.lenght(); x++){
+	for (int x = 0; x < 27; x++){
 	
 	i = read2.length() - 1;
 	a = adapters[x].length() - 1;
