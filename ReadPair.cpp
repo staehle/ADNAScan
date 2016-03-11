@@ -875,7 +875,8 @@ void ReadPair::Compile() {
 	tStrip();
 	//aRemove();
 	//oCheck();
-	findUAdapQuick();
+	//findUAdapQuick();
+	findUAdapSlow();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
