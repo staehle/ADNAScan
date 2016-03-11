@@ -339,7 +339,7 @@ int ReadPair::findUAdapSlow()
 	int score = 0;
 	int iBest = 0;
 	int aBest = 0;
-	int i= 20; //looks at reads
+	int i= 0; //looks at reads
 	int a = 0; //looks at adapter
 
 	//will act to iterate up the string, searching for continual matches
@@ -349,7 +349,7 @@ int ReadPair::findUAdapSlow()
 		iTemp = i;
 		a = 0;
 		score = 0;
-		while (iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
+		while (a < (int)universalAdapter.length() && iTemp < read1.length() - 1) // && read1[i] == universalAdapter[a]) 
 		{
 			if(read1[iTemp] != universalAdapter[a])
 			{
@@ -367,9 +367,10 @@ int ReadPair::findUAdapSlow()
 					iBest = i;
 					aBest = a;
 				}
-				read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				lAdapLength = a + 1;
+				lAdap = 4;
+				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//lAdapLength = a + 1;
 				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
 			}
 			++iTemp;
@@ -388,23 +389,41 @@ int ReadPair::findUAdapSlow()
 		lAdapLength = aBest + 1;
 	}
 	
-	i = 0;
+	bestScore = 0;
+	score = 0;
+	i = read2.length() - 1;
 	a = 0;
-	iTemp = read2.length() - 20;
-	while(i >= 0)
+	iTemp = i;
+	while(i >= 5)
 	{
 		iTemp = i;
 		a = universalAdapter.length() - 1;
-		while (read2[iTemp] == universalAdapter[a]) 
+		score = 0;
+		while (iTemp >= 0 && a >= 0) 
 		{
-			if (iTemp == 0 && i > 5 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
+			if(read2[iTemp] != universalAdapter[a])
 			{
-				read2 = read2.substr(i + 1, read2.length() - i - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				qual2 = qual2.substr(i + 1, read2.length() - i - 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				score -= 3;
+			}
+			else
+			{
+				score += 5;
+			}
+			if ((iTemp == 0 || a == 0) && score > 40)//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				if(score > maxScore)
+				{
+					maxScore = score;
+					iBest = i;
+					aBest = a;
+				}
 				rAdap = 4;
-				rAdapLength = universalAdapter.length() - a - 1;
+				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//lAdapLength = a + 1;
 				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
 			}
+
 			--iTemp;
 			--a;
 		}
@@ -414,6 +433,14 @@ int ReadPair::findUAdapSlow()
 		}
 		--i;	
 	}
+	
+	if(maxScore > 0)
+	{
+		read2 = read2.substr(i + 1, read2.length() - iBest - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(i + 1, read2.length() - iBest - 1);
+		rAdapLength = universalAdapter.length() - aBest - 1;
+	}
+	
 	return 1;
 }
 
