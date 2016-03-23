@@ -331,17 +331,57 @@ int ReadPair::findUAdapQuick()
 
 int ReadPair::findUAdapSlow()
 {
-	string universalAdapter = "AGATCGGAAGAG";
+	string adapters[] =
+	{
+	    "AGATCGGAAGAG",
+	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT",
+	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
+	    "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT",
+	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT",
+	    "AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG",
+	    "TTTTTTTTTTAATGATACGGCGACCACCGAGATCTACAC",
+	    "TTTTTTTTTTCAAGCAGAAGACGGCATACGA",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGATGTATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTTAGGCATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTGACCAATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACAGTGATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGCCAATATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGATCATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACTTGAATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGATCAGATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTAGCTTATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGCTACATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTTGTAATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGTCAACAATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGTTCCGTATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACATGTCAGAATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCCGTCCCGATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTCCGCACATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGAAACGATCTCGTATGCCGTCTTCTGCTTG",
+	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGGCCTTATCTCGTATGCCGTCTTCTGCTTG"
+	};
+	//string universalAdapter = "AGATCGGAAGAG";
 	/*
 	Illumina Small RNA Adapter	ATGGAATTCTCG
 	Nextera Transpose Sequence	CTGTCTCTTATA
 	*/
-	int maxScore = 0;
-	int score = 0;
-	int iBest = 0;
-	int aBest = 0;
+
+
+	float bestRatio = 0;
+	int bestAdap = 0;
+	int iFinal = 0;
+	int aFinal = 0;
+	
+	for(int x = 0; x < adapters.length(); x++){
+		
+	int bestScore = 0;
+	int iIndex = 0;
+	int aIndex = 0;	
 	int i= 0; //looks at reads
 	int a = 0; //looks at adapter
+	string adapter = adapters[x];
 
 	//will act to iterate up the string, searching for continual matches
 	int iTemp = 0;
@@ -350,9 +390,9 @@ int ReadPair::findUAdapSlow()
 		iTemp = i;
 		a = 0;
 		score = 0;
-		while (a < (int)universalAdapter.length() && iTemp < read1.length() - 1) // && read1[i] == universalAdapter[a]) 
+		while (a < (int)adapter.length() && iTemp < read1.length()) // && read1[i] == universalAdapter[a]) 
 		{
-			if(read1[iTemp] != universalAdapter[a])
+			if(read1[iTemp] != adapter[a])
 			{
 				score -= 3;
 			}
@@ -360,15 +400,22 @@ int ReadPair::findUAdapSlow()
 			{
 				score += 5;
 			}
-			if ((iTemp == (int)read1.length() -1 || a == universalAdapter.length() - 1) && score > 40)//&& missCtr < ((int)read2.length()-i2)/8) 
+			if (iTemp == (int)read1.length() -1 || a == adapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
-				if(score > maxScore)
+				if(score >  bestScore)
 				{
-					maxScore = score;
-					iBest = i;
-					aBest = a;
+					float ratio = score / (a+1);
+					if(ratio > bestRatio){
+						bestAdap = x+1;
+						bestRatio = ratio;
+						iFinal = i;
+						aFinal = a;
+					}
+					bestScore = score;
+					iIndex = i;
+					aIndex = a;
 				}
-				lAdap = 4;
+				//lAdap = x + 1;
 				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 				//lAdapLength = a + 1;
@@ -377,32 +424,45 @@ int ReadPair::findUAdapSlow()
 			++iTemp;
 			++a;
 		}
-		if (lAdap != 0)
-		{
-			break;
-		}
+		//if (lAdap != 0)
+		//{
+		//	break;
+		//}
 		++i;	
 	}
-	if(maxScore > 0)
-	{
-		read1 = read1.substr(0, iBest); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		qual1 = qual1.substr(0, iBest); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		lAdapLength = aBest + 1;
+
 	}
 	
-	maxScore = 0;
-	score = 0;
+	if(bestRatio > 0)
+	{
+		read1 = read1.substr(0, iFinal); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual1 = qual1.substr(0, iFinal); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		lAdapLength = aFinal + 1;
+		lAdap = bestAdap;
+	}
+
+	bestRatio = 0;
+	bestAdap = 0;
+	iFinal = 0;
+	aFinal = 0;
+	
+	for(int x = 0; x < adapters.length(); x++){
+	
+	bestScore = 0;
 	i = read2.length() - 1;
 	a = 0;
-	iTemp = i;
+	iIndex = 0;
+	aIndex = 0;
+	string adapter = adapters[x];
+		
 	while(i >= 5)
 	{
 		iTemp = i;
-		a = universalAdapter.length() - 1;
+		a = adapter.length() - 1;
 		score = 0;
 		while (iTemp >= 0 && a >= 0) 
 		{
-			if(read2[iTemp] != universalAdapter[a])
+			if(read2[iTemp] != adapter[a])
 			{
 				score -= 3;
 			}
@@ -410,15 +470,21 @@ int ReadPair::findUAdapSlow()
 			{
 				score += 5;
 			}
-			if ((iTemp == 0 || a == 0) && score > 40)//&& missCtr < ((int)read2.length()-i2)/8) 
+			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
-				if(score > maxScore)
+				if(score > bestScore)
 				{
-					maxScore = score;
-					iBest = i;
-					aBest = a;
+					float ratio = score / (a+1);
+					if(ratio > bestRatio){
+						bestAdap = x+1;
+						bestRatio = ratio;
+						iFinal = i;
+						aFinal = a;
+					}
+					bestScore = score;
+					iIndex = i;
+					aIndex = a;
 				}
-				rAdap = 4;
 				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 				//lAdapLength = a + 1;
@@ -428,18 +494,16 @@ int ReadPair::findUAdapSlow()
 			--iTemp;
 			--a;
 		}
-		if (rAdap != 0)
-		{
-			break;
-		}
 		--i;	
 	}
+	}
 	
-	if(maxScore > 0)
+	if(bestScore > 0)
 	{
-		read2 = read2.substr(i + 1, read2.length() - iBest - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		qual2 = qual2.substr(i + 1, read2.length() - iBest - 1);
-		rAdapLength = universalAdapter.length() - aBest - 1;
+		read2 = read2.substr(i + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(i + 1, read2.length() - iFinal - 1);
+		rAdapLength = adapter.length() - aFinal - 1;
+		rAdap = bestAdap;
 	}
 	
 	return 1;
@@ -876,8 +940,8 @@ void ReadPair::Compile() {
 	tStrip();
 	//aRemove();
 	//oCheck();
-	findUAdapQuick();
-	//findUAdapSlow();
+	//findUAdapQuick();
+	findUAdapSlow();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
