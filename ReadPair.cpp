@@ -374,9 +374,10 @@ int ReadPair::findUAdapSlow()
 	int iFinal = 0;
 	int aFinal = 0;
 	
-	for(int x = 0; x < adapters.length(); x++){
+	for(int x = 0; x < sizeof(adapters)/sizeof(*adapters); x++){
 		
 	int bestScore = 0;
+	int score = 0;
 	int iIndex = 0;
 	int aIndex = 0;	
 	int i= 0; //looks at reads
@@ -446,13 +447,13 @@ int ReadPair::findUAdapSlow()
 	iFinal = 0;
 	aFinal = 0;
 	
-	for(int x = 0; x < adapters.length(); x++){
+	for(int x = 0; x < sizeof(adapters)/sizeof(*adapters); x++){
 	
-	bestScore = 0;
-	i = read2.length() - 1;
-	a = 0;
-	iIndex = 0;
-	aIndex = 0;
+	int bestScore = 0;
+	int i = read2.length() - 1;
+	int a = 0;
+	int iIndex = 0;
+	int aIndex = 0;
 	string adapter = adapters[x];
 		
 	while(i >= 5)
