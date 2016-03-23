@@ -453,7 +453,7 @@ int ReadPair::findUAdapSlow()
 	for(int x = 0; x < sizeof(adapters)/sizeof(*adapters); x++){
 	
 	bestScore = 0;
-	i = read2.length() - 1;
+	int i = read2.length() - 1;
 	a = 0;
 	int iIndex = 0;
 	int aIndex = 0;
