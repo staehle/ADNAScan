@@ -222,113 +222,6 @@ int ReadPair::oCheck()
 	return 1;
 }
 
-int ReadPair::findUAdapQuick()
-{
-	
-	string universalAdapter = "AGATCGGAAGAG";
-	/*
-	string adapters[] =
-	{
-	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
-	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT",
-	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
-	    "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT",
-	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT",
-	    "AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG",
-	    "TTTTTTTTTTAATGATACGGCGACCACCGAGATCTACAC",
-	    "TTTTTTTTTTCAAGCAGAAGACGGCATACGA",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCGATGTATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTTAGGCATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTGACCAATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACAGTGATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGCCAATATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCAGATCATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACACTTGAATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGATCAGATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACTAGCTTATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGGCTACATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCTTGTAATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGTCAACAATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACAGTTCCGTATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACATGTCAGAATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACCCGTCCCGATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTCCGCACATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGAAACGATCTCGTATGCCGTCTTCTGCTTG",
-	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGGCCTTATCTCGTATGCCGTCTTCTGCTTG"
-	};
-	/*
-	Illumina Small RNA Adapter	ATGGAATTCTCG
-	Nextera Transpose Sequence	CTGTCTCTTATA
-	*/
-	int i= 0; //looks at reads
-	int a = 0; //looks at adapter
-
-	//will act to iterate up the string, searching for continual matches
-	int iTemp = 0;
-	//for (int x = 0; x < 27; x++){
-	
-	while(i < (int)read1.length() - 5)
-	{
-		iTemp = i;
-		a = 0;
-		while (iTemp < (int)read1.length()  && read1[iTemp] == universalAdapter[a]) 
-		{
-			if (iTemp == (int)read1.length() -1 || a == universalAdapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
-			{
-				read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				lAdap = 4;
-				lAdapLength = a + 1;
-				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
-			}
-			++iTemp;
-			++a;
-		}
-		if (lAdap != 0)
-		{
-			break;
-		}
-		++i;	
-	}
-	
-	//} //end r1 adapter array search
-	
-	
-	//for (int x = 0; x < 27; x++){
-	
-	i = read2.length() - 1;
-	a = universalAdapter.length() - 1;
-	iTemp = i;
-	while(i >= 5)
-	{
-		iTemp = i;
-		a = universalAdapter.length() - 1;
-		while (iTemp >=0 && read2[iTemp] == universalAdapter[a]) 
-		{
-			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
-			{
-				read2 = read2.substr(i + 1, read2.length() - i - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				qual2 = qual2.substr(i + 1, read2.length() - i - 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				rAdap = 4;
-				rAdapLength = universalAdapter.length() - a - 1;
-				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
-			}
-			--iTemp;
-			--a;
-		}
-		if (rAdap != 0)
-		{
-			break;
-		}
-		--i;	
-	}
-	
-	//} // end r2 adapter array search
-	
-	return 1;
-}
-
 int ReadPair::findUAdapSlow()
 {
 	string adapters[] =
@@ -375,16 +268,15 @@ int ReadPair::findUAdapSlow()
 	int aFinal = 0;
 	int bestScore = 0;
 	int score = 0
-	int a = 0;
-	string adapter;
+	//string adapter;
 	
 	for(int x = 0; x < sizeof(adapters)/sizeof(*adapters); x++){
 		
 	int iIndex = 0;
 	int aIndex = 0;	
 	int i= 0; //looks at reads
-	a = 0; //looks at adapter
-	adapter = adapters[x];
+	int a = 0; //looks at adapter
+	string adapter = adapters[x];
 
 	//will act to iterate up the string, searching for continual matches
 	int iTemp = 0;
@@ -453,12 +345,12 @@ int ReadPair::findUAdapSlow()
 	
 	bestScore = 0;
 	int i = read2.length() - 1;
-	a = 0;
+	int a = 0;
 	int iIndex = 0;
 	int aIndex = 0;
 	int iTemp = i;
 	int score = 0;
-	adapter = adapters[x];
+	string adapter = adapters[x];
 		
 	while(i >= 5)
 	{
