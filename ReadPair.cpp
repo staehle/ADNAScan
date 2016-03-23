@@ -375,7 +375,6 @@ int ReadPair::findUAdapSlow()
 	int aFinal = 0;
 	int bestScore = 0;
 	int score = 0
-	int i = 0;
 	int a = 0;
 	string adapter;
 	
@@ -383,7 +382,7 @@ int ReadPair::findUAdapSlow()
 		
 	int iIndex = 0;
 	int aIndex = 0;	
-	i= 0; //looks at reads
+	int i= 0; //looks at reads
 	a = 0; //looks at adapter
 	adapter = adapters[x];
 
