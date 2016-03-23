@@ -373,15 +373,17 @@ int ReadPair::findUAdapSlow()
 	int bestAdap = 0;
 	int iFinal = 0;
 	int aFinal = 0;
+	int bestScore = 0;
+	int score = 0
+	int i = 0;
+	int a = 0;
 	
 	for(int x = 0; x < sizeof(adapters)/sizeof(*adapters); x++){
 		
-	int bestScore = 0;
-	int score = 0;
 	int iIndex = 0;
 	int aIndex = 0;	
-	int i= 0; //looks at reads
-	int a = 0; //looks at adapter
+	i= 0; //looks at reads
+	a = 0; //looks at adapter
 	string adapter = adapters[x];
 
 	//will act to iterate up the string, searching for continual matches
@@ -449,11 +451,13 @@ int ReadPair::findUAdapSlow()
 	
 	for(int x = 0; x < sizeof(adapters)/sizeof(*adapters); x++){
 	
-	int bestScore = 0;
-	int i = read2.length() - 1;
-	int a = 0;
+	bestScore = 0;
+	i = read2.length() - 1;
+	a = 0;
 	int iIndex = 0;
 	int aIndex = 0;
+	int iTemp = i;
+	int score = 0;
 	string adapter = adapters[x];
 		
 	while(i >= 5)
@@ -501,8 +505,8 @@ int ReadPair::findUAdapSlow()
 	
 	if(bestScore > 0)
 	{
-		read2 = read2.substr(i + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		qual2 = qual2.substr(i + 1, read2.length() - iFinal - 1);
+		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(iFinal + 1, read2.length() - iFinal - 1);
 		rAdapLength = adapter.length() - aFinal - 1;
 		rAdap = bestAdap;
 	}
