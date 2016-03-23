@@ -399,7 +399,7 @@ int ReadPair::findUAdapSlow()
 	{
 		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(iFinal + 1, read2.length() - iFinal - 1);
-		rAdapLength = adapter.length() - aFinal - 1;
+		rAdapLength = adapters[bestAdap - 1].length() - aFinal - 1;
 		rAdap = bestAdap;
 	}
 	
