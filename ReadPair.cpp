@@ -377,6 +377,7 @@ int ReadPair::findUAdapSlow()
 	int score = 0
 	int i = 0;
 	int a = 0;
+	string adapter;
 	
 	for(int x = 0; x < sizeof(adapters)/sizeof(*adapters); x++){
 		
@@ -384,7 +385,7 @@ int ReadPair::findUAdapSlow()
 	int aIndex = 0;	
 	i= 0; //looks at reads
 	a = 0; //looks at adapter
-	string adapter = adapters[x];
+	adapter = adapters[x];
 
 	//will act to iterate up the string, searching for continual matches
 	int iTemp = 0;
@@ -458,7 +459,7 @@ int ReadPair::findUAdapSlow()
 	int aIndex = 0;
 	int iTemp = i;
 	int score = 0;
-	string adapter = adapters[x];
+	adapter = adapters[x];
 		
 	while(i >= 5)
 	{
