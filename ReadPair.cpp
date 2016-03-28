@@ -271,60 +271,59 @@ int ReadPair::findUAdapSlow()
 	//string adapter;
 	
 	for(int x = 0; x < (sizeof(adapters)/sizeof(*adapters)); x++){
-		
-	int iIndex = 0;
-	int aIndex = 0;	
-	int i= 0; //looks at reads
-	int a = 0; //looks at adapter
-	string adapter = adapters[x];
+		int iIndex = 0;
+		int aIndex = 0;	
+		int i= 0; //looks at reads
+		int a = 0; //looks at adapter
+		string adapter = adapters[x];
 
-	//will act to iterate up the string, searching for continual matches
-	int iTemp = 0;
-	while(i < (int)read1.length() - 5)
-	{
-		iTemp = i;
-		a = 0;
-		score = 0;
-		while (a < (int)adapter.length() && iTemp < read1.length()) // && read1[i] == universalAdapter[a]) 
+		//will act to iterate up the string, searching for continual matches
+		int iTemp = 0;
+		while(i < (int)read1.length() - 5)
 		{
-			if(read1[iTemp] != adapter[a])
+			iTemp = i;
+			a = 0;
+			score = 0;
+			while (a < (int)adapter.length() && iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
 			{
-				score -= 3;
-			}
-			else
-			{
-				score += 5;
-			}
-			if (iTemp == (int)read1.length() -1 || a == adapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
-			{
-				if(score >  bestScore)
+				if(read1[iTemp] != adapter[a])
 				{
-					float ratio = score / (a+1);
-					if(ratio > bestRatio){
-						bestAdap = x+1;
-						bestRatio = ratio;
-						iFinal = i;
-						aFinal = a;
-					}
-					bestScore = score;
-					iIndex = i;
-					aIndex = a;
+					score -= 3;
 				}
-				//lAdap = x + 1;
-				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				//lAdapLength = a + 1;
-				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+				else
+				{
+					score += 5;
+				}
+				if (iTemp == (int)read1.length() -1 || a == (int)adapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
+				{
+					if(score >  bestScore)
+					{
+						float ratio = score / (a+1);
+						if(ratio > bestRatio){
+							bestAdap = x+1;
+							bestRatio = ratio;
+							iFinal = i;
+							aFinal = a;
+						}
+						bestScore = score;
+						iIndex = i;
+						aIndex = a;
+					}
+					//lAdap = x + 1;
+					//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+					//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+					//lAdapLength = a + 1;
+					//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+				}
+				++iTemp;
+				++a;
 			}
-			++iTemp;
-			++a;
+			//if (lAdap != 0)
+			//{
+			//	break;
+			//}
+			++i;	
 		}
-		//if (lAdap != 0)
-		//{
-		//	break;
-		//}
-		++i;	
-	}
 
 	}
 	
@@ -342,57 +341,56 @@ int ReadPair::findUAdapSlow()
 	aFinal = 0;
 	
 	for(int x = 0; x < (sizeof(adapters)/sizeof(*adapters)); x++){
-	
-	bestScore = 0;
-	int i = read2.length() - 1;
-	int a = 0;
-	int iIndex = 0;
-	int aIndex = 0;
-	int iTemp = i;
-	int score = 0;
-	string adapter = adapters[x];
+		bestScore = 0;
+		int i = read2.length() - 1;
+		int a = 0;
+		int iIndex = 0;
+		int aIndex = 0;
+		int iTemp = i;
+		int score = 0;
+		string adapter = adapters[x];
 		
-	while(i >= 5)
-	{
-		iTemp = i;
-		a = adapter.length() - 1;
-		score = 0;
-		while (iTemp >= 0 && a >= 0) 
+		while(i >= 5)
 		{
-			if(read2[iTemp] != adapter[a])
+			iTemp = i;
+			a = adapter.length() - 1;
+			score = 0;
+			while (iTemp >= 0 && a >= 0) 
 			{
-				score -= 3;
-			}
-			else
-			{
-				score += 5;
-			}
-			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
-			{
-				if(score > bestScore)
+				if(read2[iTemp] != adapter[a])
 				{
-					float ratio = score / (a+1);
-					if(ratio > bestRatio){
-						bestAdap = x+1;
-						bestRatio = ratio;
-						iFinal = i;
-						aFinal = a;
-					}
-					bestScore = score;
-					iIndex = i;
-					aIndex = a;
+					score -= 3;
 				}
-				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-				//lAdapLength = a + 1;
-				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
-			}
+				else
+				{
+					score += 5;
+				}
+				if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
+				{
+					if(score > bestScore)
+					{
+						float ratio = score / (a+1);
+						if(ratio > bestRatio){
+							bestAdap = x+1;
+							bestRatio = ratio;
+							iFinal = i;
+							aFinal = a;
+						}
+						bestScore = score;
+						iIndex = i;
+						aIndex = a;
+					}
+					//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+					//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+					//lAdapLength = a + 1;
+					//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+				}
 
-			--iTemp;
-			--a;
+				--iTemp;
+				--a;
+			}
+			--i;	
 		}
-		--i;	
-	}
 	}
 	
 	if(bestScore > 0)
@@ -577,7 +575,7 @@ int ReadPair::aRemove() {
 			int endIndex = AdapterSearch.length(); // The length of the adapter
 
 			// From 0 -> Str.length - AdapterLength. Searching from 0 to end
-			for (int startIndex = 0; startIndex <= (str1.length() - endIndex); startIndex = startIndex + 1) {
+			for (int startIndex = 0; startIndex <= (int)(str1.length() - endIndex); startIndex = startIndex + 1) {
 				
 				
 				int whilecounter = endIndex;
@@ -707,7 +705,7 @@ int ReadPair::aRemove() {
 			//read1 = str1.substr(0, RemoveAdapter);
 		}
 		
-		if (RemoveAdapter2 != str2.length()){
+		if (RemoveAdapter2 != (int)str2.length()){
 			test2.open(testr2.str(), ios::app); //For Testing Prints
 			test2 << "\n\n**********************************\nOld Read 2: "<< str2 << "\n**********************************\nNew Read 2: " << (str2.substr(RemoveAdapter2, str2.length())) << "\n**********************************\n" <<"\n";
 			test2.close();
