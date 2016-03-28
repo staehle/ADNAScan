@@ -367,12 +367,17 @@ int main() {
 		ofrhs << "</h2>\n<h3>fastq read 1 file: <small>" << myJob->fq1n;
 		ofrhs << "</small></h3>\n<h3>fastq read 2 file: <small>" << myJob->fq2n;
 		ofrhs << "</small></h3>\n<h3>job completed: <small>" << ctime(&curtime) << "</small></h3>\n";
-		ofrhs << "<br><h2>Job data stats</h2>\n<table class=\"table table-striped table-bordered\">\n";
+		ofrhs << "<br><h2>Job data stats</h2>\n<div class=\"row\"><div class=\"col-md-6\">\n";
+		ofrhs << "<canvas id=\"counts\" width=\"300\" height=\"300\"></canvas></div><div class=\"col-md-6\">\n";
+		ofrhs << "<table class=\"table table-striped table-bordered\">\n";
 		ofrhs << "<tr><td>Passing Read Count</td><td>" << gTotal;
 		ofrhs << "</td></tr><tr><td>Failing Read Count</td><td>" << bTotal;
 		ofrhs << "</td></tr><tr><td>Merged Read Pair Count</td><td>" << mTotal;
 		ofrhs << "</td></tr><tr><td>T Removal Count (Total Pairs)</td><td>" << tTotal;
-		ofrhs << "</td></tr></table>\n<br><h2>Adapter removal stats</h2>\n<div class=\"row\">";
+		ofrhs << "</td></tr></table></div>\n<script>var data = [ { value: " << bTotal << ", color:\"#F7464A\", highlight: \"#FF5A5E\", label: \"Failed Reads\" }, { value: " << gTotal << ", color: \"#46BFBD\", highlight: \"#5AD3D1\", label: \"Passed Reads\" }, { value: " << mTotal << ", color: \"#FDB45C\", highlight: \"#FFC870\", label: \"Merged Reads\" } ];\n";
+		ofrhs << "var ctx = document.getElementById(\"counts\").getContext(\"2d\");\n";
+		ofrhs << "var countChart = new Chart(ctx).Pie(data, {});</script></div>\n";
+		ofrhs << "<br><h2>Adapter removal stats</h2>\n<div class=\"row\">\n";
 		int tablecount = 0;
 		for(int i=0; i < 27; i++) {
 			stringstream temp;
@@ -385,6 +390,7 @@ int main() {
 					doPrint = 1;
 				}
 			}
+			
 			temp << "</table></div>\n";
 			if (doPrint==1) { 
 				if (tablecount>3) {

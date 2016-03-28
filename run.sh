@@ -8,6 +8,7 @@ fi
 mkdir -p results
 mkdir -p results/curjob
 rm -rf ./results/curjob/*
+rm -f ./nohup.out
 mkdir -p results/curjob/ind
 
 if [ "$4" == "" ]; then
