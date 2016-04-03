@@ -22,6 +22,7 @@ struct _job {
 	char fq1n[256];
 	char fq2n[256];
 	int numProcs;
+	time_t starttime;
 };
 
 #endif

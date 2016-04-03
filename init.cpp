@@ -6,6 +6,8 @@
 #include <cstring>
 #include "adnashm.hpp"
 #include <sstream>
+#include <ctime>
+#include <chrono>
 
 using namespace std;
 
@@ -37,6 +39,7 @@ int main(int argc, char **argv) {
 		strcpy(thisJob->jobname, argv[4]);
 	}
 	thisJob->numProcs = numProcs;
+	thisJob->starttime = chrono::system_clock::to_time_t(chrono::system_clock::now());
 	cout << "Init: Creating job: '" << thisJob->jobname << "'" << endl;
 	cout << "Init: Setting job for " << thisJob->numProcs << " processes" << endl;
 	

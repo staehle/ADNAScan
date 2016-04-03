@@ -59,6 +59,7 @@ int main() {
 	string fq2str = "FASTQ Read 2: "+string(myJob->fq2n);
 	stringstream mpistr;
 	mpistr << "Number of Processes: " << myJob->numProcs;
+	string jobstm = " Job started: "+string(ctime(&myJob->starttime));
 	
 	wmove(stdscr, 3, 2);
 	waddstr(stdscr, (char*)jobstr.c_str());
@@ -68,10 +69,12 @@ int main() {
 	waddstr(stdscr, (char*)fq2str.c_str());
 	wmove(stdscr, 6, 2);
 	waddstr(stdscr, (char*)mpistr.str().c_str());
+	wmove(stdscr, 7, 2);
+	waddstr(stdscr, (char*)jobstm.c_str());
 	
 	wrefresh(stdscr);
 	
-	WINDOW * statscr = newwin(LINES-10, COLS-4, 7, 2);
+	WINDOW * statscr = newwin(LINES-11, COLS-4, 8, 2);
 	timeout(1000);
 	
 	int clear = 0;
@@ -140,6 +143,8 @@ int main() {
 	endwin();
 	
 	if (clear==0) {
+		cerr << "Please wait while adna-check compiles the resulting data." << endl;
+		
 		int adaps[27][70] = {0};
 		string resdir = "./results/curjob/";
 		string line;
@@ -149,6 +154,8 @@ int main() {
 		int tTotal = 0;
 		time_t curtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
 		tm *loctime = localtime(&curtime);
+		time_t jobtime = myJob->starttime;
+		tm *srttime = localtime(&jobtime);
 		
 		// combine fastq files
 		ofstream ofr1ps;
@@ -331,6 +338,7 @@ int main() {
 		ofrs << "job name: " << myJob->jobname;
 		ofrs << "\nfastq read 1 file: " << myJob->fq1n;
 		ofrs << "\nfastq read 2 file: " << myJob->fq2n;
+		ofrs << "\njob started: " << ctime(&jobtime);
 		ofrs << "\njob completed: " << ctime(&curtime);
 		ofrs << "\n\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
 		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
@@ -366,6 +374,7 @@ int main() {
 		ofrhs << "<h2>job name: <small>" << myJob->jobname;
 		ofrhs << "</h2>\n<h3>fastq read 1 file: <small>" << myJob->fq1n;
 		ofrhs << "</small></h3>\n<h3>fastq read 2 file: <small>" << myJob->fq2n;
+		ofrhs << "</small></h3>\n<h3>job started: <small>" << ctime(&jobtime) << "</small></h3>\n";		
 		ofrhs << "</small></h3>\n<h3>job completed: <small>" << ctime(&curtime) << "</small></h3>\n";
 		ofrhs << "<br><h2>Job data stats</h2>\n<div class=\"row\"><div class=\"col-md-6\">\n";
 		ofrhs << "<canvas id=\"counts\" width=\"300\" height=\"300\"></canvas></div><div class=\"col-md-6\">\n";

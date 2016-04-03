@@ -224,7 +224,7 @@ int ReadPair::oCheck()
 
 int ReadPair::findUAdapSlow()
 {
-	"AGATCGGAAGAG",
+	//"AGATCGGAAGAG",
 	string adapters[] =
 	{
 	    
