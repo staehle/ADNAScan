@@ -145,7 +145,7 @@ int main() {
 	if (clear==0) {
 		cerr << "Please wait while adna-check compiles the resulting data." << endl;
 		
-		int adaps[27][70] = {0};
+		int adaps[28][70] = {0};
 		string resdir = "./results/curjob/";
 		string line;
 		int gTotal = 0;
@@ -344,7 +344,7 @@ int main() {
 		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
 		ofrs << "\n\nT Removal Count (Total Pairs): " << tTotal;
 		ofrs << "\n\nAdapter Removal Stats:\n";
-		for(int i=0; i < 27; i++) {
+		for(int i=0; i < 28; i++) {
 			stringstream temp;
 			int doPrint = 0;
 			temp << "Adapter " << i << ":\n";
@@ -388,7 +388,7 @@ int main() {
 		ofrhs << "var countChart = new Chart(ctx).Pie(data, {});</script></div>\n";
 		ofrhs << "<br><h2>Adapter removal stats</h2>\n<div class=\"row\">\n";
 		int tablecount = 0;
-		for(int i=0; i < 27; i++) {
+		for(int i=0; i < 28; i++) {
 			stringstream temp;
 			int doPrint = 0;
 			temp << "<div class=\"col-md-3 col-sm-6\"><h3>Adapter " << i << ":</h3>\n<table class=\"table table-striped table-bordered\">\n";
