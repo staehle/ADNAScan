@@ -274,7 +274,7 @@ int ReadPair::findAdapSlow()
 	for(int x = 0; x < (sizeof(adapters)/sizeof(*adapters)); x++){
 		int iIndex = 0;
 		int aIndex = 0;	
-		int i= 0; //looks at reads
+		int i= 5; //looks at reads
 		int a = 0; //looks at adapter
 		string adapter = adapters[x];
 
@@ -343,7 +343,7 @@ int ReadPair::findAdapSlow()
 	
 	for(int x = 0; x < (sizeof(adapters)/sizeof(*adapters)); x++){
 		bestScore = 0;
-		int i = read2.length() - 1;
+		int i = read2.length() - 6;
 		int a = 0;
 		int iIndex = 0;
 		int aIndex = 0;
@@ -422,7 +422,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	int aIndex = 0;	
 	int i = (int)read2.length() - 1;
 	int a = 0;
-	int iTemp = i;
+	int iTemp = 0;
 
 
 	while(i >= 5)
@@ -904,7 +904,7 @@ void ReadPair::Compile() {
 	//oCheck();
 	//findUAdapQuick();
 	findAdapSlow();
-	//if (read2.length() > 1)	findUAdap();
+	if ((int)read2.length() > 6) findUAdap();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
