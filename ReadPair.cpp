@@ -904,7 +904,7 @@ void ReadPair::Compile() {
 	//oCheck();
 	//findUAdapQuick();
 	findAdapSlow();
-	findUAdap();
+	if (read2.length() > 1)	findUAdap();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
