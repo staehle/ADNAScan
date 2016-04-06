@@ -460,15 +460,15 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 		--i;	
 	}
 
-	/*
+	
 	if(bestScore > 0)
 	{
 		read2 = read2.substr(iIndex + 1, (int)read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(iIndex + 1, (int)read2.length() - iIndex - 1);
-		rAdapLength = (int)universalAdapter.length() - aIndex;
-		rAdap = 27;
+		//rAdapLength = (int)universalAdapter.length() - aIndex;
+		//rAdap = 27;
 	}
-	*/
+	
 	return 1;
 }
 
