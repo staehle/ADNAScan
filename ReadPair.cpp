@@ -465,7 +465,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	{
 		//ERRORS ON THESE 2 LINES
 		read2 = read2.substr(iIndex, read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		qual2 = qual2.substr(iInde, read2.length() - iIndex - 1);
+		qual2 = qual2.substr(iIndex, read2.length() - iIndex - 1);
 		//
 		rAdapLength = universalAdapter.length() - aIndex;
 		rAdap = 27;
