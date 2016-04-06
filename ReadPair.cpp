@@ -440,7 +440,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 			{
 				score += 5;
 			}
-			if ((iTemp == 0 || a == ) && score > 20)//&& missCtr < ((int)read2.length()-i2)/8) 
+			if ((iTemp == 0 || a == 0) && score > 20)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
 				if(score >= bestScore)
 				{
