@@ -222,7 +222,7 @@ int ReadPair::oCheck()
 	return 1;
 }
 
-int ReadPair::findUAdapSlow()
+int ReadPair::findAdapSlow()
 {
 	//"AGATCGGAAGAG",
 	string adapters[] =
@@ -256,7 +256,7 @@ int ReadPair::findUAdapSlow()
 	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGAAACGATCTCGTATGCCGTCTTCTGCTTG",
 	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGGCCTTATCTCGTATGCCGTCTTCTGCTTG"
 	};
-	//string universalAdapter = "AGATCGGAAGAG";
+	string universalAdapter = "AGATCGGAAGAG";
 	/*
 	Illumina Small RNA Adapter	ATGGAATTCTCG
 	Nextera Transpose Sequence	CTGTCTCTTATA
@@ -400,6 +400,72 @@ int ReadPair::findUAdapSlow()
 		qual2 = qual2.substr(iFinal + 1, read2.length() - iFinal - 1);
 		rAdapLength = adapters[bestAdap - 1].length() - aFinal - 1;
 		rAdap = bestAdap;
+	}
+	
+	return 1;
+}
+
+
+
+
+int ReadPair::findUAdap() //Used to find Universal adapter in read2
+{
+	string universalAdapter = "AGATCGGAAGAG";
+	/*
+	Illumina Small RNA Adapter	ATGGAATTCTCG
+	Nextera Transpose Sequence	CTGTCTCTTATA
+	*/
+
+	int score = 0;
+	int bestScore = 0;
+	int iIndex = 0;
+	int aIndex = 0;	
+	int i = read2.length() - 1;
+	int a = 0;
+	int iTemp = i;
+
+
+	while(i >= 5)
+	{
+		iTemp = i;
+		a = universalAdapter.length() - 1;
+		score = 0;
+		while (iTemp >= 0 && a >= 0) 
+		{
+			if(read2[iTemp] != universalAdapter[a])
+			{
+				score -= 3;
+			}
+			else
+			{
+				score += 5;
+			}
+			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				if(score >= bestScore)
+				{
+					bestScore = score;
+					iIndex = i;
+					aIndex = a;
+				}
+				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//lAdapLength = a + 1;
+				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+			}
+			--iTemp;
+			--a;
+		}
+		--i;	
+	}
+
+	
+	if(bestScore > 0)
+	{
+		read2 = read2.substr(iIndex + 1, read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(iIndex + 1, read2.length() - iIndex - 1);
+		rAdapLength = universalAdapter.length() - aIndex - 1;
+		rAdap = 28;
 	}
 	
 	return 1;
@@ -837,7 +903,8 @@ void ReadPair::Compile() {
 	//aRemove();
 	//oCheck();
 	//findUAdapQuick();
-	findUAdapSlow();
+	findAdapSlow();
+	findUAdap();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
