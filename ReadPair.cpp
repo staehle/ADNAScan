@@ -410,11 +410,12 @@ int ReadPair::findAdapSlow()
 
 int ReadPair::findUAdap() //Used to find Universal adapter in read2
 {
-	string universalAdapter = "AGATCGGAAGAG";
 	/*
-	Illumina Small RNA Adapter	ATGGAATTCTCG
-	Nextera Transpose Sequence	CTGTCTCTTATA
-	*/
+	string universalAdapter = "AGATCGGAAGAG";
+	
+	//Illumina Small RNA Adapter	ATGGAATTCTCG
+	//Nextera Transpose Sequence	CTGTCTCTTATA
+	
 
 	int score = 0;
 	int bestScore = 0;
@@ -467,7 +468,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 		rAdapLength = (int)universalAdapter.length() - aIndex;
 		rAdap = 27;
 	}
-	
+	*/
 	return 1;
 }
 
