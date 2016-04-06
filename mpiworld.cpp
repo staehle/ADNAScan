@@ -12,7 +12,7 @@
 #include "mpiworld.hpp"
 using namespace std;
 
-int adaps[26][70] = {0};
+int adaps[28][70] = {0};
 
 void fillAdapters(int x, int xl, int y, int yl) {
 	if (x != 0) {
@@ -172,7 +172,7 @@ int main(int argc, char **argv) {
 	ofna << "./results/curjob/ind/adaptersRemoved_p" << my_rank << ".txt";
 	ofstream ofsa;
 	ofsa.open(ofna.str(), ios::out);
-	for (int i=0; i<26; i++) {
+	for (int i=0; i<28; i++) {
 		for (int y=0; y<70; y++) {
 			if (adaps[i][y] > 0) {
 				ofsa << i+1 << " " << y+1 << " " << adaps[i][y] << endl;
