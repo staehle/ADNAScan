@@ -330,8 +330,8 @@ int ReadPair::findAdapSlow()
 	
 	if(bestRatio > 0)
 	{
-		read1 = read1.substr(0, iFinal); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		qual1 = qual1.substr(0, iFinal); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		read1 = read1.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual1 = qual1.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		lAdapLength = aFinal + 1;
 		lAdap = bestAdap;
 	}
@@ -398,7 +398,7 @@ int ReadPair::findAdapSlow()
 	{
 		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(iFinal + 1, read2.length() - iFinal - 1);
-		rAdapLength = adapters[bestAdap - 1].length() - aFinal - 1;
+		rAdapLength = adapters[bestAdap - 1].length() - aFinal;
 		rAdap = bestAdap;
 	}
 	
@@ -420,7 +420,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	int bestScore = 0;
 	int iIndex = 0;
 	int aIndex = 0;	
-	int i = (int)read2.length() - 1;
+	int i = (int)read2.length() - 5;
 	int a = 0;
 	int iTemp = 0;
 
@@ -464,7 +464,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	{
 		read2 = read2.substr(iIndex + 1, (int)read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(iIndex + 1, (int)read2.length() - iIndex - 1);
-		rAdapLength = (int)universalAdapter.length() - aIndex - 1;
+		rAdapLength = (int)universalAdapter.length() - aIndex;
 		rAdap = 28;
 	}
 	
@@ -904,7 +904,7 @@ void ReadPair::Compile() {
 	//oCheck();
 	//findUAdapQuick();
 	findAdapSlow();
-//	if ((int)read2.length() > 6) findUAdap();
+findUAdap();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
