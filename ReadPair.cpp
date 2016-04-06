@@ -440,7 +440,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 			{
 				score += 5;
 			}
-			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
+			if ((iTemp == 0 || a == ) && score > 20)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
 				if(score >= bestScore)
 				{
@@ -465,7 +465,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 		read2 = read2.substr(iIndex + 1, (int)read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(iIndex + 1, (int)read2.length() - iIndex - 1);
 		rAdapLength = (int)universalAdapter.length() - aIndex;
-		rAdap = 28;
+		rAdap = 27;
 	}
 	
 	return 1;
@@ -904,7 +904,7 @@ void ReadPair::Compile() {
 	//oCheck();
 	//findUAdapQuick();
 	findAdapSlow();
-findUAdap();
+	if((int)read2.length() > 5) findUAdap();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
