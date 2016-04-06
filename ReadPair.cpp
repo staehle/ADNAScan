@@ -256,7 +256,7 @@ int ReadPair::findAdapSlow()
 	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGAAACGATCTCGTATGCCGTCTTCTGCTTG",
 	    "GATCGGAAGAGCACACGTCTGAACTCCAGTCACGTGGCCTTATCTCGTATGCCGTCTTCTGCTTG"
 	};
-	string universalAdapter = "AGATCGGAAGAG";
+	//string universalAdapter = "AGATCGGAAGAG";
 	/*
 	Illumina Small RNA Adapter	ATGGAATTCTCG
 	Nextera Transpose Sequence	CTGTCTCTTATA
@@ -420,7 +420,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	int bestScore = 0;
 	int iIndex = 0;
 	int aIndex = 0;	
-	int i = read2.length() - 1;
+	int i = (int)read2.length() - 1;
 	int a = 0;
 	int iTemp = i;
 
@@ -428,7 +428,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	while(i >= 5)
 	{
 		iTemp = i;
-		a = universalAdapter.length() - 1;
+		a = (int)universalAdapter.length() - 1;
 		score = 0;
 		while (iTemp >= 0 && a >= 0) 
 		{
@@ -462,9 +462,9 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	
 	if(bestScore > 0)
 	{
-		read2 = read2.substr(iIndex + 1, read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		qual2 = qual2.substr(iIndex + 1, read2.length() - iIndex - 1);
-		rAdapLength = universalAdapter.length() - aIndex - 1;
+		read2 = read2.substr(iIndex + 1, (int)read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(iIndex + 1, (int)read2.length() - iIndex - 1);
+		rAdapLength = (int)universalAdapter.length() - aIndex - 1;
 		rAdap = 28;
 	}
 	
@@ -904,7 +904,7 @@ void ReadPair::Compile() {
 	//oCheck();
 	//findUAdapQuick();
 	findAdapSlow();
-	if (read2.length() > 1)	findUAdap();
+	//if (read2.length() > 1)	findUAdap();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
