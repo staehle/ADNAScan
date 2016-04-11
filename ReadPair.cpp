@@ -400,6 +400,13 @@ int ReadPair::findAdapSlow()
 		qual2 = qual2.substr(iFinal + 1, read2.length() - iFinal - 1);
 		rAdapLength = adapters[bestAdap - 1].length() - aFinal;
 		rAdap = bestAdap;
+		
+					stringstream ofr1fn;
+			ofr1fn << "./results/curjob/ind/read1Fail_p" << tNum << ".fastq";
+			ofstream ofr1fs;
+			ofr1fs.open(ofr1fn.str(), ios::app);
+			ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
+			ofr1fs.close();
 	}
 	
 	return 1;
@@ -464,8 +471,8 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	if(bestScore > 30)
 	{
 		//ERRORS ON THESE 2 LINES
-		//read2 = read2.substr(iIndex + 1, read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		//qual2 = qual2.substr(iIndex + 1, read2.length() - iIndex - 1);
+		read2 = read2.substr(iIndex + 1, 1);//read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(iIndex + 1, 1);//read2.length() - iIndex - 1);
 		//
 		rAdapLength = universalAdapter.length() - aIndex;
 		rAdap = 27;
