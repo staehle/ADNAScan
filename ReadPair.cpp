@@ -397,7 +397,7 @@ int ReadPair::findAdapSlow()
 	if(bestScore > 0)
 	{
 		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		qual2 = qual2.substr(iFinal + 1, read2.length() - iFinal - 1);
+		qual2 = qual2.substr(iFinal + 1, qual2.length() - iFinal - 1);
 		rAdapLength = adapters[bestAdap - 1].length() - aFinal;
 		rAdap = bestAdap;
 		
@@ -472,7 +472,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	{
 		//ERRORS ON THESE 2 LINES
 		read2 = read2.substr(iIndex + 1, read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		//qual2 = qual2.substr(iIndex + 1, read2.length() - iIndex - 1);
+		qual2 = qual2.substr(iIndex + 1, qual2.length() - iIndex - 1);
 		//
 		rAdapLength = universalAdapter.length() - aIndex;
 		rAdap = 27;
