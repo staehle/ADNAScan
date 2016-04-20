@@ -330,7 +330,7 @@ int ReadPair::findAdapSlow()
 
 	}
 	
-	if(bestRatio > )
+	if(bestRatio > 0)
 	{
 		read1 = read1.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual1 = qual1.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
