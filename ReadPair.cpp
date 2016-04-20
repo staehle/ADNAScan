@@ -371,7 +371,7 @@ int ReadPair::findAdapSlow()
 				if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
 				{
 					float ratio = score / (adapter.length());
-					if(score > bestRatio)
+					if(ratio > bestRatio)
 					{
 						bestAdap = x+1;
 						bestRatio = ratio;
@@ -454,10 +454,10 @@ int ReadPair::findPrimer()
 			}
 			if (iTemp == (int)read2.length() -1 || a == (int)primer.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
-				
-				if(score >  bestScore)
+				float ratio = score / a + 1;
+				if(ratio >  bestRatio)
 				{
-					bestScore = score;
+					bestRatio = ratio;
 					iFinal = i;
 					aFinal = a;
 					
@@ -481,7 +481,7 @@ int ReadPair::findPrimer()
 		++i;	
 	}
 
-	if(bestScore > 35)
+	if(bestRatio > 1)
 	{
 		read2 = read2.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
