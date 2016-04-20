@@ -281,7 +281,7 @@ int ReadPair::findAdapSlow()
 
 		//will act to iterate up the string, searching for continual matches
 		int iTemp = 0;
-		while(i < (int)read1.length() - 5)
+		while(i < (int)read1.length() - 1)
 		{
 			iTemp = i;
 			a = 0;
@@ -298,7 +298,7 @@ int ReadPair::findAdapSlow()
 				}
 				if (iTemp == (int)read1.length() -1 || a == (int)adapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 				{
-					float ratio = score / (adapter.length());
+					float ratio = score / (a + 1);
 					if(ratio >  bestRatio)
 					{
 						
@@ -353,7 +353,7 @@ int ReadPair::findAdapSlow()
 		int score = 0;
 		string adapter = adapters[x];
 		
-		while(i >= 5)
+		while(i >= 0)
 		{
 			iTemp = i;
 			a = adapter.length() - 1;
@@ -370,7 +370,14 @@ int ReadPair::findAdapSlow()
 				}
 				if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
 				{
-					float ratio = score / (adapter.length());
+					if (iTemp == 0)
+					{
+						float ratio = score / (i+1);
+					}
+					else
+					{
+						float ratio = score / (adapter.length());
+					}
 					if(ratio > bestRatio)
 					{
 						bestAdap = x+1;
