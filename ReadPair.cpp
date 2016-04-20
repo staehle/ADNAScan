@@ -481,7 +481,7 @@ int ReadPair::findPrimer()
 		++i;	
 	}
 
-	if(bestRatio > 1)
+	if(bestRatio > 1.5)
 	{
 		read2 = read2.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
