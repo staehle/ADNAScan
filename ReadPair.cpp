@@ -86,6 +86,7 @@ int ReadPair::qualPass() {
 		for(string::iterator c = qual2.begin(); c != qual2.end(); ++c) {
 			qual = int(*c)-33;
 			if(qual < 15) failCtr+=1;
+			
 		}
 		
 		if (failCtr < 10 && read2.length() > 10) ret += 2;
@@ -120,7 +121,7 @@ int ReadPair::qualPass() {
 			if(qual < 15) failCtr+=1;
 		}
 		
-		if (failCtr < 10) return 1;
+		if (failCtr < 10 && fRead.length() > 10) return 1;
 		else {
 			badRead = 2;
 			return 0;
@@ -231,7 +232,7 @@ int ReadPair::findAdapSlow()
 	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
 	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT",
 	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT",
-	    "CGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCAT",
+	    "CGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT",
 	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT",
 	    "AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG",
 	    "TTTTTTTTTTAATGATACGGCGACCACCGAGATCTACAC",
@@ -272,8 +273,8 @@ int ReadPair::findAdapSlow()
 	//string adapter;
 	
 	for(int x = 0; x < (sizeof(adapters)/sizeof(*adapters)); x++){
-		int iIndex = 0;
-		int aIndex = 0;	
+		//int iIndex = 0;
+		//int aIndex = 0;	
 		int i= 5; //looks at reads
 		int a = 0; //looks at adapter
 		string adapter = adapters[x];
@@ -297,18 +298,19 @@ int ReadPair::findAdapSlow()
 				}
 				if (iTemp == (int)read1.length() -1 || a == (int)adapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 				{
-					if(score >  bestScore)
+					float ratio = score / (a+1);
+					if(ratio >  bestRatio)
 					{
-						float ratio = score / (a+1);
-						if(ratio > bestRatio){
-							bestAdap = x+1;
-							bestRatio = ratio;
-							iFinal = i;
-							aFinal = a;
-						}
-						bestScore = score;
-						iIndex = i;
-						aIndex = a;
+						
+						
+						bestAdap = x+1;
+						
+						iFinal = i;
+						aFinal = a;
+						
+						//bestScore = score;
+						//iIndex = i;
+						//aIndex = a;
 					}
 					//lAdap = x + 1;
 					//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -328,7 +330,7 @@ int ReadPair::findAdapSlow()
 
 	}
 	
-	if(bestRatio > 0)
+	if(bestRatio > 1)
 	{
 		read1 = read1.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual1 = qual1.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -345,8 +347,8 @@ int ReadPair::findAdapSlow()
 		bestScore = 0;
 		int i = read2.length() - 6;
 		int a = 0;
-		int iIndex = 0;
-		int aIndex = 0;
+		//int iIndex = 0;
+		//int aIndex = 0;
 		int iTemp = i;
 		int score = 0;
 		string adapter = adapters[x];
@@ -368,18 +370,16 @@ int ReadPair::findAdapSlow()
 				}
 				if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
 				{
-					if(score > bestScore)
+					float ratio = score / (adapter.length());
+					if(score > bestRatio)
 					{
-						float ratio = score / (a+1);
-						if(ratio > bestRatio){
-							bestAdap = x+1;
-							bestRatio = ratio;
-							iFinal = i;
-							aFinal = a;
-						}
-						bestScore = score;
-						iIndex = i;
-						aIndex = a;
+						bestAdap = x+1;
+						bestRatio = ratio;
+						iFinal = i;
+						aFinal = a;
+						//bestScore = score;
+						//iIndex = i;
+						//aIndex = a;
 					}
 					//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 					//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -394,25 +394,107 @@ int ReadPair::findAdapSlow()
 		}
 	}
 	
-	if(bestScore > 0)
+	if(bestRatio > 1)
 	{
 		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(iFinal + 1, qual2.length() - iFinal - 1);
 		rAdapLength = adapters[bestAdap - 1].length() - aFinal;
 		rAdap = bestAdap;
 		
-					stringstream ofr1fn;
+		/*
+			stringstream ofr1fn;
 			ofr1fn << "./results/curjob/ind/read1Fail_p" << tNum << ".fastq";
 			ofstream ofr1fs;
 			ofr1fs.open(ofr1fn.str(), ios::app);
 			ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 			ofr1fs.close();
+		*/
 	}
 	
 	return 1;
 }
 
 
+int ReadPair::findPrimer()
+{
+		
+	string primer = "CGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT";
+	
+	//Illumina Small RNA Adapter	ATGGAATTCTCG
+	//Nextera Transpose Sequence	CTGTCTCTTATA
+	
+
+	float bestRatio = 0;
+	//int bestAdap = 0;
+	int iFinal = 0;
+	int aFinal = 0;
+	int bestScore = 0;
+	int score = 0;
+	//string adapter;
+	
+	int i= 0; //looks at reads
+	int a = 0; //looks at adapter
+	string adapter = adapters[x];
+
+	//will act to iterate up the string, searching for continual matches
+	int iTemp = 0;
+	while(i < (int)read2.length() - 1)
+	{
+		iTemp = i;
+		a = 0;
+		score = 0;
+		while (a < (int)primer.length() && iTemp < (int)read2.length()) // && read1[i] == universalAdapter[a]) 
+		{
+			if(read2[iTemp] != primer[a])
+			{
+				score -= 3;
+			}
+			else
+			{
+				score += 5;
+			}
+			if (iTemp == (int)read2.length() -1 || a == (int)primer.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				
+				if(score >  bestScore)
+				{
+					bestScore = score;
+					iFinal = i;
+					aFinal = a;
+					
+					//bestScore = score;
+					//iIndex = i;
+					//aIndex = a;
+				}
+				//lAdap = x + 1;
+				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//lAdapLength = a + 1;
+				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+			}
+			++iTemp;
+			++a;
+		}
+		//if (lAdap != 0)
+		//{
+		//	break;
+		//}
+		++i;	
+	}
+
+	if(bestScore > 35)
+	{
+		read2 = read2.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		lAdapLength = aFinal + 1;
+		lAdap = 4;
+	}
+
+	
+	
+	return 1;
+	
+}
 
 
 int ReadPair::findUAdap() //Used to find Universal adapter in read2
@@ -457,6 +539,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 					aIndex = a;
 				}
 				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				
 				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 				//lAdapLength = a + 1;
 				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
@@ -914,6 +997,7 @@ void ReadPair::Compile() {
 	//oCheck();
 	//findUAdapQuick();
 	findAdapSlow();
+	if((int)read2.length() > 5) findPrimer();
 	if((int)read2.length() > 11) findUAdap();
 	int p = qualPass();
 	if(p == 1) passOutFile();
