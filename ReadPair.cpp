@@ -434,7 +434,6 @@ int ReadPair::findPrimer()
 	
 	int i= 0; //looks at reads
 	int a = 0; //looks at adapter
-	string adapter = adapters[x];
 
 	//will act to iterate up the string, searching for continual matches
 	int iTemp = 0;
