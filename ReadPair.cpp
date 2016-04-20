@@ -263,7 +263,7 @@ int ReadPair::findAdapSlow()
 	Nextera Transpose Sequence	CTGTCTCTTATA
 	*/
 
-
+	float ratio = 0;
 	float bestRatio = 0;
 	int bestAdap = 0;
 	int iFinal = 0;
@@ -338,6 +338,7 @@ int ReadPair::findAdapSlow()
 		lAdap = bestAdap;
 	}
 
+	ratio = 0;
 	bestRatio = 0;
 	bestAdap = 0;
 	iFinal = 0;
