@@ -269,7 +269,7 @@ int ReadPair::findAdapSlow()
 	int iFinal = 0;
 	int aFinal = 0;
 	int score = 0;
-	int bestScore
+	int bestScore = 0;
 	//string adapter;
 	
 	for(int x = 0; x < (sizeof(adapters)/sizeof(*adapters)); x++){
@@ -540,7 +540,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 		iTemp = i;
 		a = 0;
 		score = 0;
-		while (a < (int)adapter.length() && iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
+		while (a < (int)universalAdapter.length() && iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
 		{
 			if(read1[iTemp] != adapter[a])
 			{
@@ -550,7 +550,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 			{
 				score += 5;
 			}
-			if (iTemp == (int)read1.length() -1 || a == (int)adapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
+			if (iTemp == (int)read1.length() -1 || a == (int)universalAdapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
 				//float ratio = score / (a + 1);
 				if(score >  bestScore)
@@ -626,7 +626,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 				*/
 				if(score >= bestScore)
 				{
-					bestRatio = ratio;
+					bestScore = score;
 					iFinal = i;
 					aFinal = a;
 				}
