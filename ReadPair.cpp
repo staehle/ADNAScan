@@ -263,19 +263,19 @@ int ReadPair::findAdapSlow()
 	Nextera Transpose Sequence	CTGTCTCTTATA
 	*/
 
-	float ratio = 0;
-	float bestRatio = 0;
+	//float ratio = 0;
+	//float bestRatio = 0;
 	int bestAdap = 0;
 	int iFinal = 0;
 	int aFinal = 0;
-	int bestScore = 0;
 	int score = 0;
+	int bestScore
 	//string adapter;
 	
 	for(int x = 0; x < (sizeof(adapters)/sizeof(*adapters)); x++){
 		//int iIndex = 0;
 		//int aIndex = 0;	
-		int i= 5; //looks at reads
+		int i= 0; //looks at reads
 		int a = 0; //looks at adapter
 		string adapter = adapters[x];
 
@@ -288,21 +288,23 @@ int ReadPair::findAdapSlow()
 			score = 0;
 			while (a < (int)adapter.length() && iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
 			{
+				
 				if(read1[iTemp] != adapter[a])
 				{
-					score -= 3;
+					score -= 7;
 				}
 				else
 				{
 					score += 5;
 				}
+				
 				if (iTemp == (int)read1.length() -1 || a == (int)adapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 				{
-					float ratio = score / (a + 1);
-					if(ratio >  bestRatio)
+					//float ratio = score / (a + 1);
+					if(score >  bestScore)
 					{
 						
-						
+						bestScore = score;
 						bestAdap = x+1;
 						
 						iFinal = i;
@@ -330,7 +332,7 @@ int ReadPair::findAdapSlow()
 
 	}
 	
-	if(bestRatio > 2)
+	if(bestScore > 20)
 	{
 		read1 = read1.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual1 = qual1.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -338,14 +340,16 @@ int ReadPair::findAdapSlow()
 		lAdap = bestAdap;
 	}
 
-	ratio = 0;
-	bestRatio = 0;
+	//ratio = 0;
+	//bestRatio = 0;
 	bestAdap = 0;
 	iFinal = 0;
 	aFinal = 0;
+	score = 0;
+	bestScore = 0;
 	
 	for(int x = 0; x < (sizeof(adapters)/sizeof(*adapters)); x++){
-		bestScore = 0;
+
 		int i = read2.length() - 6;
 		int a = 0;
 		//int iIndex = 0;
@@ -363,7 +367,7 @@ int ReadPair::findAdapSlow()
 			{
 				if(read2[iTemp] != adapter[a])
 				{
-					score -= 3;
+					score -= 7;
 				}
 				else
 				{
@@ -371,6 +375,7 @@ int ReadPair::findAdapSlow()
 				}
 				if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
 				{
+					/*
 					if (iTemp == 0)
 					{
 						float ratio = score / (i+1);
@@ -379,10 +384,11 @@ int ReadPair::findAdapSlow()
 					{
 						float ratio = score / (adapter.length());
 					}
-					if(ratio > bestRatio)
+					*/
+					if(score > bestScore)
 					{
 						bestAdap = x+1;
-						bestRatio = ratio;
+						bestScore = score;
 						iFinal = i;
 						aFinal = a;
 						//bestScore = score;
@@ -402,7 +408,7 @@ int ReadPair::findAdapSlow()
 		}
 	}
 	
-	if(bestRatio > 2)
+	if(bestScore > 20)
 	{
 		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(iFinal + 1, qual2.length() - iFinal - 1);
@@ -432,7 +438,7 @@ int ReadPair::findPrimer()
 	//Nextera Transpose Sequence	CTGTCTCTTATA
 	
 
-	float bestRatio = 0;
+	//float bestRatio = 0;
 	//int bestAdap = 0;
 	int iFinal = 0;
 	int aFinal = 0;
@@ -454,7 +460,7 @@ int ReadPair::findPrimer()
 		{
 			if(read2[iTemp] != primer[a])
 			{
-				score -= 3;
+				score -= 7;
 			}
 			else
 			{
@@ -462,10 +468,10 @@ int ReadPair::findPrimer()
 			}
 			if (iTemp == (int)read2.length() -1 || a == (int)primer.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
-				float ratio = score / a + 1;
-				if(ratio >  bestRatio)
+				//float ratio = score / a + 1;
+				if(score >  bestScore)
 				{
-					bestRatio = ratio;
+					bestScore = score;
 					iFinal = i;
 					aFinal = a;
 					
@@ -489,12 +495,12 @@ int ReadPair::findPrimer()
 		++i;	
 	}
 
-	if(bestRatio > 3)
+	if(bestScore > 20)
 	{
 		read2 = read2.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		lAdapLength = aFinal + 1;
-		lAdap = 4;
+		rAdapLength = aFinal + 1;
+		rAdap = 4;
 	}
 
 	
@@ -512,17 +518,85 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	//Illumina Small RNA Adapter	ATGGAATTCTCG
 	//Nextera Transpose Sequence	CTGTCTCTTATA
 	
-	float ratio = 0;
-	float bestRatio = 0;
+	//float ratio = 0;
+	//float bestRatio = 0;
 	int score = 0;
-	//int bestScore = 0;
-	int iIndex = 0;
-	int aIndex = 0;	
-	int i = (int)read2.length() - 4;
+	int bestScore = 0;
+	int iFinal = 0;
+	int aFinal = 0;	
+	int i = 0;
 	int a = 0;
 	int iTemp = 0;
 
+	//int iIndex = 0;
+	//int aIndex = 0;	
+	int i= 0; //looks at reads
+	int a = 0; //looks at adapter
 
+	//will act to iterate up the string, searching for continual matches
+
+	while(i < (int)read1.length() - 1)
+	{
+		iTemp = i;
+		a = 0;
+		score = 0;
+		while (a < (int)adapter.length() && iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
+		{
+			if(read1[iTemp] != adapter[a])
+			{
+				score -= 7;
+			}
+			else
+			{
+				score += 5;
+			}
+			if (iTemp == (int)read1.length() -1 || a == (int)adapter.length() - 1)//&& missCtr < ((int)read2.length()-i2)/8) 
+			{
+				//float ratio = score / (a + 1);
+				if(score >  bestScore)
+				{
+					
+					bestScore = score;
+					iFinal = i;
+					aFinal = a;
+					
+					//bestScore = score;
+					//iIndex = i;
+					//aIndex = a;
+				}
+				//lAdap = x + 1;
+				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//lAdapLength = a + 1;
+				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+			}
+			++iTemp;
+			++a;
+		}
+		//if (lAdap != 0)
+		//{
+		//	break;
+		//}
+		++i;	
+	}
+
+	
+	if(bestScore > 20)
+	{
+		read1 = read1.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual1 = qual1.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		lAdapLength = aFinal + 1;
+		lAdap = 27;
+	}
+
+	iTemp = 0;
+	i = (int)read2.length() - 1;
+	a = 0;
+	iFinal = 0;
+	aFinal = 0;
+	score = 0;
+	bestScore = 0;
+	
 	while(i >= 5)
 	{
 		iTemp = i;
@@ -532,7 +606,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 		{
 			if(read2[iTemp] != universalAdapter[a])
 			{
-				score -= 3;
+				score -= 7;
 			}
 			else
 			{
@@ -540,6 +614,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 			}
 			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
+				/*
 				if (iTemp == 0)
 				{
 					float ratio = score / (i+1);
@@ -548,11 +623,12 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 				{
 					float ratio = score / (universalAdapter.length());
 				}
-				if(ratio >= bestRatio)
+				*/
+				if(score >= bestScore)
 				{
 					bestRatio = ratio;
-					iIndex = i;
-					aIndex = a;
+					iFinal = i;
+					aFinal = a;
 				}
 				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 				
@@ -567,13 +643,13 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	}
 
 	
-	if(bestRatio > 2)
+	if(bestScore > 20)
 	{
 		//ERRORS ON THESE 2 LINES
-		read2 = read2.substr(iIndex + 1, read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
-		qual2 = qual2.substr(iIndex + 1, qual2.length() - iIndex - 1);
+		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(iFinal + 1, qual2.length() - iFinal - 1);
 		//
-		rAdapLength = universalAdapter.length() - aIndex;
+		rAdapLength = universalAdapter.length() - aFinal;
 		rAdap = 27;
 	}
 	
