@@ -107,7 +107,7 @@ int ReadPair::qualPass() {
 			badSide = 1;
 			badRead = 1;
 		}
-		if(ret != 0)
+		//if(ret != 0)
 		{
 			ret=1;
 		}
@@ -489,7 +489,7 @@ int ReadPair::findPrimer()
 		++i;	
 	}
 
-	if(bestRatio > 2)
+	if(bestRatio > 3)
 	{
 		read2 = read2.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -512,9 +512,10 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	//Illumina Small RNA Adapter	ATGGAATTCTCG
 	//Nextera Transpose Sequence	CTGTCTCTTATA
 	
-
+	float ratio = 0;
+	float bestRatio = 0;
 	int score = 0;
-	int bestScore = 0;
+	//int bestScore = 0;
 	int iIndex = 0;
 	int aIndex = 0;	
 	int i = (int)read2.length() - 4;
@@ -539,9 +540,17 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 			}
 			if (iTemp == 0 || a == 0)//&& missCtr < ((int)read2.length()-i2)/8) 
 			{
-				if(score >= bestScore)
+				if (iTemp == 0)
 				{
-					bestScore = score;
+					float ratio = score / (i+1);
+				}
+				else
+				{
+					float ratio = score / (universalAdapter.length());
+				}
+				if(ratio >= bestRatio)
+				{
+					bestRatio = ratio;
 					iIndex = i;
 					aIndex = a;
 				}
@@ -558,7 +567,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	}
 
 	
-	if(bestScore > 30)
+	if(bestRatio > 2)
 	{
 		//ERRORS ON THESE 2 LINES
 		read2 = read2.substr(iIndex + 1, read2.length() - iIndex - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -1004,8 +1013,8 @@ void ReadPair::Compile() {
 	//oCheck();
 	//findUAdapQuick();
 	findAdapSlow();
-	if((int)read2.length() > 5) findPrimer();
-	if((int)read2.length() > 11) findUAdap();
+	if((int)read2.length() > 9) findPrimer();
+	if((int)read2.length() > 9) findUAdap();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
