@@ -107,7 +107,7 @@ int ReadPair::qualPass() {
 			badSide = 1;
 			badRead = 1;
 		}
-		//if(ret != 0)
+		if(ret != 0)
 		{
 			ret=1;
 		}
