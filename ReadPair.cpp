@@ -530,8 +530,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 
 	//int iIndex = 0;
 	//int aIndex = 0;	
-	int i= 0; //looks at reads
-	int a = 0; //looks at adapter
+
 
 	//will act to iterate up the string, searching for continual matches
 
@@ -542,7 +541,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 		score = 0;
 		while (a < (int)universalAdapter.length() && iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
 		{
-			if(read1[iTemp] != adapter[a])
+			if(read1[iTemp] != universalAdapter[a])
 			{
 				score -= 7;
 			}
