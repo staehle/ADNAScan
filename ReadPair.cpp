@@ -674,7 +674,7 @@ int ReadPair::findALoop()
 		//score = 0;
 		//while (iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
 		//{
-			if(read2[iTemp] != "A")
+			if(read2[i] != "A")
 			{
 				score -= 7;
 			}
