@@ -1164,7 +1164,7 @@ void ReadPair::Compile() {
 	findAdapSlow();
 	if((int)read2.length() > 9) findPrimer();
 	if((int)read2.length() > 9) findUAdap();
-	if((int)read2.length() > 9 && ((read2[0] == "A") + (read2[1] == "A") + (read2[2] == "A") + (read2[3] == "A") >= 3)) findALoop();
+	if((int)read2.length() > 9 && ((read2.at(0) == 'A') + (read2.at(1) == 'A') + (read2.at(2) == 'A') + (read2.at(3) == 'A') >= 3)) findALoop();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
