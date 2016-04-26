@@ -656,7 +656,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 }
 
 
-int findALoop()
+int ReadPair::findALoop()
 {
 	//int iTemp = 0;
 	int i = 0;
