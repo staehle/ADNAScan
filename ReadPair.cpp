@@ -655,6 +655,80 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	return 1;
 }
 
+
+int findALoop()
+{
+	//int iTemp = 0;
+	int i = 0;
+	//int flag = 0;
+	//int a = 0;
+	int iFinal = 0;
+	//int aFinal = 0;
+	int score = 0;
+	int bestScore = 0;
+	
+	while(i < (int)read2.length() - 1)
+	{
+		//iTemp = i;
+		//a = 0;
+		//score = 0;
+		//while (iTemp < (int)read1.length()) // && read1[i] == universalAdapter[a]) 
+		//{
+			if(read2[iTemp] != "A")
+			{
+				score -= 7;
+			}
+			else
+			{
+				score += 5;
+			}
+			//if (i == (int)read2.length() -1)//&& missCtr < ((int)read2.length()-i2)/8) 
+			//{
+				//float ratio = score / (a + 1);
+				if(score >  bestScore)
+				{
+					
+					bestScore = score;
+					iFinal = i;
+					//aFinal = a;
+					
+					//bestScore = score;
+					//iIndex = i;
+					//aIndex = a;
+				}
+				//lAdap = x + 1;
+				//read1 = read1.substr(0, i); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//qual1 = qual1.substr(0, i); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+				//lAdapLength = a + 1;
+				//aPrint(read1.substr(i, (int)read1.length() - i), read2.substr(0, bestI2));
+			//}
+			//++iTemp;
+			//++a;
+		//}
+		//if (lAdap != 0)
+		//{
+		//	break;
+		//}
+		++i;	
+	}
+
+
+	
+	if(bestScore > 20)
+	{
+		//ERRORS ON THESE 2 LINES
+		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
+		qual2 = qual2.substr(iFinal + 1, qual2.length() - iFinal - 1);
+		//
+		rAdapLength = read2.length() - iFinal - 1;
+		//rAdap = 27;
+	}
+	
+	return 1;
+	
+}
+
+
 int ReadPair::smithWatermanTrim()
 {
 	/*
@@ -1090,6 +1164,7 @@ void ReadPair::Compile() {
 	findAdapSlow();
 	if((int)read2.length() > 9) findPrimer();
 	if((int)read2.length() > 9) findUAdap();
+	if((int)read2.length() > 9 && ((read2[0] == "A") + (read2[1] == "A") + (read2[2] == "A") + (read2[3] == "A") >= 3)) findALoop();
 	int p = qualPass();
 	if(p == 1) passOutFile();
 	else failOutFile();
