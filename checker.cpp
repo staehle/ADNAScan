@@ -155,7 +155,7 @@ int main() {
 		time_t curtime = chrono::system_clock::to_time_t(chrono::system_clock::now());
 		tm *loctime = localtime(&curtime);
 		time_t jobtime = myJob->starttime;
-		tm *srttime = localtime(&jobtime);
+		//tm *srttime = localtime(&jobtime);
 		
 		// combine fastq files
 		ofstream ofr1ps;
@@ -339,7 +339,7 @@ int main() {
 		ofrs << "\nfastq read 1 file: " << myJob->fq1n;
 		ofrs << "\nfastq read 2 file: " << myJob->fq2n;
 		ofrs << "\njob started: " << ctime(&jobtime);
-		ofrs << "\njob completed: " << ctime(&curtime);
+		ofrs << "job completed: " << ctime(&curtime);
 		ofrs << "\n\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
 		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
 		ofrs << "\n\nT Removal Count (Total Pairs): " << tTotal;
