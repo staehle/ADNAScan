@@ -335,26 +335,34 @@ int main() {
 		ofstream ofrs;
 		ofrs.open(ofrn.str(), ios::out);
 		ofrs << "adna - the Asynchronous-process DNA fastq checker and trimmer\n";
-		ofrs << "job name: " << myJob->jobname;
-		ofrs << "\nfastq read 1 file: " << myJob->fq1n;
-		ofrs << "\nfastq read 2 file: " << myJob->fq2n;
-		ofrs << "\njob started: " << ctime(&jobtime);
-		ofrs << "job completed: " << ctime(&curtime);
-		ofrs << "\n\nPassing Read Count: " << gTotal << "\nFailing Read Count: " << bTotal;
-		ofrs << "\n\nMerged Read Pair Count: " << mTotal;
-		ofrs << "\n\nT Removal Count (Total Pairs): " << tTotal;
+		ofrs << "\n          job name: " << myJob->jobname;
+		ofrs << "\n fastq read 1 file: " << myJob->fq1n;
+		ofrs << "\n fastq read 2 file: " << myJob->fq2n;
+		ofrs << "\n       job started: " << ctime(&jobtime);
+		ofrs << "     job completed: " << ctime(&curtime);
+		ofrs << "\n  Total Read Count: " << gTotal+bTotal;
+		ofrs << "\nPassing Read Count: " << gTotal;
+		ofrs << "\nFailing Read Count: " << bTotal;
+		ofrs << "\n         Fail Rate: " << setprecision(6) << ((double)bTotal/(gTotal+bTotal));
+		ofrs << "\n\n Merged Pair Count: " << mTotal;
+		ofrs << "\nT Removal Count (Pairs): " << tTotal;
 		ofrs << "\n\nAdapter Removal Stats:\n";
 		for(int i=0; i < 28; i++) {
 			stringstream temp;
-			int doPrint = 0;
-			temp << "Adapter " << i << ":\n";
-			for(int j=0;j<70;j++) {
-				if(adaps[i][j] > 0) {
-					temp << "  Length: " << j << "  Count: " << adaps[i][j] << "\n";
-					doPrint = 1;
+			temp << "Adapter " << i << " occurences:\n["; //TODO get adapter name from fasta file
+			stringstream tempa;
+			temp << adaps[i][0];
+			int last = 0;
+			for(int j=0; j<70; j++) {
+				tempa << ", " << adaps[i][j];
+				if (adaps[i][j] > 0) {
+					last = j;
+					temp << tempa.str();
+					tempa.str(std::string()); //clear
 				}
 			}
-			if (doPrint==1) ofrs << temp.str();
+			temp << "]\n\n";
+			if(last>0) ofrs << temp.str();
 		}
 		ofrs.close();
 		
