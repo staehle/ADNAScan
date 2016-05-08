@@ -5,11 +5,7 @@ if [ "$1" == "" ] || [ "$2" == "" ] || [ "$3" == "" ]; then
 	exit 1
 fi
 
-mkdir -p results
-mkdir -p results/curjob
-rm -rf ./results/curjob/*
 rm -f ./nohup.out
-mkdir -p results/curjob/ind
 
 if [ "$4" == "" ]; then
 	./bin/adna-init $1 $2 $3

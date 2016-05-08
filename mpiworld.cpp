@@ -36,7 +36,6 @@ int main(int argc, char **argv) {
 	int tRems = 0;
 	int badReads = 0;
 
-
 	int statsize = sizeof(_stat)*comm_sz;
 	int jobsize = sizeof(_job);
 	int fdj = shm_open(JOBKEY, O_RDWR, 0666);
@@ -169,7 +168,7 @@ int main(int argc, char **argv) {
 	myStat[my_rank].section = 3;
 	
 	stringstream ofna;
-	ofna << "./results/curjob/ind/adaptersRemoved_p" << my_rank << ".txt";
+	ofna << myJob->jobdir << "/ind/adaptersRemoved_p" << my_rank << ".txt";
 	ofstream ofsa;
 	ofsa.open(ofna.str(), ios::out);
 	for (int i=0; i<28; i++) {
@@ -182,21 +181,21 @@ int main(int argc, char **argv) {
 	ofsa.close();
 	
 	stringstream ofnt;
-	ofnt << "./results/curjob/ind/tRemoveCount_p" << my_rank << ".txt";
+	ofnt << myJob->jobdir << "/ind/tRemoveCount_p" << my_rank << ".txt";
 	ofstream ofst;
 	ofst.open(ofnt.str(), ios::out);
 	ofst << tRems << endl;
 	ofst.close();
 	
 	stringstream ofnm;
-	ofnm << "./results/curjob/ind/mergeCount_p" << my_rank << ".txt";
+	ofnm << myJob->jobdir << "/ind/mergeCount_p" << my_rank << ".txt";
 	ofstream ofsm;
 	ofsm.open(ofnm.str(), ios::out);
 	ofsm << merges << endl;
 	ofsm.close();
 	
 	stringstream ofnb;
-	ofnb << "./results/curjob/ind/goodBadReadsCount_p" << my_rank << ".txt";
+	ofnb << myJob->jobdir << "/ind/goodBadReadsCount_p" << my_rank << ".txt";
 	ofstream ofsb;
 	ofsb.open(ofnb.str(), ios::out);
 	ofsb << (2 * myStat[my_rank].readsAssigned - badReads) << " " << badReads << endl;

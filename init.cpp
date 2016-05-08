@@ -8,6 +8,7 @@
 #include <sstream>
 #include <ctime>
 #include <chrono>
+#include <unistd.h>
 
 using namespace std;
 
@@ -26,22 +27,46 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	
+	
 	// Init job
 	_job* thisJob = new _job();
-	strcpy(thisJob->fq1n, argv[2]);
-	strcpy(thisJob->fq2n, argv[3]);
+	char fq1r[512], fq2r[512];
+	realpath(argv[2], fq1r);
+	realpath(argv[3], fq2r);
+	strcpy(thisJob->fq1n, fq1r);
+	strcpy(thisJob->fq2n, fq2r);
 	if (argc < 5) {
 		string fqo = string(argv[2]);
 		fqo = fqo.substr(fqo.find_last_of('/')+1);
 		fqo = fqo.substr(0, fqo.find_last_of('.')-1);
+		fqo = fqo+"A";
 		strcpy(thisJob->jobname, fqo.c_str());
 	} else {
 		strcpy(thisJob->jobname, argv[4]);
 	}
 	thisJob->numProcs = numProcs;
 	thisJob->starttime = chrono::system_clock::to_time_t(chrono::system_clock::now());
+	
+	//set results dir
+	tm *loctime = localtime(&thisJob->starttime);
+	char cwd[512];
+	if (getcwd(cwd, sizeof(cwd)) == NULL) perror("getcwd() error");
+	stringstream resdir;
+	resdir << cwd << "/results";
+	stringstream newdir;
+	newdir << cwd << "/results/" << thisJob->jobname << "." << (1900+loctime->tm_year) << "-" << (1+loctime->tm_mon) << "-" << loctime->tm_mday << "-" << (1+loctime->tm_hour) << "h" << (1+loctime->tm_min) << "m";
+	strcpy(thisJob->jobdir, newdir.str().c_str());
+	
 	cout << "Init: Creating job: '" << thisJob->jobname << "'" << endl;
 	cout << "Init: Setting job for " << thisJob->numProcs << " processes" << endl;
+	cout << "Init: Using FASTQ read 1: " << thisJob->fq1n << endl;
+	cout << "Init: Using FASTQ read 2: " << thisJob->fq2n << endl;
+	cout << "Init: Results will be placed in: " << thisJob->jobdir << endl;
+	
+	//create directories
+	stringstream cmd;
+	cmd << "mkdir -p " << resdir.str() << "; mkdir " << thisJob->jobdir << "; mkdir " << thisJob->jobdir << "/ind";
+	system(cmd.str().c_str());
 	
 	// Init process table
 	_stat thisStat[numProcs];
