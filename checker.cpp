@@ -387,8 +387,10 @@ int main() {
 		ofrhs << "<br><h2>Job data stats</h2>\n<div class=\"row\"><div class=\"col-md-6\">\n";
 		ofrhs << "<canvas id=\"counts\" width=\"300\" height=\"300\"></canvas></div><div class=\"col-md-6\">\n";
 		ofrhs << "<table class=\"table table-striped table-bordered\">\n";
-		ofrhs << "<tr><td>Passing Read Count</td><td>" << gTotal;
+		ofrhs << "<tr><td>Total Read Count</td><td>" << gTotal+bTotal;
+		ofrhs << "</td></tr><tr><td>Passing Read Count</td><td>" << gTotal;
 		ofrhs << "</td></tr><tr><td>Failing Read Count</td><td>" << bTotal;
+		ofrhs << "</td></tr><tr><td>Failing Rate</td><td>" << setprecision(6) << ((double)bTotal/(gTotal+bTotal));
 		ofrhs << "</td></tr><tr><td>Merged Read Pair Count</td><td>" << mTotal;
 		ofrhs << "</td></tr><tr><td>T Removal Count (Total Pairs)</td><td>" << tTotal;
 		ofrhs << "</td></tr></table></div>\n<script>var data = [ { value: " << bTotal << ", color:\"#F7464A\", highlight: \"#FF5A5E\", label: \"Failed Reads\" }, { value: " << gTotal << ", color: \"#46BFBD\", highlight: \"#5AD3D1\", label: \"Passed Reads\" }, { value: " << mTotal << ", color: \"#FDB45C\", highlight: \"#FFC870\", label: \"Merged Reads\" } ];\n";
@@ -420,6 +422,11 @@ int main() {
 		}
 		ofrhs << "</div></div></body>\n</html>\n";
 		ofrhs.close();
+		
+		// delete the individual thread files
+		system("pwd");
+		//system("rm -rf ./results/curjob/ind/"); // ever so slightly dangerous
+		
 		
 		// move files and complete job
 		stringstream cmd;
