@@ -14,6 +14,41 @@
 #include <fstream>
 using namespace std;
 
+string getadap(int i) {
+	string adapname;
+
+	if (i==1) adapname = "PCR_Primer1";
+	else if (i==2) adapname = "PCR_Primer2";
+	else if (i==3) adapname = "PCR_Primer1";
+	else if (i==4) adapname = "PCR_Primer1_rc";
+	else if (i==5) adapname = "PCR_Primer2";
+	else if (i==6) adapname = "PCR_Primer2_rc";
+	else if (i==7) adapname = "FlowCell1";
+	else if (i==8) adapname = "FlowCell2";
+	else if (i==9) adapname = "TruSeq_Adapter_Index1";
+	else if (i==10) adapname = "TruSeq_Adapter_Index2";
+	else if (i==11) adapname = "TruSeq_Adapter_Index3";
+	else if (i==12) adapname = "TruSeq_Adapter_Index4";
+	else if (i==13) adapname = "TruSeq_Adapter_Index5";
+	else if (i==14) adapname = "TruSeq_Adapter_Index6";
+	else if (i==15) adapname = "TruSeq_Adapter_Index7";
+	else if (i==16) adapname = "TruSeq_Adapter_Index8";
+	else if (i==17) adapname = "TruSeq_Adapter_Index9";
+	else if (i==18) adapname = "TruSeq_Adapter_Index10";
+	else if (i==19) adapname = "TruSeq_Adapter_Index11";
+	else if (i==20) adapname = "TruSeq_Adapter_Index12";
+	else if (i==21) adapname = "TruSeq_Adapter_Index13";
+	else if (i==22) adapname = "TruSeq_Adapter_Index14";
+	else if (i==23) adapname = "TruSeq_Adapter_Index15";
+	else if (i==24) adapname = "TruSeq_Adapter_Index16";
+	else if (i==25) adapname = "TruSeq_Adapter_Index18";
+	else if (i==26) adapname = "TruSeq_Adapter_Index19";
+	else if (i==27) adapname = "TruSeq_Adapter_Index20";
+	else adapname = "unknown";
+	
+	return adapname;
+}
+
 int main() {
 	int jobsize = sizeof(_job);
 	int fdj = shm_open(JOBKEY, O_RDWR, 0666);
@@ -146,7 +181,6 @@ int main() {
 		cerr << "Please wait while adna-check compiles the resulting data." << endl;
 		
 		int adaps[28][70] = {0};
-		//string resdir = "./results/curjob/";
 		string line;
 		int gTotal = 0;
 		int bTotal = 0;
@@ -348,8 +382,9 @@ int main() {
 		ofrs << "\n   T Removal Count: " << tTotal << " pairs";
 		ofrs << "\n\nAdapter Removal Stats:\n";
 		for(int i=0; i < 28; i++) {
+			string adapname = getadap(i);
 			stringstream temp, tempa, toAdd;
-			toAdd << "Adapter " << i << " occurences ("; //TODO get adapter name from fasta file
+			toAdd << "Adapter " << i << " - '" << adapname << "' occurences (";
 			temp << adaps[i][0];
 			int last = 0;
 			int total = adaps[i][0];
@@ -402,9 +437,10 @@ int main() {
 		ofrhs << "<br><h2>Adapter removal stats</h2>\n<div class=\"row\">\n";
 		int tablecount = 0;
 		for(int i=0; i < 28; i++) {
+			string adapname = getadap(i);
 			stringstream temp;
 			int doPrint = 0;
-			temp << "<div class=\"col-md-3 col-sm-6\"><h3>Adapter " << i << ":</h3>\n<table class=\"table table-striped table-bordered\">\n";
+			temp << "<div class=\"col-md-3 col-sm-6\"><h4>Adapter " << i << " - '" << adapname << "':</h4>\n<table class=\"table table-striped table-bordered\">\n";
 			temp << "<tr><th>Length</th><th>Count</th></tr>\n";
 			for(int j=0;j<70;j++) {
 				if(adaps[i][j] > 0) {
