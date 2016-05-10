@@ -369,11 +369,11 @@ int main() {
 		ofstream ofrs;
 		ofrs.open(ofrn.str(), ios::out);
 		ofrs << "adna - the Asynchronous-process DNA fastq checker and trimmer\n";
-		ofrs << "\n          job name: " << myJob->jobname;
-		ofrs << "\n fastq read 1 file: " << myJob->fq1n;
-		ofrs << "\n fastq read 2 file: " << myJob->fq2n;
-		ofrs << "\n       job started: " << ctime(&jobtime);
-		ofrs << "     job completed: " << ctime(&curtime);
+		ofrs << "\n          Job Name: " << myJob->jobname;
+		ofrs << "\n FASTQ Read 1 File: " << myJob->fq1n;
+		ofrs << "\n FASTQ Read 2 File: " << myJob->fq2n;
+		ofrs << "\n       Job Started: " << ctime(&jobtime);
+		ofrs << "     Job Completed: " << ctime(&curtime);
 		ofrs << "\n  Total Read Count: " << gTotal+bTotal;
 		ofrs << "\nPassing Read Count: " << gTotal;
 		ofrs << "\nFailing Read Count: " << bTotal;
