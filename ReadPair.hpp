@@ -28,7 +28,7 @@ class ReadPair {
 		int getBad();
 		int isMerged();
 		int tStripped();
-		void passOutFile();
-		void failOutFile();
-		void Compile();
+		void passOutFile(char*);
+		void failOutFile(char*);
+		void Compile(char*);
 };

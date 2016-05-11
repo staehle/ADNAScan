@@ -1058,24 +1058,18 @@ int ReadPair::aRemove() {
 	return AdapterRemoved;
 }
 
-void ReadPair::passOutFile() {
+void ReadPair::passOutFile(char* jobdir) {
 	if(fRead.compare("") == 0) {
-		/*char fileName1[15];  //STOP USING SPRINTF. THIS IS WHAT NOT TO DO.
-		sprintf(fileName1, "./results/read1Pass_%i.fastq", tNum); 
-		ofstream oFile1;
-		oFile1.open(fileName1, ios::app);
-		oFile1 << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
-		oFile1.close();*/
 		
-		stringstream ofr1pn;  //This is the correct way to do it.
-		ofr1pn << "./results/curjob/ind/read1Pass_p" << tNum << ".fastq";
+		stringstream ofr1pn; 
+		ofr1pn << jobdir << "/ind/read1Pass_p" << tNum << ".fastq";
 		ofstream ofr1ps;
 		ofr1ps.open(ofr1pn.str(), ios::app);
 		ofr1ps << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		ofr1ps.close();
 
 		stringstream ofr2pn;
-		ofr2pn << "./results/curjob/ind/read2Pass_p" << tNum << ".fastq";
+		ofr2pn << jobdir << "/ind/read2Pass_p" << tNum << ".fastq";
 		ofstream ofr2ps;
 		ofr2ps.open(ofr2pn.str(), ios::app);
 		ofr2ps << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
@@ -1083,7 +1077,7 @@ void ReadPair::passOutFile() {
 		
 	} else {
 		stringstream ofsrpn;
-		ofsrpn << "./results/curjob/ind/singleReadPass_p" << tNum << ".fastq";
+		ofsrpn << jobdir << "/ind/singleReadPass_p" << tNum << ".fastq";
 		ofstream ofsrps;
 		ofsrps.open(ofsrpn.str(), ios::app);
 		ofsrps << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
@@ -1091,7 +1085,7 @@ void ReadPair::passOutFile() {
 		
 		if (badSide == 2) {
 			stringstream ofr2fn;
-			ofr2fn << "./results/curjob/ind/read2Fail_p" << tNum << ".fastq";
+			ofr2fn << jobdir << "/ind/read2Fail_p" << tNum << ".fastq";
 			ofstream ofr2fs;
 			ofr2fs.open(ofr2fn.str(), ios::app);
 			ofr2fs << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
@@ -1099,7 +1093,7 @@ void ReadPair::passOutFile() {
 			
 		} else if (badSide == 1) {
 			stringstream ofr1fn;
-			ofr1fn << "./results/curjob/ind/read1Fail_p" << tNum << ".fastq";
+			ofr1fn << jobdir << "/ind/read1Fail_p" << tNum << ".fastq";
 			ofstream ofr1fs;
 			ofr1fs.open(ofr1fn.str(), ios::app);
 			ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
@@ -1108,17 +1102,17 @@ void ReadPair::passOutFile() {
 	}
 }
 
-void ReadPair::failOutFile() {
+void ReadPair::failOutFile(char* jobdir) {
 	if(fRead.compare("") == 0) {
 		stringstream ofr1fn;
-		ofr1fn << "./results/curjob/ind/read1Fail_p" << tNum << ".fastq";
+		ofr1fn << jobdir << "/ind/read1Fail_p" << tNum << ".fastq";
 		ofstream ofr1fs;
 		ofr1fs.open(ofr1fn.str(), ios::app);
 		ofr1fs << ID1 << "\n" << read1 << "\n+\n" << qual1 << "\n";
 		ofr1fs.close();
 
 		stringstream ofr2fn;
-		ofr2fn << "./results/curjob/ind/read2Fail_p" << tNum << ".fastq";
+		ofr2fn << jobdir << "/ind/read2Fail_p" << tNum << ".fastq";
 		ofstream ofr2fs;
 		ofr2fs.open(ofr2fn.str(), ios::app);
 		ofr2fs << ID2 << "\n" << read2 << "\n+\n" << qual2 << "\n";
@@ -1126,7 +1120,7 @@ void ReadPair::failOutFile() {
 
 	} else {
 		stringstream ofsrfn;
-		ofsrfn << "./results/curjob/ind/singleReadFail_p" << tNum << ".fastq";
+		ofsrfn << jobdir << "/ind/singleReadFail_p" << tNum << ".fastq";
 		ofstream ofsrfs;
 		ofsrfs.open(ofsrfn.str(), ios::app);
 		ofsrfs << ID1 << "\n" << fRead << "\n+\n" << fQual << "\n";
@@ -1156,7 +1150,7 @@ int ReadPair::tStripped() {
 	return tRem;
 }
 
-void ReadPair::Compile() {
+void ReadPair::Compile(char* jobdir) {
 	tStrip();
 	//aRemove();
 	//oCheck();
@@ -1166,8 +1160,8 @@ void ReadPair::Compile() {
 	if((int)read2.length() > 9) findUAdap();
 	if((int)read2.length() > 9 && ((read2.at(0) == 'A') + (read2.at(1) == 'A') + (read2.at(2) == 'A') + (read2.at(3) == 'A') >= 3)) findALoop();
 	int p = qualPass();
-	if(p == 1) passOutFile();
-	else failOutFile();
+	if(p == 1) passOutFile(jobdir);
+	else failOutFile(jobdir);
 }
 
 

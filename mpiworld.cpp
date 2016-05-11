@@ -142,7 +142,7 @@ int main(int argc, char **argv) {
 				ReadPair temp = readdb.at(header);
 				readdb.erase(header);
 				temp.addR2(headerf, lineRead, lineQual);
-				temp.Compile();
+				temp.Compile(myJob->jobdir);
 				fillAdapters(temp.getLeftA(), temp.getLeftAL(), temp.getRightA(), temp.getRightAL());
 				badReads += temp.getBad();
 				if (temp.isMerged() == 1) merges++;
