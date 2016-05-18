@@ -228,10 +228,8 @@ int ReadPair::findAdapSlow()
 	//"AGATCGGAAGAG",
 	string adapters[] =
 	{
-	    
 	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT", // PCR_Primer1
 	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT", // PCR_Primer2
-	    "AATGATACGGCGACCACCGAGATCTACACTCTTTCCCTACACGACGCTCTTCCGATCT", // PCR_Primer1
 	    "CGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT", // PCR_Primer1_rc
 	    "CAAGCAGAAGACGGCATACGAGATCGGTCTCGGCATTCCTGCTGAACCGCTCTTCCGATCT", // PCR_Primer2
 	    "AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCGATCTCGTATGCCGTCTTCTGCTTG", // PCR_Primer2_rc
@@ -332,7 +330,7 @@ int ReadPair::findAdapSlow()
 
 	}
 	
-	if(bestScore > 20)
+	if(bestScore > 50)
 	{
 		read1 = read1.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual1 = qual1.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -408,7 +406,7 @@ int ReadPair::findAdapSlow()
 		}
 	}
 	
-	if(bestScore > 20)
+	if(bestScore > 50)
 	{
 		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(iFinal + 1, qual2.length() - iFinal - 1);
@@ -495,7 +493,7 @@ int ReadPair::findPrimer()
 		++i;	
 	}
 
-	if(bestScore > 20)
+	if(bestScore > 50)
 	{
 		read2 = read2.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual2 = qual2.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -580,7 +578,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	}
 
 	
-	if(bestScore > 20)
+	if(bestScore > 30)
 	{
 		read1 = read1.substr(0, iFinal + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		qual1 = qual1.substr(0, iFinal + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -642,7 +640,7 @@ int ReadPair::findUAdap() //Used to find Universal adapter in read2
 	}
 
 	
-	if(bestScore > 20)
+	if(bestScore > 30)
 	{
 		//ERRORS ON THESE 2 LINES
 		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
@@ -714,7 +712,7 @@ int ReadPair::findALoop()
 
 
 	
-	if(bestScore > 20)
+	if(bestScore >= 20)
 	{
 		//ERRORS ON THESE 2 LINES
 		read2 = read2.substr(iFinal + 1, read2.length() - iFinal - 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
