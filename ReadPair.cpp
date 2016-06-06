@@ -213,10 +213,6 @@ int ReadPair::oCheck()
 		fRead = read1.substr(0, bestI1 + 1); //+ read2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		fQual = qual1.substr(0, bestI1 + 1); //+ qual2.substr(i2 + 1, (int)read2.length() - i2 - 1);
 		merged = 1;
-		if(bestI1 != (int)read1.length()-1)
-		{
-			aPrint(read1.substr(bestI1 + 1,(int)read1.length() - bestI1), read2.substr(0, bestI2));
-		}
 	}
 	//	++i1;
 	//}
