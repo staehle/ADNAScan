@@ -1,4 +1,4 @@
-![alt text][logo]
+![adna logo][logo]
 
 **adna** is the *A*synchronous-process *DNA* fastq checker and trimmer
 
@@ -36,6 +36,6 @@ Work in progress.
 `$ cat ./results/<job_name.time>/results.txt`
 
 
-[logo]: https://github.com/staehle/adna/raw/master/src/logo-250.png "adna logo"
+[logo]: https://github.com/staehle/adna/raw/master/logo-250.png
 [gccsw]: https://gist.github.com/staehle/9d7221edf4f03cb38e5a28b2596253f8
 
