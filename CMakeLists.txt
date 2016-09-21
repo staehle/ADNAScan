@@ -1,23 +1,36 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.10)
 project(adna)
 
 set(adna_VERSION_MAJOR 0)
 set(adna_VERSION_MINOR 1)
 
-add_executable(adna-init init.cpp)
-add_executable(adna-gompi mpiworld.cpp ReadPair.cpp)
-add_executable(adna-check checker.cpp)
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    # require at least gcc 4.8
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+        message(FATAL_ERROR "GCC version must be at least 4.8!")
+    endif()
+else()
+    message(WARNING "You are using an unsupported compiler! Compilation has only been tested with GCC 4.8+")
+endif()
 
-add_definitions(-std=gnu++0x)
+add_definitions(-std=gnu++11)
+#target_compile_definitions(adna PROPERTIES COMPILE_FLAGS -Wnoerror=)
+
+set(CMAKE_BUILD_TYPE Debug)
 
 find_package(MPI REQUIRED)
-set(CMAKE_CXX_COMPILE_FLAGS ${CMAKE_CXX_COMPILE_FLAGS} ${MPI_COMPILE_FLAGS})
-set(CMAKE_CXX_LINK_FLAGS ${CMAKE_CXX_LINK_FLAGS} ${MPI_LINK_FLAGS})
-include_directories(${MPI_INCLUDE_PATH})
 
-target_link_libraries(adna-init rt)
-target_link_libraries(adna-gompi rt)
-target_link_libraries(adna-gompi ${MPI_LIBRARIES})
-target_link_libraries(adna-check rt)
-target_link_libraries(adna-check curses)
+set(Boost_USE_STATIC_LIBS OFF) 
+set(Boost_USE_MULTITHREADED ON)  
+set(Boost_USE_STATIC_RUNTIME OFF) 
+find_package(Boost 1.58.0 COMPONENTS mpi serialization) 
+if(Boost_FOUND)
+  if(MPI_FOUND)	
+    include_directories(${Boost_INCLUDE_DIRS} ${MPI_INCLUDE_PATH}) 
+    add_executable(mpi-adna adna.cpp StringTinder.cpp) 
+    target_link_libraries(mpi-adna ${Boost_LIBRARIES} ${MPI_LIBRARIES})
+  endif()
+endif()
+
+add_executable(adna run.cpp)
 
