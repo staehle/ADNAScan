@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
 
 		PRINTGK(P_EXIT("Thank you for using adna. Your results are located:"));
 		PRINTGK(STD_TAB << argv[5]);
-		MPI_Finalize();														\
+		MPI_Finalize();
 		exit(0);
 
 	} else {

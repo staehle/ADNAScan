@@ -21,7 +21,7 @@ Work in progress.
 - cmake
 - libncurses
 
-`# apt install g++-4.8 mpi-default-bin mpi-default-dev libncurses5-dev`
+`# apt install g++-4.8 mpi-default-bin mpi-default-dev libncurses5-dev libboost-mpi-dev`
 
 *Stuck with an older version of GCC? Try a side-by-side installation: [Gist: GCC Switch][gccsw]*
 
@@ -31,7 +31,7 @@ Work in progress.
 
 `$ make `
 
-`$ run.sh <num_processes> <read1.fastq> <read2.fastq> [<optional_job_name>]`
+`$ ./adna <read1.fastq> <read2.fastq> <adapter_list.fasta> <output_dir> <num_processes>`
 
 `$ cat ./results/<job_name.time>/results.txt`
 

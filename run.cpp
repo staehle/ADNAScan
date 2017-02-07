@@ -19,7 +19,7 @@ using namespace std;
 #include <unistd.h>
 
 void help(const char* path) {
-	cerr << "Usage: " << path << " [fast_q_1] [fast_q_2] [fast_a] [output_dir] [n_proc" << endl;
+	cerr << "Usage: " << path << " [fast_q_1] [fast_q_2] [fast_a] [output_dir] [n_proc]" << endl;
 	cerr << "   fast_q_1 - .FASTQ read one file" << endl;
 	cerr << "   fast_q_2 - .FASTQ read two file" << endl;
 	cerr << "     fast_a - .FASTA adapter file" << endl;
@@ -28,7 +28,7 @@ void help(const char* path) {
 }
 
 int main(int argc, char **argv) {
-	if (argc < 5) {
+	if (argc < 6) {
 		cerr << "Error: Not enough arguments" << endl;
 		help(argv[0]);
 		exit(1);
