@@ -26,6 +26,8 @@
 #define REPORT_WIDTH 24
 #define REPORT_FORMAT "["<<i_rank<<" / "<<my_name<<"]: "
 
+#define MAXLINELEN 128
+
 #define PRINT_REPORT(text)						\
 	ss_temp << P_BOLD(REPORT_FORMAT) << text;	\
 

@@ -1,0 +1,22 @@
+CC=gcc
+
+CFLAGS?=
+CFLAGS+= -Wall -Wextra #-Werror
+LDFLAGS?=
+LDFLAGS+= -lpthread
+
+SRC=RomanEmpire.c \
+	FiberLoom.c \
+	StringTinder.c \
+	SortingHat.c \
+	color.c
+
+TGT=adna
+
+all: clean adna
+
+adna:
+	$(CC) $(CFLAGS) $(SRC) -o $(TGT) $(LDFLAGS)
+
+clean:
+	rm -f $(TGT) *.o
